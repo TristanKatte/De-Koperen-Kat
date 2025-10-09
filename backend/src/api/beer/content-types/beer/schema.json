@@ -1,0 +1,68 @@
+{
+  "kind": "collectionType",
+  "collectionName": "beers",
+  "info": {
+    "singularName": "beer",
+    "pluralName": "beers",
+    "displayName": "Beers"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Beer_name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid"
+    },
+    "beer_image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "alcohol_percentage": {
+      "type": "decimal"
+    },
+    "beer_type": {
+      "type": "enumeration",
+      "enum": [
+        "  Session Pale Ale",
+        "  Witbier",
+        "  Blondbier",
+        "  Pilsner",
+        "  India Pale Ale",
+        "  Speciaalbier",
+        "  Amberbier",
+        "  Tripel",
+        "  Porter",
+        "  Speciaalbier (Rum-infused)",
+        "  Quadrupel",
+        "  Lentebock",
+        "  Herfstbock",
+        "  Winterbier"
+      ]
+    },
+    "Beschikbaar": {
+      "type": "boolean"
+    },
+    "ideal_temperature": {
+      "type": "decimal"
+    },
+    "EBC": {
+      "type": "integer"
+    },
+    "EBU": {
+      "type": "biginteger"
+    }
+  }
+}
