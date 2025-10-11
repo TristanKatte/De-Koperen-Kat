@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EventPreviewCard from '$lib/molecules/EventPreviewCard.svelte';
+	import EventPreviewCard from '$lib/components/molecules/EventPreviewCard.svelte';
 	export let events = []; // array van { title, date, image, link }
 </script>
 

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import HeroBanner from '$lib/molecules/HeroBanner.svelte';
-	import FeaturedBeers from '$lib/organisms/FeaturedBeers.svelte';
-	import UpcomingEvents from '$lib/organisms/UpcomingEvents.svelte';
+	import HeroBanner from '$lib/components/molecules/HeroBanner.svelte';
+	import FeaturedBeers from '$lib/components/organisms/FeaturedBeers.svelte';
+	import UpcomingEvents from '$lib/components/organisms/UpcomingEvents.svelte';
 
 	export let hero;
 	export let beers;

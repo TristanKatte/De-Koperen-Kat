@@ -1,5 +1,5 @@
 <script lang="ts">
-	import BeerPreviewCard from '$lib/molecules/BeerPreviewCard.svelte';
+	import BeerPreviewCard from '$lib/components/molecules/BeerPreviewCard.svelte';
 
 	export let beers = []; // array van { name, type, image, link }
 </script>

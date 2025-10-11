@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Image from '$lib/atoms/Image.svelte';
-	import Heading from '$lib/atoms/Heading.svelte';
+	import Image from '$lib/components/atoms/Image.svelte';
+	import Heading from '$lib/components/atoms/Heading.svelte';
 	export let name: string;
 	export let type: string;
 	export let image: string;
@@ -23,8 +23,8 @@
 	text-decoration: none;
 	color: inherit;
 }
-.beer-card img {
+/* .beer-card img {
 	width: 100%;
 	border-radius: 1rem;
-}
+} */
 </style>

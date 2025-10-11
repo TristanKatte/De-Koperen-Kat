@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Heading from '$lib/atoms/Heading.svelte';
-	import Button from '$lib/atoms/Button.svelte';
-	import Image from '$lib/atoms/Image.svelte';
+	import Heading from '$lib/components/atoms/Heading.svelte';
+	import Button from '$lib/components/atoms/Button.svelte';
+	import Image from '$lib/components/atoms/Image.svelte';
 
 	export let title: string;
 	export let subtitle: string;

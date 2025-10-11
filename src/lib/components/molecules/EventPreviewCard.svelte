@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Image from '$lib/atoms/Image.svelte';
-	import Heading from '$lib/atoms/Heading.svelte';
+	import Image from '$lib/components/atoms/Image.svelte';
+	import Heading from '$lib/components/atoms/Heading.svelte';
 	export let title: string;
 	export let date: string;
 	export let image: string;
