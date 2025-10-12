@@ -12,9 +12,18 @@ export const repositoryName = sm.repositoryName;
  * — Voeg hier mappings toe tussen Prismic document types en je SvelteKit routes
  */
 const routes: Route[] = [
-  { type: 'homepage', path: '/' },
-  { type: 'bieren', path: '/bieren' },
-  { type: 'evenement', path: '/evenementen/:uid' },
+  {
+    type: "homepage",
+    path: "/",
+  },
+  {
+    type: "bieren",
+    path: "/beers/:uid",
+  },
+  {
+    type: "evenement",
+    path: "/events/:uid",
+  },
 ];
 
 /**
