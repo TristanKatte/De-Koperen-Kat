@@ -1,23 +1,33 @@
-<script>
-	import HomeTemplate from '$lib/templates/HomeTemplate.svelte';
+<script lang="ts">
+  import { createClient } from '$lib/prismicio';
+  import { onMount } from 'svelte';
 
-	const hero = {
-		title: 'Welkom bij De Koperen Kat',
-		subtitle: 'Ontdek onze ambachtelijke bieren en gezellige evenementen.',
-		image: '/images/brouwerij.jpg',
-		ctaLabel: 'Bekijk onze bieren',
-		ctaLink: '/bieren'
-	};
+  let beers = [];
+  let events = [];
 
-	const beers = [
-		{ name: 'Poeslief', type: 'Blond', image: '/images/poeslief.jpg', link: '/bieren/poeslief' },
-		{ name: 'Dubbele Kat', type: 'Dubbel', image: '/images/dubbelekat.jpg', link: '/bieren/dubbele-kat' }
-	];
-
-	const events = [
-		{ title: 'Bierproeverij', date: '25 oktober', image: '/images/event1.jpg', link: '/evenementen/bierproeverij' },
-		{ title: 'Rondleiding', date: '2 november', image: '/images/event2.jpg', link: '/evenementen/rondleiding' }
-	];
+  onMount(async () => {
+    const client = createClient();
+    beers = await client.getAllByType('beer');
+    events = await client.getAllByType('event');
+  });
 </script>
 
-<HomeTemplate {hero} {beers} {events} />
+<main>
+  <h1>Bieren</h1>
+  {#each beers as beer}
+    <article>
+      <h2>{beer.data.title}</h2>
+      <p>{beer.data.description[0]?.text}</p>
+      <p>Alcohol: {beer.data.alcohol_percentage}%</p>
+    </article>
+  {/each}
+
+  <h1>Evenementen</h1>
+  {#each events as event}
+    <article>
+      <h2>{event.data.title}</h2>
+      <p>{event.data.date}</p>
+      <p>{event.data.location}</p>
+    </article>
+  {/each}
+</main>
