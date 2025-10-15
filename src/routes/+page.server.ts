@@ -1,20 +1,13 @@
-import type { PageServerLoad } from './$types';
 import { supabase } from '$lib/supabaseClient';
-
-type Instrument = {
-  id: number;
-  name: string;
-};
+import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
-  const { data, error } = await supabase.from('instruments').select<'instruments', Instrument>();
+	const { data: beers, error: beersError } = await supabase.from('beers').select('*');
+	const { data: events, error: eventsError } = await supabase.from('events').select('*');
 
-  if (error) {
-    console.error('Error loading instruments:', error.message);
-    return { instruments: [] };
-  }
+	if (beersError || eventsError) {
+		console.error('Error loading data:', beersError || eventsError);
+	}
 
-  return {
-    instruments: data ?? [],
-  };
+	return { beers, events };
 };

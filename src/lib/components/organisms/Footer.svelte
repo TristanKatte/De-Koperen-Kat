@@ -4,8 +4,8 @@
 
 <style>
     footer {
-        height: 10rem;
-        background-color: #333;
+        height: 5rem;
+        background-color: #323437;
         position: fixed;
         bottom: 0;
         width: 100%;
