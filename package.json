@@ -37,6 +37,7 @@
 		"vite": "^7.0.4"
 	},
 	"dependencies": {
-		"@supabase/supabase-js": "^2.75.0"
+		"@supabase/supabase-js": "^2.75.0",
+		"gsap": "^3.13.0"
 	}
 }
