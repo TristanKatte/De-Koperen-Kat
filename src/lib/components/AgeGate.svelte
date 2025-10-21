@@ -102,9 +102,9 @@
 		position: fixed;
 		bottom: 1rem;
 		right: 1rem;
-		background: rgba(255, 255, 255, 0.2);
+		background: teal;
 		color: white;
-		border: 1px solid white;
+		border: 1px solid green;
 		border-radius: 0.5rem;
 		padding: 0.5rem 1rem;
 		cursor: pointer;

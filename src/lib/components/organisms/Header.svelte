@@ -49,7 +49,7 @@
 <nav class="main-nav" on:mouseleave={closeDropdown}>
 	<!-- Logo -->
 	<a href="/" class="logo">
-		<img src="/logo.svg" alt="Brouwerij Logo" />
+		<img src="/images/dkk-logo-cropped.png" alt="Brouwerij Logo" />
 	</a>
 
 	<ul class="menu">
