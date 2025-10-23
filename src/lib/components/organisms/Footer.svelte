@@ -18,7 +18,6 @@
 		color: var(--background-color);
 		padding: 5rem 2rem 3rem; /* extra ademruimte bovenaan */
 		border-top: 1px solid rgba(0, 0, 0, 0.1);
-		margin-top: 6rem; /* afstand tot de vorige sectie */
 	}
 
 	.footer-content {

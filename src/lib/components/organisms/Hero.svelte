@@ -85,7 +85,7 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #3c2f2f;
+    background-color: #4B2E05;
     color: #fff;
     overflow: hidden;
   }

@@ -262,12 +262,29 @@
 		padding: 5rem 1.5rem;
 	}
 
+	section:nth-child(even) {
+		background-color: #4B2E05;
+		color: #F5F5F0;
+	}
+
+	section:nth-child(even) h2,
+section:nth-child(even) h3,
+section:nth-child(even) p,
+section:nth-child(even) a {
+	color: #F5F5F0;
+}
+
+	.beers-section,
+	.tasting-section p  {
+		color: #F5F5F0;
+	}
+
 	h2 {
 		font-size: 2.25rem;
 		margin-bottom: 2rem;
 		text-align: center;
 		font-weight: 700;
-	}
+	}	
 
 	/* About-sectie */
 	.about-section {
@@ -340,16 +357,17 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 		gap: 1.5rem;
-		max-width: 700px;
+		max-width: 650px;
 		margin: 0 auto;
 		text-align: left;
+		
 	}
 	.form-group input {
 		padding: 0.75rem 1rem;
 		border-radius: 0.5rem;
 		border: 1px solid rgba(255, 255, 255, 0.2);
 		background: rgba(255, 255, 255, 0.05);
-		color: #fff;
+		color: #f5f5f0;
 	}
 	.form-group input:focus {
 		outline: 2px solid var(--cta-buttons);
@@ -363,7 +381,7 @@
 		border-radius: 2rem;
 		font-weight: 600;
 		background: var(--cta-buttons);
-		color: #fff;
+		color: #f5f5f0;
 		border: none;
 		cursor: pointer;
 		font-size: 1rem;
@@ -387,4 +405,16 @@
 	.error-message {
 		color: red;
 	}
+
+	.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
 </style>
