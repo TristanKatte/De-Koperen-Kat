@@ -2,46 +2,53 @@
   import { onMount } from "svelte";
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { SplitText } from "gsap/SplitText";
 
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger, SplitText);
 
   let heroSection: HTMLElement | null = null;
-  let heroImage: HTMLElement | null = null;
 
   onMount(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
 
-    // ✅ Fade-in animatie bij eerste zicht
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const tl = gsap.timeline({ defaults: { ease: "power2.out", duration: 0.8 } });
-            tl.from(".hero__title", { y: 40, opacity: 0 })
-              .from(".hero__subtitle", { y: 20, opacity: 0 }, "-=0.4")
-              .from(".hero__actions a", { opacity: 0, y: 10, stagger: 0.1 }, "-=0.2");
-            observer.disconnect();
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
+    const titleEl = heroSection?.querySelector(".hero__title");
+    const subtitleEl = heroSection?.querySelector(".hero__subtitle");
+    const buttons = gsap.utils.toArray(".hero__actions a");
 
-    if (heroSection) observer.observe(heroSection);
+    if (titleEl && subtitleEl) {
+      const splitTitle = new SplitText(titleEl, { type: "chars" });
+      const splitSubtitle = new SplitText(subtitleEl, { type: "words" });
 
-    // ✅ Parallax-effect op de hero afbeelding
-    if (heroImage) {
-      gsap.to(heroImage, {
-        yPercent: 15,
-        ease: "none",
+      // Schuimende animatie
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: heroSection,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true,
+          start: "top 85%",
         },
       });
+
+      tl.from(splitTitle.chars, {
+        opacity: 0,
+        y: 60,
+        scale: 0,
+        stagger: 0.05,
+        duration: 1,
+        ease: "elastic.out(1, 0.6)",
+      })
+        .from(
+          splitSubtitle.words,
+          {
+            opacity: 0,
+            y: 30,
+            scale: 0.95,
+            stagger: 0.07,
+            duration: 0.8,
+            ease: "power3.out",
+          },
+          "-=0.5"
+        )
+        .from(buttons, { opacity: 0, y: 20, stagger: 0.15, duration: 0.6 }, "-=0.4");
     }
   });
 </script>
@@ -49,20 +56,18 @@
 <section bind:this={heroSection} class="hero" aria-labelledby="hero-title">
   <div class="hero__content">
     <h1 id="hero-title" class="hero__title">
-      Ontdek onze ambachtelijke bieren
+      Welkom bij stadsbrouwerij De Koperen Kat
     </h1>
-
     <p class="hero__subtitle">
-      Geniet van authentieke smaken, gebrouwen met passie — rechtstreeks uit onze brouwerij.
+      De oudste stadsbrouwerij van Delft
     </p>
-
     <div class="hero__actions">
-      <a href="/bieren" class="btn btn--primary">Bekijk onze bieren</a>
+      <a href="/beers" class="btn btn--primary">Bekijk onze bieren</a>
       <a href="/proeflokaal" class="btn btn--secondary">Bezoek het proeflokaal</a>
     </div>
   </div>
 
-  <figure class="hero__media" bind:this={heroImage}>
+  <div class="hero__image-wrapper">
     <img
       src="/images/brewery-hero.jpg"
       alt="Ambachtelijke brouwer brouwt bier in koperen ketel"
@@ -71,67 +76,80 @@
       decoding="async"
       loading="lazy"
     />
-  </figure>
+  </div>
 </section>
 
 <style>
-  /* 🧩 Layout */
+  /* ===== Layout ===== */
   .hero {
-    display: grid;
-    align-items: center;
-    justify-items: center;
-    gap: 2rem;
-    padding: 4rem 1.5rem;
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #3c2f2f;
+    color: #fff;
     overflow: hidden;
   }
 
   @media (min-width: 50rem) {
     .hero {
-      grid-template-columns: 1fr 1fr;
-      text-align: left;
-      padding: 6rem 3rem;
-      min-height: 80vh;
+      flex-direction: row;
     }
   }
 
-  /* 🖋️ Typografie */
+  /* ===== Tekstgedeelte ===== */
+  .hero__content {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 2rem;
+    text-align: center;
+    z-index: 2;
+  }
+
+  @media (min-width: 50rem) {
+    .hero__content {
+      text-align: left;
+      padding: 6rem 5rem;
+    }
+  }
+
   .hero__title {
-    font-family: var(--font-family-headings, "Noticia Text", serif);
-    font-size: clamp(2rem, 4vw + 1rem, 3.5rem);
-    color: var(--text-color, #3c4858);
-    margin-bottom: 1rem;
-    line-height: 1.2;
+    font-size: clamp(2.5rem, 4vw + 1rem, 7rem);
+    font-family: "Noticia Text", serif;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    color: #f3f3f3;
+    max-width: 22ch;
+    text-align: center;
   }
 
   .hero__subtitle {
-    font-family: var(--font-family-body, "Ubuntu", sans-serif);
-    font-size: 1.2rem;
-    color: var(--link-color, #555);
+    font-family: "Ubuntu", sans-serif;
+    font-size: 1.25rem;
+    max-width: 40ch;
+    color: #f3f3f3;
     margin-bottom: 2.5rem;
-    max-width: 45ch;
   }
 
-  /* 🧭 Buttons */
+  /* ===== Buttons ===== */
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
+    gap: 1.25rem;
     justify-content: center;
-    gap: 1rem;
   }
 
   @media (min-width: 50rem) {
     .hero__actions {
       justify-content: flex-start;
-      gap: 1.5rem;
     }
   }
 
   .btn {
     display: inline-block;
-    padding: 0.85rem 1.8rem;
-    font-size: 1rem;
+    padding: 0.9rem 2rem;
     border-radius: 0.5rem;
     font-weight: 600;
     text-decoration: none;
@@ -143,44 +161,53 @@
     color: #fff;
   }
 
-  .btn--primary:hover,
-  .btn--primary:focus-visible {
+  .btn--primary:hover {
     background-color: #c74d0d;
     transform: scale(1.05);
   }
 
   .btn--secondary {
-    background-color: transparent;
     border: 2px solid var(--cta-buttons, #ed651c);
     color: var(--cta-buttons, #ed651c);
+    background: transparent;
   }
 
-  .btn--secondary:hover,
-  .btn--secondary:focus-visible {
+  .btn--secondary:hover {
     background-color: var(--cta-buttons, #ed651c);
     color: #fff;
   }
 
-  /* 🖼️ Media */
-  .hero__media {
+  .hero__image-wrapper {
+    flex: 1;
+    position: relative;
     width: 100%;
-    max-width: 100%;
-    height: auto;
+    height: 50vh;
+    overflow: hidden;
   }
 
-  .hero__media img {
-    width: 100%;
-    height: auto;
-    border-radius: 0.75rem;
-    object-fit: cover;
-    display: block;
-    will-change: transform;
-  }
-
-  /* 🌗 Accessibility / prefers reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .btn {
-      transition: none;
+  @media (min-width: 50rem) {
+    .hero__image-wrapper {
+      height: 100vh;
     }
+  }
+
+  .hero__image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .hero__image-wrapper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(60, 47, 47, 0.65), rgba(60, 47, 47, 0.2));
+  }
+
+  :global(.char) {
+    display: inline-block;
+    white-space: pre;
   }
 </style>

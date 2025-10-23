@@ -12,7 +12,7 @@
 
 <style>
 .btn {
-	background: var(--color-accent);
+	background: var(--cta-buttons);
 	color: white;
 	border: none;
 	padding: 0.75rem 1.5rem;
@@ -23,6 +23,6 @@
 	transition: 0.3s;
 }
 .btn:hover {
-	background: var(--color-accent-dark);
+	background: var(--highlight-color);
 }
 </style>
