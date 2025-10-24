@@ -127,7 +127,7 @@
 
   .hero__subtitle {
     font-family: "Ubuntu", sans-serif;
-    font-size: 1.25rem;
+    font-size: 1.95rem;
     max-width: 40ch;
     color: #f3f3f3;
     margin-bottom: 2.5rem;
@@ -138,7 +138,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1.25rem;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   @media (min-width: 50rem) {

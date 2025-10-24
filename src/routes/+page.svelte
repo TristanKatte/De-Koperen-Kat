@@ -42,96 +42,128 @@
 		guests = null;
 	}
 
-	onMount(() => {
-		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		if (prefersReducedMotion) return;
+onMount(() => {
+	const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	if (prefersReducedMotion) return;
 
-		// Hero animatie
-		gsap.from('.hero__content', {
+	gsap.registerPlugin(ScrollTrigger, SplitText);
+
+	// ─────────────────────────────
+	// Hero animatie
+	// ─────────────────────────────
+	gsap.from('.hero__content', {
+		scrollTrigger: {
+			trigger: '.hero',
+			start: 'top 80%',
+			toggleActions: 'play reverse play reverse'
+		},
+		opacity: 0,
+		y: 50,
+		duration: 1,
+		ease: 'power3.out'
+	});
+
+	// ─────────────────────────────
+	// Bierkaarten
+	// ─────────────────────────────
+	gsap.utils.toArray<HTMLElement>('.beer-card').forEach((el, i) => {
+		gsap.from(el, {
 			scrollTrigger: {
-				trigger: '.hero',
+				trigger: el,
+				start: 'top 90%',
+				toggleActions: 'play reverse play reverse'
+			},
+			opacity: 0,
+			y: 30,
+			scale: 0.95,
+			duration: 0.7,
+			ease: 'elastic.out(1, 0.4)',
+			delay: i * 0.1
+		});
+	});
+
+	// ─────────────────────────────
+	// Eventkaarten
+	// ─────────────────────────────
+	gsap.utils.toArray<HTMLElement>('.event-card').forEach((el, i) => {
+		gsap.from(el, {
+			scrollTrigger: {
+				trigger: el,
+				start: 'top 90%',
+				toggleActions: 'play reverse play reverse'
+			},
+			opacity: 0,
+			y: 30,
+			scale: 0.95,
+			duration: 0.7,
+			ease: 'elastic.out(1, 0.4)',
+			delay: i * 0.1
+		});
+	});
+
+	// ─────────────────────────────
+	// Formulier
+	// ─────────────────────────────
+	gsap.utils
+		.toArray<HTMLElement>('.tasting-form .form-group, .tasting-form button')
+		.forEach((el, i) => {
+			gsap.from(el, {
+				scrollTrigger: {
+					trigger: el,
+					start: 'top 90%',
+					toggleActions: 'play reverse play reverse'
+				},
+				opacity: 0,
+				y: 20,
+				duration: 0.5,
+				ease: 'power3.out',
+				delay: i * 0.1
+			});
+		});
+
+	// ─────────────────────────────
+	// About-sectie (SplitText animatie)
+	// ─────────────────────────────
+	const aboutElements = document.querySelectorAll('.about-section h2, .about-section h3, .about-section p');
+	aboutElements.forEach((el) => {
+		const split = new SplitText(el, { type: 'chars, words' });
+		gsap.from(split.chars, {
+			scrollTrigger: {
+				trigger: el,
 				start: 'top 80%',
 				toggleActions: 'play reverse play reverse'
 			},
 			opacity: 0,
-			y: 50,
-			duration: 1,
-			ease: 'power3.out'
-		});
-
-		// Bierkaarten
-		gsap.utils.toArray<HTMLElement>('.beer-card').forEach((el, i) => {
-			gsap.from(el, {
-				scrollTrigger: {
-					trigger: el,
-					start: 'top 90%',
-					toggleActions: 'play reverse play reverse'
-				},
-				opacity: 0,
-				y: 30,
-				scale: 0.95,
-				duration: 0.7,
-				ease: 'elastic.out(1, 0.4)',
-				delay: i * 0.1
-			});
-		});
-
-		// Eventkaarten
-		gsap.utils.toArray<HTMLElement>('.event-card').forEach((el, i) => {
-			gsap.from(el, {
-				scrollTrigger: {
-					trigger: el,
-					start: 'top 90%',
-					toggleActions: 'play reverse play reverse'
-				},
-				opacity: 0,
-				y: 30,
-				scale: 0.95,
-				duration: 0.7,
-				ease: 'elastic.out(1, 0.4)',
-				delay: i * 0.1
-			});
-		});
-
-		// Formulier
-		gsap.utils
-			.toArray<HTMLElement>('.tasting-form .form-group, .tasting-form button')
-			.forEach((el, i) => {
-				gsap.from(el, {
-					scrollTrigger: {
-						trigger: el,
-						start: 'top 90%',
-						toggleActions: 'play reverse play reverse'
-					},
-					opacity: 0,
-					y: 20,
-					duration: 0.5,
-					ease: 'power3.out',
-					delay: i * 0.1
-				});
-			});
-
-		// About-sectie animatie (h2, h3, p) met stagger
-		const aboutElements = document.querySelectorAll(
-			'.about-section h2, .about-section h3, .about-section p'
-		);
-		aboutElements.forEach((el) => {
-			const split = new SplitText(el, { type: 'chars, words' });
-			gsap.from(split.chars, {
-				scrollTrigger: {
-					trigger: el,
-					start: 'top 80%',
-					toggleActions: 'play reverse play reverse'
-				},
-				opacity: 0,
-				y: 30,
-				scale: 0.8,
-				stagger: 0.02,
-				duration: 0.6,
-				ease: 'back.out(1.2)'
-			});
+			y: 30,
+			scale: 0.8,
+			stagger: 0.02,
+			duration: 0.6,
+			ease: 'back.out(1.2)'
 		});
 	});
+
+	// ─────────────────────────────
+	// Optionele smooth snapping (desktop)
+	// ─────────────────────────────
+	if (window.innerWidth > 768) {
+		const sections = gsap.utils.toArray<HTMLElement>('section');
+
+		ScrollTrigger.create({
+			trigger: 'body',
+			start: 'top top',
+			end: 'bottom bottom',
+			snap: {
+				snapTo: (progress) => {
+					const sectionIndex = Math.round(progress * (sections.length - 1));
+					return sectionIndex / (sections.length - 1);
+				},
+				duration: 0.8,
+				ease: 'power1.inOut'
+			}
+		});
+	}
+});
+
 </script>
 
 <!-- Hero -->
@@ -139,41 +171,43 @@
 
 <!-- About -->
 <section class="about-section" aria-labelledby="about-title">
-	<h2 id="about-title">Over Stadsbrouwerij De Koperen Kat</h2>
+	<div class="content">
+		<h2 id="about-title">Over Stadsbrouwerij De Koperen Kat</h2>
 
-	<h3>Wie zijn we?</h3>
-	<p>
-		Wij zijn De Koperen Kat. Een Eigentijdse, Eigenwijze, oudste Stadsbrouwerij sinds 2011 in het
-		mooie Delft. We zijn een authentieke ‘Craft Brewery’ met de focus op kwaliteitsbieren.
-	</p>
+		<h3>Wie zijn we?</h3>
+		<p>
+			Wij zijn De Koperen Kat. Een Eigentijdse, Eigenwijze, oudste Stadsbrouwerij sinds 2011 in het
+			mooie Delft. We zijn een authentieke ‘Craft Brewery’ met de focus op kwaliteitsbieren.
+		</p>
 
-	<h3>Wat doen we?</h3>
-	<p>
-		We maken op eigen wijze, volgens eigen receptuur kwaliteitsbieren. We hebben maar liefst 18
-		soorten, waarvan de herfstbock zelfs is uitgeroepen tot Lekkerste van Nederland!
-	</p>
+		<h3>Wat doen we?</h3>
+		<p>
+			We maken op eigen wijze, volgens eigen receptuur kwaliteitsbieren. We hebben maar liefst 18
+			soorten, waarvan de herfstbock zelfs is uitgeroepen tot Lekkerste van Nederland!
+		</p>
 
-	<h3>Waarom doen we het?</h3>
-	<p>
-		We willen de oude historie van Delft als grootste bierbrouwstad van Europa weer nieuw leven
-		inblazen. In de 16de eeuw waren er meer dan 250, maar na de sluiting van de laatste in 1922 geen
-		meer.
-	</p>
+		<h3>Waarom doen we het?</h3>
+		<p>
+			We willen de oude historie van Delft als grootste bierbrouwstad van Europa weer nieuw leven
+			inblazen. In de 16de eeuw waren er meer dan 250, maar na de sluiting van de laatste in 1922
+			geen meer.
+		</p>
 
-	<h3>Waar doen we het?</h3>
-	<p>
-		We zitten in een groot pand aan de Schieweg, de vroegere Kabelfabriek. Dit karakteristieke pand
-		is aan de voorkant omgebouwd tot brouwerij met proeflokaal.
-	</p>
+		<h3>Waar doen we het?</h3>
+		<p>
+			We zitten in een groot pand aan de Schieweg, de vroegere Kabelfabriek. Dit karakteristieke
+			pand is aan de voorkant omgebouwd tot brouwerij met proeflokaal.
+		</p>
 
-	<Button href="/about" label="Lees meer over ons" />
+		<Button href="/about" label="Lees meer over ons" />
+	</div>
 </section>
 
 <!-- Bier-sectie -->
 <section class="beers-section" aria-labelledby="beers-title">
 	<h2 id="beers-title">Onze Bieren</h2>
 	<div class="grid">
-		{#each beers as beer}
+		{#each beers.slice(0, 8) as beer}
 			<article class="beer-card">
 				<img src={beer.image_url} alt={beer.name} />
 				<h3>{beer.name}</h3>
@@ -192,7 +226,7 @@
 <section class="events-section" aria-labelledby="events-title">
 	<h2 id="events-title">Agenda</h2>
 	<div class="grid">
-		{#each events as event}
+		{#each events.slice(0, 8) as event}
 			<article class="event-card">
 				{#if event.image_url}
 					<img src={event.image_url} alt={event.title} />
@@ -259,24 +293,36 @@
 
 <style>
 	section {
+		min-height: 100vh;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 		padding: 5rem 1.5rem;
+		scroll-snap-align: start; /* fallback bij uitgeschakelde JS */
+		scroll-snap-stop: always;
 	}
 
 	section:nth-child(even) {
-		background-color: #4B2E05;
-		color: #F5F5F0;
+		background-color: #4b2e05;
+		color: #f5f5f0;
+	}
+
+	section:nth-child(odd) {
+		background-color: var(--accent-light);
+		color: #f5f5f0;
 	}
 
 	section:nth-child(even) h2,
-section:nth-child(even) h3,
-section:nth-child(even) p,
-section:nth-child(even) a {
-	color: #F5F5F0;
-}
+	section:nth-child(even) h3,
+	section:nth-child(even) p,
+	section:nth-child(even) a {
+		color: #f5f5f0;
+	}
 
 	.beers-section,
-	.tasting-section p  {
-		color: #F5F5F0;
+	.tasting-section p {
+		color: #f5f5f0;
 	}
 
 	h2 {
@@ -284,20 +330,30 @@ section:nth-child(even) a {
 		margin-bottom: 2rem;
 		text-align: center;
 		font-weight: 700;
-	}	
+	}
 
 	/* About-sectie */
 	.about-section {
-		max-width: 700px;
-		margin: 0 auto;
+		width: 100%; /* sectie over de volle breedte */
+		padding: 5rem 1.5rem; /* ruimte aan de zijkanten */
 		text-align: left;
+		display: flex;
+		justify-content: center;
+		margin-bottom: 1rem;
 	}
+	.about-section .content {
+		max-width: 800px; /* leesbare breedte */
+		width: 100%;
+		margin: 0 auto;
+	}
+
 	.about-section h2,
 	.about-section h3,
 	.about-section p {
 		margin-bottom: 1rem;
 		text-align: left;
 	}
+
 	.about-section p {
 		font-size: 1.125rem;
 		line-height: 1.6;
@@ -312,9 +368,12 @@ section:nth-child(even) a {
 		max-width: 1200px;
 		margin: 0 auto 2rem;
 	}
+
 	.beer-card,
 	.event-card {
-		background: rgba(255, 255, 255, 0.05);
+		background: var(--card-background);
+		color: var(--text-color);
+		border: 1px solid var(--card-background);
 		padding: 1.5rem;
 		border-radius: 1rem;
 		text-align: left;
@@ -322,6 +381,7 @@ section:nth-child(even) a {
 			transform 0.3s ease,
 			box-shadow 0.3s ease;
 	}
+
 	.beer-card img,
 	.event-card img {
 		width: 100%;
@@ -333,6 +393,7 @@ section:nth-child(even) a {
 		margin-bottom: 1rem;
 		display: block;
 	}
+
 	.event-link {
 		color: var(--cta-buttons);
 		text-decoration: underline;
@@ -360,7 +421,6 @@ section:nth-child(even) a {
 		max-width: 650px;
 		margin: 0 auto;
 		text-align: left;
-		
 	}
 	.form-group input {
 		padding: 0.75rem 1rem;
@@ -407,14 +467,14 @@ section:nth-child(even) a {
 	}
 
 	.sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border: 0;
-}
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
 </style>

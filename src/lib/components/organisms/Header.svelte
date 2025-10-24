@@ -84,6 +84,9 @@
 		justify-content: space-around;
 		padding: 1rem 2rem;
 		gap: 2rem;
+		position: sticky;
+		top: 0;
+		z-index: 9999;
 	}
 
 	.logo img {
