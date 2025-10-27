@@ -63,7 +63,7 @@
     </p>
     <div class="hero__actions">
       <a href="/beers" class="btn btn--primary">Bekijk onze bieren</a>
-      <a href="/proeflokaal" class="btn btn--secondary">Bezoek het proeflokaal</a>
+      <a href="/tasting-room" class="btn btn--secondary">Bezoek het proeflokaal</a>
     </div>
   </div>
 

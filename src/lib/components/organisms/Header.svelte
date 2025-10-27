@@ -3,7 +3,7 @@
 		{
 			title: 'De Brouwerij & Huurbrouwen',
 			links: [
-				{ label: 'Over ons', href: '/de-brouwerij' },
+				{ label: 'Over ons', href: '/about' },
 				{ label: 'Huurbrouwen', href: '/huurbrouwen' }
 			]
 		},

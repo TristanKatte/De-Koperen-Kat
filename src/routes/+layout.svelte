@@ -14,8 +14,14 @@
 </svelte:head>
 
 <Header />
+
+
 {@render children?.()}
+
+
 <Footer />
+
+
 
 <AgeGate />
 
@@ -24,5 +30,6 @@
 		margin: 0;
 		padding: 0;
 		box-sizing: border-box;
+		height: 100%;
 	}
 </style>

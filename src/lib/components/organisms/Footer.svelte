@@ -2,7 +2,7 @@
 	<div class="footer-content">
 		<div class="footer-brand">
 			<h2>Brouwerij De Koperen Kat</h2>
-			<p>Ambachtelijk gebrouwen sinds 1987</p>
+			<p>Ambachtelijk gebrouwen sinds 2011</p>
 		</div>
 
 
