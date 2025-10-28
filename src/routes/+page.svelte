@@ -20,51 +20,10 @@
 
 <BeersSection {beers} />
 <EventsSection {events} />
-
-<section class="tasting-section" aria-labelledby="tasting-title">
-  <h2 id="tasting-title">Boek een Proeflokaal 🍺</h2>
-  <TastingForm showDescription={true} />
-</section>
+<TastingForm showDescription={true} />
 
 <style>
-section {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 5rem 1.5rem;
-}
-
-section:nth-child(even) {
-  background-color: #4b2e05;
-  color: #f5f5f0;
-}
-
-section:nth-child(odd) {
-  background-color: var(--accent-light);
-  color: #f5f5f0;
-}
-
-h2 {
-  font-size: 2.25rem;
-  margin-bottom: 2rem;
-  text-align: center;
-  font-weight: 700;
-}
-
-.tasting-section {
-  background: rgba(255, 255, 255, 0.03);
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 4rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-@media (max-width: 768px) {
-  section {
-    padding: 3rem 1rem;
+  :global(html) {
+    scroll-behavior: smooth;
   }
-}
 </style>

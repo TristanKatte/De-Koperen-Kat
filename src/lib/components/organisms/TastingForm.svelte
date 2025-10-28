@@ -43,7 +43,7 @@
     date = '';
     guests = null;
 
-    dispatch('success'); // laat parent weten dat submit gelukt is
+    dispatch('success');
   };
 
   onMount(() => {
@@ -59,10 +59,10 @@
             start: 'top 90%',
             toggleActions: 'play none none reverse'
           },
-          y: 10,
-          opacity: 1,
+          y: 15,
+          opacity: 0,
           duration: 0.5,
-          delay: i * 0.05,
+          delay: i * 0.07,
           ease: 'power1.out'
         });
       });
@@ -70,6 +70,7 @@
 </script>
 
 <section class="tasting-section" aria-labelledby="tasting-title">
+  <h2 id="tasting-title">Boek een proeflokaal</h2>
   {#if showDescription}
     <p class="tasting-description">
       Beleef onze bieren in een unieke sfeer. Reserveer jouw plek in ons proeflokaal en geniet van
@@ -121,55 +122,82 @@
 
 <style>
 .tasting-section {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--accent-light); /* lichte achtergrond */
+  color: var(--text-color);
   padding: 4rem 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 1200px;
   margin: 0 auto;
+  min-height: 100vh;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+  font-size: 2rem;
+  text-align: center;
+  color: var(--text-color);
+  margin-bottom: 2rem;
+  opacity: 0.9; /* zachtere toon */
 }
 
 .tasting-description {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   font-size: 1.125rem;
+  line-height: 1.6;
+  max-width: 700px;
 }
 
 .tasting-form {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 2rem;
   max-width: 700px;
   width: 100%;
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 2.5rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
+}
+
+label {
+  font-weight: 600;
+  font-size: 1rem;
 }
 
 .form-group input {
-  padding: 1rem 1.2rem;
+  padding: 0.9rem 1.1rem;
   font-size: 1rem;
   border-radius: 0.5rem;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid #ddd;
+  background: #fdfdfd;
+  color: var(--text-color);
 }
 
 .form-group input:focus {
   outline: 2px solid var(--cta-buttons);
   outline-offset: 2px;
+  border-color: var(--cta-buttons);
+  background: #fff;
 }
 
 .btn {
-  grid-column: auto;
-  justify-self: start; /* uitlijnen met de linkerkant van de inputs */
-  padding: 1rem 2rem;
+  grid-column: span 2;
+  justify-self: center;
+  padding: 1rem 2.5rem;
   border-radius: 2rem;
   font-weight: 600;
   background: var(--cta-buttons);
-  color: #f5f5f0;
+  color: #fff;
   border: none;
   cursor: pointer;
   font-size: 1rem;
@@ -183,16 +211,31 @@
 
 .success-message,
 .error-message {
+  grid-column: span 2;
   margin-top: 1rem;
-  text-align: left;
+  text-align: center;
+  font-weight: 500;
 }
 
 .success-message {
-  color: green;
+  color: #2e7d32;
 }
 
 .error-message {
-  color: red;
+  color: #c62828;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .tasting-form {
+    grid-template-columns: 1fr;
+    padding: 2rem 1.5rem;
+  }
+
+  .btn {
+    grid-column: 1;
+    width: 100%;
+  }
 }
 
 .sr-only {
