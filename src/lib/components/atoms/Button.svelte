@@ -2,13 +2,23 @@
 	export let label: string;
 	export let href: string | null = null;
 	export let onClick: (() => void) | null = null;
+	export let target: string | null = null; // nieuw
+	export let rel: string | null = null;     // nieuw
 </script>
 
 {#if href}
-	<a class="btn" href={href}>{label}</a>
+	<a
+		href={href}
+		on:click={onClick}
+		target={target}
+		rel={rel}
+		class="btn">
+		{label}
+	</a>
 {:else}
-	<button class="btn" on:click={onClick}>{label}</button>
+	<button on:click={onClick} class="btn">{label}</button>
 {/if}
+
 
 <style>
 .btn {
