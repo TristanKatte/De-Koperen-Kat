@@ -39,101 +39,137 @@
 						<div class="event-placeholder" aria-hidden="true">🎪</div>
 					{/if}
 
-					<h2>{event.title || 'Nog geen titel beschikbaar'}</h2>
-					<p class="date">
-						📅 {event.date ? new Date(event.date).toLocaleDateString('nl-NL') : 'Datum volgt'}
-					</p>
+					<div class="event-content">
+						<h2>{event.title || 'Nog geen titel beschikbaar'}</h2>
+						<p class="date">
+							📅 {event.date ? new Date(event.date).toLocaleDateString('nl-NL') : 'Datum volgt'}
+						</p>
 
-					<p class="description">
-						{#if event.description}
-							{event.description.length > 120 ? event.description.slice(0, 120) + '…' : event.description}
-						{:else}
-							Beschrijving nog niet beschikbaar.
-						{/if}
-					</p>
+						<p class="description">
+							{#if event.description}
+								{event.description.length > 120
+									? event.description.slice(0, 120) + '…'
+									: event.description}
+							{:else}
+								Beschrijving nog niet beschikbaar.
+							{/if}
+						</p>
 
-					<Button href={`/events/${event.slug}`} label="Bekijk details" />
+						<Button href={`/events/${event.slug}`} label="Bekijk details" />
+					</div>
 				</article>
 			{/each}
 		</div>
 	{:else}
 		<p class="empty-message" role="status">Er staan momenteel geen evenementen gepland 🎟️</p>
 	{/if}
+	<Button href="/" label="Terug naar home" />
 </section>
 
 <style>
-	section {
-		background-color: #3a2605;
-		color: #f5f5f0;
-		padding: 5rem 1.5rem;
+	.events-overview {
+		background: var(--accent-light);
+		color: var(--text-color, #111);
+		padding: 6rem 1.5rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
 	h1 {
 		text-align: center;
 		font-size: 2.5rem;
+		font-weight: 700;
 		margin-bottom: 3rem;
+		color: var(--text-color, #111);
 	}
 
 	.grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-		gap: 2rem;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 2.5rem;
 		max-width: 1200px;
-		margin: 0 auto;
-		align-items: stretch;
+		width: 100%;
+		margin-bottom: 1rem;
 	}
 
 	.event-card {
-		background: rgba(255, 255, 255, 0.05);
+		background: var(--card-background);
+		border: 1px solid rgba(0, 0, 0, 0.08);
 		border-radius: 1rem;
-		padding: 1.5rem;
+		overflow: hidden;
+		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
-		min-height: 100%;
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 	}
 
 	.event-card:hover {
-		transform: translateY(-4px);
-		box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+		transform: translateY(-6px);
+		box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+		border-color: var(--color-senary, #c5b48a);
+		background: #fffaf3;
 	}
 
 	img {
 		width: 100%;
-		height: 200px;
+		height: 220px;
 		object-fit: cover;
-		border-radius: 0.5rem;
-		margin-bottom: 1rem;
 	}
 
 	.event-placeholder {
+		width: 100%;
+		height: 220px;
+		background: rgba(0, 0, 0, 0.05);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		height: 200px;
-		background: rgba(255, 255, 255, 0.05);
-		border-radius: 0.5rem;
 		font-size: 3rem;
-		margin-bottom: 1rem;
+	}
+
+	.event-content {
+		padding: 1.75rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		flex: 1;
 	}
 
 	h2 {
-		font-size: 1.3rem;
-		margin-bottom: 0.5rem;
+		font-size: 1.4rem;
+		font-weight: 600;
+		color: var(--text-color, #111);
+		margin-top: 0.5rem;
+	}
+
+	.date {
+		font-size: 0.95rem;
+		color: #666;
 	}
 
 	.description {
-		margin: 1rem 0;
-		font-size: 0.95rem;
-		line-height: 1.4;
-		color: #ddd;
+		font-size: 1rem;
+		color: #333;
+		line-height: 1.6;
+		margin: 0.5rem 0 1.5rem;
+		flex-grow: 1;
+	}
+
+	.event-content :global(.btn) {
+		align-self: flex-start;
+		margin-top: auto;
 	}
 
 	.empty-message {
 		text-align: center;
 		margin-top: 3rem;
 		font-size: 1.2rem;
-		color: #ccc;
+		color: #666;
+	}
+
+	@media (min-width: 768px) {
+		h1 {
+			font-size: 3rem;
+		}
 	}
 </style>
