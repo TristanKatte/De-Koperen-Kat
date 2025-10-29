@@ -7,7 +7,8 @@
   --footer-color: #323437;            /* footer achtergrond */
 
   /* Tekst */
-  --text-color: #3c4858;              /* hoofdtekst */
+  --text-color: #3c4858;            /* primaire tekstkleur */
+  --text-color-alt: #f5f5f0;    /* alternatieve tekstkleur voor donkere achtergronden */            
   --muted-text: #7d7d7d;              /* secundaire tekst, bijschriften */
   --link-color: #555555;              /* links */
   --link-hover: #ed651c;              /* link hover / accentkleur */

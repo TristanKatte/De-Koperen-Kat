@@ -122,8 +122,8 @@
 
 <style>
 .tasting-section {
-  background: var(--accent-light); /* lichte achtergrond */
-  color: var(--text-color);
+  background: #4B2E05; 
+  color: var(--text-color-alt);
   padding: 4rem 1.5rem;
   display: flex;
   flex-direction: column;
@@ -138,7 +138,7 @@
 h2 {
   font-size: 2rem;
   text-align: center;
-  color: var(--text-color);
+  color: var(--text-color-alt);
   margin-bottom: 2rem;
   opacity: 0.9; /* zachtere toon */
 }
@@ -172,6 +172,7 @@ h2 {
 label {
   font-weight: 600;
   font-size: 1rem;
+  color: var(--text-color);
 }
 
 .form-group input {

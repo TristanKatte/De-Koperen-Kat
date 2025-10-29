@@ -42,8 +42,8 @@
 
 <style>
 .events-section {
-  background-color: #4b2e05;
-  color: #f5f5f0;
+  background-color: var(--accent-light);
+  color: var(--text-color);
   padding: 5rem 1.5rem;
   width: 100%;
   overflow-x: hidden;
@@ -58,13 +58,13 @@ h2 {
   font-weight: 700;
   text-align: center;
   margin-bottom: 2rem;
-  color: #f5f5f0;
+  color: var(--text-color);
 }
 
 h3 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  color: #f5f5f0;
+  color: var(--text-color);
 }
 
 .grid {
@@ -78,17 +78,21 @@ h3 {
 }
 
 .event-card {
-  background: rgba(255,255,255,0.05);
+  background: #d9985f; /* iets lichter voor betere zichtbaarheid */
   border-radius: 1rem;
+  border: 1px solid #b36b2f; /* subtiele rand */
   padding: 1.5rem;
   text-align: left;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* lichte schaduw voor diepte */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: #f5f5f0; /* lichte tekstkleur */
 }
 
 .event-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
+
 
 .event-card img {
   width: 100%;
