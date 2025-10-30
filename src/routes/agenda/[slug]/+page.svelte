@@ -48,14 +48,14 @@
 					rel="noopener noreferrer"
 				/>
 			{/if}
-			<Button href="/events" label="Terug naar overzicht" />
+			<Button href="/agenda" label="Terug naar overzicht" />
 		</div>
 	</div>
 </section>
 
 <style>
 .event-detail-section {
-	background-color: #f5f5f5; /* lichte achtergrond */
+	background-color: var(--accent-light); /* lichte achtergrond */
 	padding: 5rem 1.5rem;
 	display: flex;
 	justify-content: center;

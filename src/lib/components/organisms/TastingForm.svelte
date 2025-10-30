@@ -131,7 +131,6 @@
   align-items: center;
   margin: 0 auto;
   min-height: 100vh;
-  border-radius: 1rem;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 

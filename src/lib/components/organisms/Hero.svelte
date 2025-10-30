@@ -96,7 +96,7 @@
 
 /* ===== Content ===== */
 .hero__content {
-  flex: 1.5;
+  flex: 2.5;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -121,6 +121,7 @@
   color: #f3f3f3;
   margin-bottom: 1.5rem;
   max-width: 60ch; /* limitering ultrawide */
+  text-align: center;
   word-break: normal;
   overflow-wrap: break-word;
 }
@@ -182,7 +183,7 @@
 
 /* ===== Afbeelding ===== */
 .hero__image-wrapper {
-  flex: 1;
+  flex: 2;
   position: relative;
   width: 100%;
   height: 50vh;

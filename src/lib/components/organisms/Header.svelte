@@ -1,17 +1,15 @@
 <script lang="ts">
 	const menuItems = [
 		{
-			title: 'De Brouwerij & Huurbrouwen',
+			title: 'De Brouwerij',
 			links: [
-				{ label: 'Over ons', href: '/about' },
-				{ label: 'Huurbrouwen', href: '/huurbrouwen' }
+				{ label: 'Over ons', href: '/about' }
 			]
 		},
 		{
 			title: 'De Bieren',
 			links: [
-				{ label: 'Alle Bieren', href: '/bieren' },
-				{ label: 'Seizoensbieren', href: '/bieren/seizoensbieren' }
+				{ label: 'Alle Bieren', href: '/beers' }
 			]
 		},
 		{
@@ -169,7 +167,8 @@
 		text-decoration: none;
 		font-weight: 600;
 		padding: 0.5rem 0.75rem;
-		text-align: center;
+		text-align: left;
+		list-style-type: none;
 		transition:
 			background-color 0.2s ease,
 			color 0.2s ease;

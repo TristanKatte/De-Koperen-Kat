@@ -27,7 +27,7 @@
 </script>
 
 <section class="events-overview" aria-labelledby="events-title">
-	<h1 id="events-title">Evenementen</h1>
+	<h1 id="events-title">Agenda</h1>
 
 	{#if events.length > 0}
 		<div class="grid">
@@ -55,7 +55,7 @@
 							{/if}
 						</p>
 
-						<Button href={`/events/${event.slug}`} label="Bekijk details" />
+						<Button href={`/agenda/${event.slug}`} label="Bekijk details" />
 					</div>
 				</article>
 			{/each}

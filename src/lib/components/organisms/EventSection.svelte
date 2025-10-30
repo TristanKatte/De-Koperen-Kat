@@ -36,7 +36,7 @@
   </div>
 
   <div class="centered-button">
-    <Button href="/events" label="Bekijk agenda" />
+    <Button href="/agenda" label="Bekijk agenda" />
   </div>
 </section>
 
