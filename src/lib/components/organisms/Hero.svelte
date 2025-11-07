@@ -12,9 +12,9 @@
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
 
-    const titleEl = heroSection?.querySelector(".hero__title");
-    const subtitleEl = heroSection?.querySelector(".hero__subtitle");
-    const buttons = gsap.utils.toArray(".hero__actions a");
+    const titleEl = heroSection?.querySelector(".hero-title");
+    const subtitleEl = heroSection?.querySelector(".hero-subtitle");
+    const buttons = gsap.utils.toArray(".hero-actions a");
 
     if (titleEl && subtitleEl) {
       const splitTitle = new SplitText(titleEl, { type: "chars" });
@@ -53,20 +53,20 @@
 </script>
 
 <section bind:this={heroSection} class="hero" aria-labelledby="hero-title">
-  <div class="hero__content">
-    <h1 id="hero-title" class="hero__title">
+  <div class="hero-content">
+    <h1 id="hero-title" class="hero-title">
       Welkom bij Stadsbrouwerij De Koperen Kat
     </h1>
-    <p class="hero__subtitle">
+    <p class="hero-subtitle">
       De oudste stadsbrouwerij van Delft
     </p>
-    <div class="hero__actions">
+    <div class="hero-actions">
       <a href="/beers" class="btn btn--primary">Bekijk onze bieren</a>
       <a href="/tasting-room" class="btn btn--secondary">Bezoek het proeflokaal</a>
     </div>
   </div>
 
-  <div class="hero__image-wrapper">
+  <div class="hero-image">
     <img
       src="/images/brewery-hero.jpg"
       alt="Ambachtelijke brouwer brouwt bier in koperen ketel"
@@ -80,75 +80,80 @@
 
 <style>
 .hero {
-  display: flex;
-  flex-direction: column-reverse;
+  position: relative;
+  display: grid;
+  place-items: center;
   min-height: 100vh;
-  background-color: #4B2E05;
   color: #fff;
   overflow: hidden;
-}
-
-@media (min-width: 50rem) {
-  .hero {
-    flex-direction: row;
-  }
-}
-
-/* ===== Content ===== */
-.hero__content {
-  flex: 2.5;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 3rem 2rem;
   text-align: center;
+}
+
+/* ===== Achtergrondafbeelding ===== */
+.hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Overlaykleur */
+.hero-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #9C601240;
+  /* opacity: .25; */
+  z-index: 1;
+}
+
+/* ===== Tekst & content ===== */
+.hero-content {
+  position: relative;
   z-index: 2;
+  max-width: 70rem;
+  padding: 4rem 2rem;
+  display: grid;
+  gap: 2rem;
+  justify-items: center;
+  text-align: center;
 }
 
-@media (min-width: 50rem) {
-  .hero__content {
-    text-align: left;
-    padding: 6rem 5rem;
-  }
-}
-
-.hero__title {
+.hero-title {
   font-family: "Noticia Text", serif;
   font-size: clamp(2rem, 4vw + 1rem, 4.5rem);
   line-height: 1.1;
   font-weight: 700;
-  color: #f3f3f3;
-  margin-bottom: 1.5rem;
-  max-width: 60ch; /* limitering ultrawide */
-  text-align: center;
-  word-break: normal;
-  overflow-wrap: break-word;
+  color: #fff;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
-.hero__subtitle {
+.hero-subtitle {
   font-family: "Ubuntu", sans-serif;
   font-size: clamp(1.25rem, 2.5vw, 2rem);
   line-height: 1.5;
-  margin-bottom: 2rem;
-  color: #f3f3f3;
-  max-width: 60ch;
-  word-break: normal;
-  overflow-wrap: break-word;
+  margin: 0;
+  color: #f2f2f2;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* ===== Buttons ===== */
-.hero__actions {
+/* ===== Knoppen ===== */
+.hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
-}
-
-@media (min-width: 50rem) {
-  .hero__actions {
-    justify-content: flex-start;
-  }
 }
 
 .btn {
@@ -161,7 +166,7 @@
 }
 
 .btn--primary {
-  background-color: var(--cta-buttons, #ed651c);
+  background-color: var(--cta-buttons);
   color: #fff;
 }
 
@@ -181,36 +186,15 @@
   color: #fff;
 }
 
-/* ===== Afbeelding ===== */
-.hero__image-wrapper {
-  flex: 2;
-  position: relative;
-  width: 100%;
-  height: 50vh;
-  overflow: hidden;
-}
-
+/* ===== Responsiviteit ===== */
 @media (min-width: 50rem) {
-  .hero__image-wrapper {
-    height: auto;
-    max-height: 100vh; /* voorkomt te grote afbeelding */
+  .hero-content {
+    padding: 6rem 5rem;
   }
-}
 
-.hero__image-wrapper img {
-  width: 100%;
-  height: 100%;
-  max-height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-}
-
-.hero__image-wrapper::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, rgba(60, 47, 47, 0.65), rgba(60, 47, 47, 0.2));
+  .hero-title {
+    font-size: clamp(2.5rem, 3vw + 1rem, 5rem);
+  }
 }
 
 /* ===== SplitText chars ===== */
