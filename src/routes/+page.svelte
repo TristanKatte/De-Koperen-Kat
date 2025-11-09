@@ -14,6 +14,9 @@
   const beers = data.beers || [];
   const events = data.events || [];
 </script>
+<svelte:head>
+  <title>Home</title>
+</svelte:head>
 
 <Hero />
 <About />

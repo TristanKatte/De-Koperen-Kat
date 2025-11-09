@@ -15,9 +15,9 @@
   --highlight-color: #ffcc00;         /* voor opvallende teksten of badges */
 
   /* Knoppen / call-to-action */
-  --cta-buttons: #E6A34A;             /* primaire CTA */
-  --cta-hover: #d24e0f;               /* hover van primaire CTA */
-  --cta-secondary: #ffcc00;           /* secundaire CTA kleur indien nodig */
+  --cta-buttons: #A9450E;             /* primaire CTA */
+  --cta-hover: #873709;               /* hover van primaire CTA */
+  --cta-secondary: #D7702C;           /* secundaire CTA kleur indien nodig */
 
   /* Kaarten / overlays */
   --card-background: rgba(255, 255, 255, 0.05); /* voor kaarten, overlays */

@@ -3,7 +3,7 @@
   export let events: any[] = [];
 </script>
 
-<section class="events-section" aria-labelledby="events-title">
+<section class="events-section">
   <h2 id="events-title">Agenda</h2>
 
   <div class="grid">

@@ -17,8 +17,8 @@
     const buttons = gsap.utils.toArray(".hero-actions a");
 
     if (titleEl && subtitleEl) {
-      const splitTitle = new SplitText(titleEl, { type: "chars" });
-      const splitSubtitle = new SplitText(subtitleEl, { type: "words" });
+      const splitTitle = new SplitText(titleEl, { type: "chars", charsClass: "char", });
+      const splitSubtitle = new SplitText(subtitleEl, { type: "words", wordsClass: "word", });
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -52,7 +52,7 @@
   });
 </script>
 
-<section bind:this={heroSection} class="hero" aria-labelledby="hero-title">
+<section bind:this={heroSection} class="hero">
   <div class="hero-content">
     <h1 id="hero-title" class="hero-title">
       Welkom bij Stadsbrouwerij De Koperen Kat
@@ -112,8 +112,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-color: #9C601240;
-  /* opacity: .25; */
+  background-color: rgba(62, 36, 15, 0.55);
   z-index: 1;
 }
 

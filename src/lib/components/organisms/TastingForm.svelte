@@ -69,7 +69,7 @@
   });
 </script>
 
-<section class="tasting-section" aria-labelledby="tasting-title">
+<section class="tasting-section">
   <h2 id="tasting-title">Boek een proeflokaal</h2>
   {#if showDescription}
     <p class="tasting-description">
