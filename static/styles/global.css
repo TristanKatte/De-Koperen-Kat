@@ -2,40 +2,40 @@
 
 :root {
   /* Basis / achtergrond */
-  --background-color: #F5F5F0;        /* standaard achtergrond */
-  --background-alt: #f8f9fa;         /* lichte alternatieve achtergrond voor secties */
-  --footer-color: #323437;            /* footer achtergrond */
+  --background-color: #F3F2EB;
+  --background-alt: #EFEEE8;
+  --footer-color: #2B2D30;
 
   /* Tekst */
-  --text-color: #3c4858;            /* primaire tekstkleur */
-  --text-color-alt: #f5f5f0;    /* alternatieve tekstkleur voor donkere achtergronden */            
-  --muted-text: #7d7d7d;              /* secundaire tekst, bijschriften */
-  --link-color: #555555;              /* links */
-  --link-hover: #ed651c;              /* link hover / accentkleur */
-  --highlight-color: #ffcc00;         /* voor opvallende teksten of badges */
+  --text-color: #2C3642;
+  --text-color-alt: #F3F2EB;
+  --muted-text: #666666;
+  --link-color: #4A4A4A;
+  --link-hover: #C65410;
+  --highlight-color: #FFB400;
 
-  /* Knoppen / call-to-action */
-  --cta-buttons: #A9450E;             /* primaire CTA */
-  --cta-hover: #873709;               /* hover van primaire CTA */
-  --cta-secondary: #D7702C;           /* secundaire CTA kleur indien nodig */
+  /* Knoppen / CTA’s */
+  --cta-buttons: #93400E;
+  --cta-hover: #753006;
+  --cta-secondary: #C46522;
 
   /* Kaarten / overlays */
-  --card-background: rgba(255, 255, 255, 0.05); /* voor kaarten, overlays */
-  --card-border: #e0e0e0;                        /* subtiele scheiding van kaarten */
+  --card-background: rgba(255, 255, 255, 0.07);
+  --card-border: #D8D8D8;
 
-  /* Meldingen / status */
-  --success-color: #28a745;            /* succesberichten */
-  --error-color: #dc3545;              /* foutmeldingen */
-  --warning-color: #ffc107;            /* waarschuwingen */
-  --info-color: #17a2b8;               /* informatieve meldingen */
+  /* Meldingen / status (WCAG-proof) */
+  --success-color: #1E7D32;
+  --error-color: #B91C1C;
+  --warning-color: #D97706;
+  --info-color: #0E7490;
 
-  /* Extra accenten */
-  --accent-light: #ffe6b3;             /* lichte accentkleur voor subtiele highlights */
-  --accent-dark: #b34d00;              /* donkerder accent voor contrast elementen */
+  /* Accenten */
+  --accent-light: #F6D9A8;
+  --accent-dark: #8A3E00;
 
-    /* font families */
-    --font-family-body: "Ubuntu", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --font-family-headings: "Noticia Text", Georgia, "Times New Roman", serif;
+  /* Fonts */
+  --font-family-body: "Ubuntu", system-ui, sans-serif;
+  --font-family-headings: "Noticia Text", Georgia, serif;
 }
 
 body {
@@ -47,7 +47,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-family-heading);
+  font-family: var(--font-family-headings);
   color: var(--text-color);
   font-weight: 700;
 }
@@ -58,5 +58,5 @@ a {
 }
 
 a:hover, a:focus-visible {
-  color: var(--cta-buttons);
+  color: var(--link-hover);
 }
