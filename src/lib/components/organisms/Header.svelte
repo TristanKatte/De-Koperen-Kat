@@ -29,7 +29,7 @@
 		},
 		{ title: 'Nieuws', links: [{ label: 'Nieuws', href: '/nieuws' }] },
 		{ title: 'Agenda', links: [{ label: 'Agenda', href: '/agenda' }] },
-		{ title: 'Partners', links: [{ label: 'Partners', href: '/partners' }] },
+		{ title: 'Vacatures', links: [{ label: 'Partners', href: '/vacancies' }] },
 		{ title: 'Contact', links: [{ label: 'Contact', href: '/contact' }] }
 	];
 
