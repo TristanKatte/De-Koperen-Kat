@@ -1,70 +1,73 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import gsap from 'gsap';
+import { onMount } from 'svelte';
+import gsap from 'gsap';
 
-  let mobileOpen = false;
-  let openIndex: number | null = null;
-  let overlayEl: HTMLDivElement;
 
-  const menuItems = [
-	{
-	  title: 'Home',
-      links: [{ label: 'Home', href: '/' }]
-	},
-    {
-      title: 'De Brouwerij',
-      links: [{ label: 'Over ons', href: '/about' }]
-    },
-    {
-      title: 'De Bieren',
-      links: [{ label: 'Alle Bieren', href: '/beers' }]
-    },
-    {
-      title: 'Webshop',
-      links: [
-        { label: 'Cadeausets', href: '/webshop/cadeausets' },
-        { label: 'Merchandise', href: '/webshop/merchandise' }
-      ]
-    },
-    {
-      title: 'Het Proeflokaal',
-      links: [
-        { label: 'Bezoeken', href: '/proeflokaal/bezoeken' },
-        { label: 'Afhuren', href: '/proeflokaal/afhuren' },
-        { label: 'Evenementen', href: '/proeflokaal/evenementen' }
-      ]
-    },
-    { title: 'Nieuws', links: [{ label: 'Nieuws', href: '/nieuws' }] },
-    { title: 'Agenda', links: [{ label: 'Agenda', href: '/agenda' }] },
-    { title: 'Vacatures', links: [{ label: 'Vacatures', href: '/vacancies' }] },
-    { title: 'Contact', links: [{ label: 'Contact', href: '/contact' }] }
-  ];
+let mobileOpen = false;
+let openIndex: number | null = null;
+let overlayEl: HTMLDivElement;
 
-  function toggleDropdown(i: number) {
-    openIndex = openIndex === i ? null : i;
-  }
 
-  onMount(() => {
-    gsap.set(overlayEl, { y: '-100%' });
-  });
+const menuItems = [
+{ title: 'Home', links: [{ label: 'Home', href: '/' }] },
+{ title: 'De Brouwerij', links: [{ label: 'Over ons', href: '/about' }] },
+{ title: 'De Bieren', links: [{ label: 'Alle Bieren', href: '/beers' }] },
+{ title: 'Webshop', links: [
+{ label: 'Cadeausets', href: '/webshop/cadeausets' },
+{ label: 'Merchandise', href: '/webshop/merchandise' }
+]
+},
+{ title: 'Het Proeflokaal', links: [
+{ label: 'Bezoeken', href: '/proeflokaal/bezoeken' },
+{ label: 'Afhuren', href: '/proeflokaal/afhuren' },
+{ label: 'Evenementen', href: '/proeflokaal/evenementen' }
+]
+},
+{ title: 'Nieuws', links: [{ label: 'Nieuws', href: '/nieuws' }] },
+{ title: 'Agenda', links: [{ label: 'Agenda', href: '/agenda' }] },
+{ title: 'Vacatures', links: [{ label: 'Vacatures', href: '/vacancies' }] },
+{ title: 'Contact', links: [{ label: 'Contact', href: '/contact' }] }
+];
 
-  function openMenu() {
-    mobileOpen = true;
-    gsap.to(overlayEl, {
-      y: '0%',
-      duration: 0.7,
-      ease: 'power4.out'
-    });
-  }
 
-  function closeMenu() {
-    gsap.to(overlayEl, {
-      y: '-100%',
-      duration: 0.7,
-      ease: 'power4.in',
-      onComplete: () => (mobileOpen = false)
-    });
-  }
+function toggleDropdown(i: number): void {
+openIndex = openIndex === i ? null : i;
+}
+
+
+function handleDropdown(i: number): void {
+toggleDropdown(i);
+}
+
+
+function handleOverlayDropdown(i: number): void {
+toggleDropdown(i);
+}
+
+
+onMount(() => {
+gsap.set(overlayEl, { y: '-100%' });
+});
+
+
+function openMenu(): void {
+mobileOpen = true;
+gsap.to(overlayEl, {
+y: '0%',
+duration: 0.7,
+ease: 'power4.out'
+});
+}
+
+
+function closeMenu(): void {
+gsap.to(overlayEl, {
+y: '-100%',
+duration: 0.7,
+ease: 'power4.in',
+onComplete: () => { mobileOpen = false; }
+});
+}
 </script>
 
 <nav class="main-nav">
