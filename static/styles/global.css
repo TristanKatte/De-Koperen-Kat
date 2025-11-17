@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Noticia+Text:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+:root {
+  /* Basis / achtergrond */
+  --background-color: #F3F2EB;
+  --background-alt: #EFEEE8;
+  --footer-color: #2B2D30;
+
+  /* Tekst */
+  --text-color: #2C3642;
+  --text-color-alt: #F3F2EB;
+  --muted-text: #666666;
+  --link-color: #4A4A4A;
+  --link-hover: #C65410;
+  --highlight-color: #FFB400;
+
+  /* Knoppen / CTA’s */
+  --cta-buttons: #93400E;
+  --cta-hover: #753006;
+  --cta-secondary: #C46522;
+
+  /* Kaarten / overlays */
+  --card-background: rgba(255, 255, 255, 0.07);
+  --card-border: #D8D8D8;
+
+  /* Meldingen / status (WCAG-proof) */
+  --success-color: #1E7D32;
+  --error-color: #B91C1C;
+  --warning-color: #D97706;
+  --info-color: #0E7490;
+
+  /* Accenten */
+  --accent-light: #F6D9A8;
+  --accent-dark: #8A3E00;
+
+  /* Fonts */
+  --font-family-body: "Ubuntu", system-ui, sans-serif;
+  --font-family-headings: "Noticia Text", Georgia, serif;
+}
+
+body {
+  font-family: var(--font-family-body);
+  color: var(--text-color);
+  background-color: var(--background-color);
+  line-height: 1.6;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-headings);
+  color: var(--text-color);
+  font-weight: 700;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:hover, a:focus-visible {
+  color: var(--link-hover);
+}
+
+
+.sr-only {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+}
