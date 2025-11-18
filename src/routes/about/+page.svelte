@@ -9,8 +9,7 @@
 
 	// voorbeeld partners & huurbrouwen
 	const partners = [
-		{ name: 'Partner 1', logo: '/images/partner1.png', url: '#' },
-		{ name: 'Partner 2', logo: '/images/partner2.png', url: '#' }
+		{ name: 'Partner 1', logo: '/images/forze-hydrogen-racing.png', url: 'https://forzehydrogenracing.com' }
 	];
 
 	const huurbrouwen = [
@@ -267,7 +266,8 @@
 	}
 
 	.partner-card img {
-		max-width: 100px;
+		max-width: 100%;
+		object-fit: contain;
 		margin-bottom: 0.5rem;
 	}
 
