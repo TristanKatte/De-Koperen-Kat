@@ -4,12 +4,17 @@
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import { SplitText } from 'gsap/SplitText';
 	import Button from '$lib/components/atoms/Button.svelte';
+	import Polaroid from '$lib/components/molecules/Polaroid.svelte';
 
 	gsap.registerPlugin(ScrollTrigger, SplitText);
 
 	// voorbeeld partners & huurbrouwen
 	const partners = [
-		{ name: 'Partner 1', logo: '/images/forze-hydrogen-racing.png', url: 'https://forzehydrogenracing.com' }
+		{
+			name: 'Partner 1',
+			logo: '/images/forze-hydrogen-racing.png',
+			url: 'https://forzehydrogenracing.com'
+		}
 	];
 
 	const huurbrouwen = [
@@ -21,55 +26,101 @@
 	];
 
 	onMount(() => {
-		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		if (prefersReducedMotion) return;
+	// Check Reduced Motion Preference
+	const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-		// ─────────────────────────────
-		// SplitText animatie voor teksten
-		// ─────────────────────────────
-		const textElements = document.querySelectorAll(
+	// ─────────────────────────────
+	// SplitText tekstanimaties
+	// ─────────────────────────────
+	if (!prefersReducedMotion) {
+		const textEls = document.querySelectorAll(
 			'.about-section h2, .about-section h3, .about-section p'
 		);
-		textElements.forEach((el) => {
+		textEls.forEach((el) => {
 			const split = new SplitText(el, { type: 'chars, words' });
 			gsap.from(split.chars, {
-				scrollTrigger: {
-					trigger: el,
-					start: 'top 85%',
-					toggleActions: 'play none none reverse'
-				},
 				opacity: 0,
-				y: 30,
-				scale: 0.8,
+				y: 25,
 				stagger: 0.015,
-				duration: 0.6,
-				ease: 'back.out(1.4)'
-			});
-		});
-
-		// ─────────────────────────────
-		// Counter animatie (TypeScript fix)
-		// ─────────────────────────────
-		const counters = document.querySelectorAll<HTMLElement>('.counter');
-		counters.forEach((el) => {
-			const targetValue = parseInt(el.dataset.value || '0', 10);
-			const obj = { val: 0 };
-
-			const tween = gsap.to(obj, {
-				val: targetValue,
-				duration: 1.5,
-				ease: 'power1.out',
-				onUpdate: () => {
-					el.textContent = Math.floor(obj.val).toString();
-				},
+				duration: 0.7,
+				ease: 'power2.out',
 				scrollTrigger: {
 					trigger: el,
-					start: 'top 90%',
-					toggleActions: 'play none none reverse'
+					start: 'top 85%'
 				}
 			});
 		});
+	}
+
+	// ─────────────────────────────
+	// Counter Animaties (verbeterd)
+	// ─────────────────────────────
+	const counters = document.querySelectorAll<HTMLElement>('.counter');
+	counters.forEach((el) => {
+		const rawVal = el.dataset.value ?? "0";
+		const targetVal = parseInt(rawVal.replace(/\D/g, ''), 10); // haalt + uit 250+
+		const obj = { val: 0 };
+
+		gsap.to(obj, {
+			val: targetVal,
+			duration: prefersReducedMotion ? 0 : 2,
+			ease: 'power3.out',
+			onUpdate: () => {
+				el.textContent = Math.floor(obj.val).toString() + (rawVal.includes('+') ? '+' : '');
+			},
+			scrollTrigger: {
+				trigger: el,
+				start: 'top 90%',
+				once: true // voorkomt reset bij scroll terug omhoog
+			}
+		});
 	});
+
+	// ─────────────────────────────
+	// Polaroid Grid Animaties
+	// ─────────────────────────────
+	const polaroids = document.querySelectorAll('.polaroid');
+
+	polaroids.forEach((card, i) => {
+		// willekeurige draaiing voor speelse polaroid look
+		const rotation = gsap.utils.random(-6, 6);
+
+		gsap.from(card, {
+			opacity: 0,
+			y: 80,
+			rotate: rotation,
+			duration: prefersReducedMotion ? 0 : 1.1,
+			delay: i * 0.15,
+			ease: 'back.out(1.7)',
+			scrollTrigger: {
+				trigger: card,
+				start: 'top 90%',
+				once: true
+			}
+		});
+
+		// Hover animatie (klein tikje omhoog)
+		if (!prefersReducedMotion) {
+			card.addEventListener('mouseenter', () => {
+				gsap.to(card, {
+					y: -12,
+					rotate: rotation / 2,
+					duration: 0.3,
+					ease: 'power2.out'
+				});
+			});
+			card.addEventListener('mouseleave', () => {
+				gsap.to(card, {
+					y: 0,
+					rotate: rotation,
+					duration: 0.3,
+					ease: 'power2.in'
+				});
+			});
+		}
+	});
+});
+
 </script>
 
 <main id="main-content" class="about-section">
@@ -80,8 +131,14 @@
 		</p>
 	</header>
 
+	<section class="polaroids">
+		<Polaroid src="/images/glas-bar.jpg" label="De Brouwerij" rotation={-5} />
+		<Polaroid src="/images/bar-gloed-1.jpg" label="Proeflokaal" rotation={4} />
+		<Polaroid src="/images/vergisting-ketels.jpg" label="Onze Bieren" rotation={-8} />
+	</section>
+
 	<!-- Tekstsecties -->
-	<section class="origin" aria-labelledby="origin-title">
+	<section class="origin">
 		<h2 id="origin-title">Ontstaan 🍺</h2>
 		<p>
 			Al vanaf de middeleeuwen is bier een onderdeel van het dagelijks leven. Delft was hier in de
@@ -94,7 +151,7 @@
 		</p>
 	</section>
 
-	<section class="location" aria-labelledby="location-title">
+	<section class="location">
 		<h2 id="location-title">Locatie 📍</h2>
 		<p>
 			De Koperen Kat is te vinden in de Nederlandse Kabelfabriek. Dit karakteristieke pand aan de
@@ -106,7 +163,7 @@
 		</p>
 	</section>
 
-	<section class="passion" aria-labelledby="passion-title">
+	<section class="passion">
 		<h2 id="passion-title">Onze passie ❤️</h2>
 		<p>
 			Elke dag worden er bij De Koperen Kat met de beste ingrediënten de mooiste kwaliteitsbieren
@@ -121,24 +178,24 @@
 	<section class="counters" aria-label="Bedrijf statistieken">
 		<div class="counters-grid">
 			<div class="counter-wrapper">
+				<span class="counter" data-value="250+">0</span>
+				<p>Vroegere brouwerijen</p>
+			</div>
+			<div class="counter-wrapper">
+				<span class="counter" data-value="2011">0</span>
+				<p>Oudste brouwerij sinds</p>
+			</div>
+			<div class="counter-wrapper">
+				<span class="counter" data-value="70000">0</span>
+				<p>Liters bier gebrouwen in 2017</p>
+			</div>
+			<div class="counter-wrapper">
+				<span class="counter" data-value="365">0</span>
+				<p>Dagen per jaar</p>
+			</div>
+			<div class="counter-wrapper">
 				<span class="counter" data-value="18">0</span>
-				<p>Soorten bieren</p>
-			</div>
-			<div class="counter-wrapper">
-				<span class="counter" data-value="250">0</span>
-				<p>Bezoekers per maand</p>
-			</div>
-			<div class="counter-wrapper">
-				<span class="counter" data-value="12">0</span>
-				<p>Jaren ervaring</p>
-			</div>
-			<div class="counter-wrapper">
-				<span class="counter" data-value="5">0</span>
-				<p>Medewerkers</p>
-			</div>
-			<div class="counter-wrapper">
-				<span class="counter" data-value="1">0</span>
-				<p>Locatie</p>
+				<p>Verschillende bieren</p>
 			</div>
 		</div>
 	</section>
@@ -223,6 +280,13 @@
 		line-height: 1.6;
 		margin-bottom: 1rem;
 	}
+
+.polaroid-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0; /* belangrijk zodat ze dicht op elkaar zitten */
+}
 
 	.counters-grid {
 		display: grid;
