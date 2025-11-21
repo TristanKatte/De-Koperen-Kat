@@ -25,102 +25,116 @@
 		}
 	];
 
+	const photos = [
+		{
+			src: '/images/glas-bar.jpg',
+			alt: 'Binnenkant van de brouwerij met ketels'
+		},
+		{
+			src: '/images/bar-gloed-1.jpg',
+			alt: 'Vergistingstanks in de productieruimte'
+		},
+		{
+			src: '/images/vergisting-ketels.jpg',
+			alt: 'Brouwer bezig met het controleren van het brouwproces'
+		}
+	];
+
 	onMount(() => {
-	// Check Reduced Motion Preference
-	const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		// Check Reduced Motion Preference
+		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-	// ─────────────────────────────
-	// SplitText tekstanimaties
-	// ─────────────────────────────
-	if (!prefersReducedMotion) {
-		const textEls = document.querySelectorAll(
-			'.about-section h2, .about-section h3, .about-section p'
-		);
-		textEls.forEach((el) => {
-			const split = new SplitText(el, { type: 'chars, words' });
-			gsap.from(split.chars, {
-				opacity: 0,
-				y: 25,
-				stagger: 0.015,
-				duration: 0.7,
-				ease: 'power2.out',
-				scrollTrigger: {
-					trigger: el,
-					start: 'top 85%'
-				}
-			});
-		});
-	}
-
-	// ─────────────────────────────
-	// Counter Animaties (verbeterd)
-	// ─────────────────────────────
-	const counters = document.querySelectorAll<HTMLElement>('.counter');
-	counters.forEach((el) => {
-		const rawVal = el.dataset.value ?? "0";
-		const targetVal = parseInt(rawVal.replace(/\D/g, ''), 10); // haalt + uit 250+
-		const obj = { val: 0 };
-
-		gsap.to(obj, {
-			val: targetVal,
-			duration: prefersReducedMotion ? 0 : 2,
-			ease: 'power3.out',
-			onUpdate: () => {
-				el.textContent = Math.floor(obj.val).toString() + (rawVal.includes('+') ? '+' : '');
-			},
-			scrollTrigger: {
-				trigger: el,
-				start: 'top 90%',
-				once: true // voorkomt reset bij scroll terug omhoog
-			}
-		});
-	});
-
-	// ─────────────────────────────
-	// Polaroid Grid Animaties
-	// ─────────────────────────────
-	const polaroids = document.querySelectorAll('.polaroid');
-
-	polaroids.forEach((card, i) => {
-		// willekeurige draaiing voor speelse polaroid look
-		const rotation = gsap.utils.random(-6, 6);
-
-		gsap.from(card, {
-			opacity: 0,
-			y: 80,
-			rotate: rotation,
-			duration: prefersReducedMotion ? 0 : 1.1,
-			delay: i * 0.15,
-			ease: 'back.out(1.7)',
-			scrollTrigger: {
-				trigger: card,
-				start: 'top 90%',
-				once: true
-			}
-		});
-
-		// Hover animatie (klein tikje omhoog)
+		// ─────────────────────────────
+		// SplitText tekstanimaties
+		// ─────────────────────────────
 		if (!prefersReducedMotion) {
-			card.addEventListener('mouseenter', () => {
-				gsap.to(card, {
-					y: -12,
-					rotate: rotation / 2,
-					duration: 0.3,
-					ease: 'power2.out'
-				});
-			});
-			card.addEventListener('mouseleave', () => {
-				gsap.to(card, {
-					y: 0,
-					rotate: rotation,
-					duration: 0.3,
-					ease: 'power2.in'
+			const textEls = document.querySelectorAll(
+				'.about-section h2, .about-section h3, .about-section p'
+			);
+			textEls.forEach((el) => {
+				const split = new SplitText(el, { type: 'chars, words' });
+				gsap.from(split.chars, {
+					opacity: 0,
+					y: 25,
+					stagger: 0.015,
+					duration: 0.7,
+					ease: 'power2.out',
+					scrollTrigger: {
+						trigger: el,
+						start: 'top 85%'
+					}
 				});
 			});
 		}
-	});
-});
 
+		// ─────────────────────────────
+		// Counter Animaties (verbeterd)
+		// ─────────────────────────────
+		const counters = document.querySelectorAll<HTMLElement>('.counter');
+		counters.forEach((el) => {
+			const rawVal = el.dataset.value ?? '0';
+			const targetVal = parseInt(rawVal.replace(/\D/g, ''), 10); // haalt + uit 250+
+			const obj = { val: 0 };
+
+			gsap.to(obj, {
+				val: targetVal,
+				duration: prefersReducedMotion ? 0 : 2,
+				ease: 'power3.out',
+				onUpdate: () => {
+					el.textContent = Math.floor(obj.val).toString() + (rawVal.includes('+') ? '+' : '');
+				},
+				scrollTrigger: {
+					trigger: el,
+					start: 'top 90%',
+					once: true // voorkomt reset bij scroll terug omhoog
+				}
+			});
+		});
+
+		// ─────────────────────────────
+		// Polaroid Grid Animaties
+		// ─────────────────────────────
+		const polaroids = document.querySelectorAll('.polaroid');
+
+		polaroids.forEach((card, i) => {
+			// willekeurige draaiing voor speelse polaroid look
+			const rotation = gsap.utils.random(-6, 6);
+
+			gsap.from(card, {
+				opacity: 0,
+				y: 80,
+				rotate: rotation,
+				duration: prefersReducedMotion ? 0 : 1.1,
+				delay: i * 0.15,
+				ease: 'back.out(1.7)',
+				scrollTrigger: {
+					trigger: card,
+					start: 'top 90%',
+					once: true
+				}
+			});
+
+			// Hover animatie (klein tikje omhoog)
+			if (!prefersReducedMotion) {
+				card.addEventListener('mouseenter', () => {
+					gsap.to(card, {
+						y: -12,
+						rotate: rotation / 2,
+						duration: 0.3,
+						ease: 'power2.out'
+					});
+				});
+				card.addEventListener('mouseleave', () => {
+					gsap.to(card, {
+						y: 0,
+						rotate: rotation,
+						duration: 0.3,
+						ease: 'power2.in'
+					});
+				});
+			}
+		});
+	});
 </script>
 
 <main id="main-content" class="about-section">
@@ -132,9 +146,9 @@
 	</header>
 
 	<section class="polaroids">
-		<Polaroid src="/images/glas-bar.jpg" label="De Brouwerij" rotation={-5} />
-		<Polaroid src="/images/bar-gloed-1.jpg" label="Proeflokaal" rotation={4} />
-		<Polaroid src="/images/vergisting-ketels.jpg" label="Onze Bieren" rotation={-8} />
+		<Polaroid src="/images/glas-bar.jpg" alt="Bierglas aan de bar" rotation={-5} />
+		<Polaroid src="/images/bar-gloed-1.jpg" alt="Gezellige bar met gloed" rotation={4} />
+		<Polaroid src="/images/vergisting-ketels.jpg" alt="Vergistingstanks brouwerij" rotation={-8} />
 	</section>
 
 	<!-- Tekstsecties -->
@@ -240,6 +254,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 		background-color: var(--accent-light, #ffe6b3);
 		color: var(--text-color, #222);
 	}
@@ -266,6 +281,7 @@
 		margin-bottom: 3rem;
 		width: 100%;
 		max-width: 900px;
+		margin: auto;
 	}
 
 	h2 {
@@ -279,14 +295,8 @@
 		font-size: 1.125rem;
 		line-height: 1.6;
 		margin-bottom: 1rem;
+		max-width: 60ch;
 	}
-
-.polaroid-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0; /* belangrijk zodat ze dicht op elkaar zitten */
-}
 
 	.counters-grid {
 		display: grid;

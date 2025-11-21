@@ -1,52 +1,48 @@
-<script>
-  export let src;
-  export let alt = "";
+<script lang="ts">
+  export let src: string;
+  export let alt: string = "";
+  export let rotation: number = 0; // rotation kan per kaart verschillen
 </script>
 
-<img class="polaroid-img" {src} {alt} loading="lazy" />
+<div class="polaroid" style={`--rot: ${rotation}deg`}>
+  <img src={src} alt={alt} loading="lazy" />
+</div>
 
 <style>
-.polaroid-img {
-  width: 240px; /* ← wijzig hier de grootte */
+.polaroid {
+  transform: rotate(var(--rot));
+  transition: transform 0.3s ease;
+  width: fit-content;
+}
+
+.polaroid img {
+  width: 240px;
   height: auto;
   display: block;
   object-fit: cover;
-  transition: transform 0.3s ease;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
   border-radius: 6px;
-  position: relative;
-  z-index: 1;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
 }
 
-/* Zig-zag & rotation */
-.polaroid-img:nth-child(odd) {
-  transform: rotate(-4deg);
-  margin: 0 30px 60px 0;
-}
-
-.polaroid-img:nth-child(even) {
-  transform: rotate(4deg);
-  margin: 60px 0 30px 30px;
-}
-
-/* Hover – lichte rechttrekking zoals Sambrook’s */
+/* Hover interactie */
 @media (hover: hover) {
-  .polaroid-img:hover {
-    transform: rotate(0deg) scale(1.04);
+  .polaroid:hover {
+    transform: rotate(calc(var(--rot) * 0.5)) scale(1.05);
     z-index: 2;
   }
 }
 
-/* Mobiel — stacking netjes en recht */
+/* Mobiel */
 @media (max-width: 600px) {
-  .polaroid-img,
-  .polaroid-img:nth-child(odd),
-  .polaroid-img:nth-child(even) {
-    width: 90%;   /* responsive scaling */
-    margin: 20px auto;
-    transform: none;
+  .polaroid {
+    transform: none !important;
+    width: 100%;
+  }
+
+  .polaroid img {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
   }
 }
-
-
 </style>
