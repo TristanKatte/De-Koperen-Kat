@@ -18,7 +18,7 @@
 }
 
 .polaroid img {
-  width: 1200px;
+  width: 1500px;
   max-width: 100%;
   height: auto;
   display: block;

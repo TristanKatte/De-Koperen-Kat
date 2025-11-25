@@ -178,6 +178,7 @@
 
   .text p {
     color: var(--text-color, #1a1a1a);
+    font-size: 1.15rem;
   }
 
   .text-photo-container {
