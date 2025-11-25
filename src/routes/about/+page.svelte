@@ -164,7 +164,7 @@
     align-items: center;
     padding: 3rem 1.5rem;
     background-color: var(--accent-light, #ffe6b3);
-    color: var(--text-color, #1a1a1a);
+    min-height: 100dvh;
   }
 
   .about-header h1 {
@@ -176,8 +176,8 @@
     max-width: 900px;
   }
 
-  .text {
-    color: var(--text-color);
+  .text p {
+    color: var(--text-color, #1a1a1a);
   }
 
   .text-photo-container {
@@ -186,7 +186,7 @@
     gap: 2rem;
     width: 100%;
     max-width: 900px;
-    margin-bottom: 5rem;
+    margin-bottom: 8.5rem;
     justify-content: center;
   }
 

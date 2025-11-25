@@ -23,9 +23,11 @@
   max-width: 900px;
   margin-bottom: 5rem;
 }
+
 .section-block h2 {
   text-align: left;
 }
+
 .section-block.reverse {
   flex-direction: column-reverse;
 }
