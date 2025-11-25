@@ -5,29 +5,14 @@
   import { SplitText } from 'gsap/SplitText';
   import { aboutContent } from '$lib/content/about';
   import Polaroid from '$lib/components/molecules/Polaroid.svelte';
-  import Modal from '$lib/components/molecules/Modal.svelte';
 
   gsap.registerPlugin(ScrollTrigger, SplitText);
-
-  // Modal state
-  let selectedHuur: typeof aboutContent.huurbrouwen[0] | null = null;
-  let isModalOpen = false;
-
-  const openModal = (huur: typeof aboutContent.huurbrouwen[0]) => {
-    selectedHuur = huur;
-    isModalOpen = true;
-  };
-
-  const closeModal = () => {
-    isModalOpen = false;
-    selectedHuur = null;
-  };
 
   onMount(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     // Animatie per sectie (h2 + p)
-    document.querySelectorAll('.text-photo-container').forEach(section => {
+    document.querySelectorAll('.text-photo-container').forEach((section) => {
       const h2 = section.querySelector('h2');
       const p = section.querySelector('p');
 
@@ -78,7 +63,7 @@
     });
 
     // Counters animatie + fade/scale
-    document.querySelectorAll<HTMLElement>('.counter-wrapper').forEach(wrapper => {
+    document.querySelectorAll<HTMLElement>('.counter-wrapper').forEach((wrapper) => {
       const counter = wrapper.querySelector('span')!;
       const raw = counter.textContent!.replace(/\D/g, '');
       const target = raw ? parseInt(raw, 10) : 0;
@@ -90,9 +75,11 @@
         ease: 'power3.out',
         scrollTrigger: { trigger: wrapper, start: 'top 90%', once: true },
         onUpdate: () => {
-          counter.textContent = target >= 1000
-            ? Math.round(obj.val).toLocaleString()
-            : Math.round(obj.val).toString();
+          // Verwijder komma voor jaartallen (bv 2011)
+          counter.textContent =
+            target < 10000
+              ? Math.round(obj.val).toString()
+              : Math.round(obj.val).toLocaleString();
         }
       });
 
@@ -155,27 +142,19 @@
   <!-- Huurbrouwen -->
   <section class="huurbrouwen" aria-labelledby="huurbrouwen-title">
     <h2 id="huurbrouwen-title">Huurbrouwen 🍻</h2>
-    <div class="huurbrouwen-grid">
-      {#each aboutContent.huurbrouwen as huur}
-        <button
-          type="button"
-          class="huur-card"
-          on:click={() => openModal(huur)}
-        >
-          <h3>{huur.name}</h3>
-          <p>{huur.description}</p>
-        </button>
-      {/each}
+    <div class="partners-grid"> <!-- zelfde grid als partners -->
+      <div class="huurbrouwen-card">
+        <p>
+          Delftse Stadsbrouwerij De Koperen Kat is een brouwerij en proeflokaal ineen. Met een brouwinstallatie van 10HL en vergistingstanks van 10HL betekent dit ook dat wij plaats kunnen bieden aan huurbrouwers.
+        </p>
+        <p>
+          Heb je geen of te weinig eigen ketels en interesse in huurbrouwen bij De Koperen Kat, mail dan naar
+          <a href="mailto:huurbrouwen@dekoperenkat.nl">huurbrouwen@dekoperenkat.nl</a>.
+        </p>
+        <p>Wij hopen op een fijne samenwerking!</p>
+      </div>
     </div>
   </section>
-
-  <!-- Modal -->
-  <Modal
-    open={isModalOpen}
-    title={selectedHuur?.name ?? ''}
-    content={selectedHuur?.description ?? ''}
-    on:close={closeModal}
-  />
 </main>
 
 <style>
@@ -185,6 +164,7 @@
     align-items: center;
     padding: 3rem 1.5rem;
     background-color: var(--accent-light, #ffe6b3);
+    color: var(--text-color, #1a1a1a);
   }
 
   .about-header h1 {
@@ -192,8 +172,12 @@
     font-size: 2.5rem;
     margin-bottom: 3rem;
     color: var(--accent-dark, #4b2e05);
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     max-width: 900px;
+  }
+
+  .text {
+    color: var(--text-color);
   }
 
   .text-photo-container {
@@ -203,11 +187,11 @@
     width: 100%;
     max-width: 900px;
     margin-bottom: 5rem;
-    min-height: 100dvh;
     justify-content: center;
   }
 
-  .text-photo-container.left, .text-photo-container.right {
+  .text-photo-container.left,
+  .text-photo-container.right {
     flex-direction: column;
   }
 
@@ -239,9 +223,10 @@
   .counters-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
+    gap: 2.95rem;
     justify-items: center;
     max-width: 900px;
+    margin-bottom: 3rem;
   }
 
   .counter-wrapper {
@@ -251,7 +236,7 @@
     justify-content: center;
     text-align: center;
     background: #c27c3a;
-    color: #fff;
+    color: #1a1a1a;
     padding: 1rem;
     border-radius: 1rem;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -264,26 +249,35 @@
     font-weight: 700;
   }
 
-  .partners-grid,
-  .huurbrouwen-grid {
+  .partners-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1.5rem;
     justify-items: center;
     width: 100%;
     max-width: 900px;
+    margin-bottom: 3rem;
   }
 
-  .partner-card {
+  .partner-card,
+  .huurbrouwen-card {
     text-align: center;
     background: #fff;
     padding: 1rem;
     border-radius: 1rem;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 100%;
+  }
+
+  .huurbrouwen-card {
+    color: #1a1a1a;
+    background: none;
+    box-shadow: none;
+    text-align: left;
   }
 
   .partner-card img {
-    max-width: 100%;
+    max-width: 75%;
     height: auto;
     object-fit: contain;
     display: block;
@@ -291,19 +285,17 @@
     background-color: #fff;
   }
 
-  .huur-card {
-    background: #fff;
-    padding: 1rem;
-    border-radius: 1rem;
-    text-align: left;
-    cursor: pointer;
-    width: 100%;
-  }
+  .partner-card a:hover {
+  text-decoration: underline;
+}
 
   @media (max-width: 768px) {
     .counters-grid {
       grid-template-columns: 1fr;
       gap: 1rem;
+    }
+    .partners-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

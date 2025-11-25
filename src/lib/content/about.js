@@ -1,6 +1,6 @@
 // src/lib/content/about.js
 export const aboutContent = {
-	intro: 'Wij zijn een ambachtelijke brouwerij met een passie voor bier, mensen en verhalen.',
+	intro: 'Over De Koperen Kat',
 	sections: [
 		{
 			title: 'Ontstaan 🍺',
@@ -41,8 +41,8 @@ export const aboutContent = {
 	],
 	huurbrouwen: [
 		{
-			name: 'Brouwerij A',
-			description: 'Huur onze installatie voor je eigen brouwproject!',
+			name: 'Huurbrouwen bij De Koperen Kat',
+			description: 'Heb je geen of te weinig eigen ketels en interesse in huurbrouwen bij De Koperen Kat, mail dan naar huurbrouwen@dekoperenkat.nl. We gaan graag met je om de tafel om de mogelijkheden door te nemen. Wij hopen op een fijne samenwerking!',
 			url: '#'
 		}
 	]

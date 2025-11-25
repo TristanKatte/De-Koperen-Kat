@@ -1,4 +1,3 @@
-<!-- src/lib/components/molecules/PhotoGrid.svelte -->
 <script lang="ts">
   import Polaroid from './Polaroid.svelte';
   export let photos: string[];

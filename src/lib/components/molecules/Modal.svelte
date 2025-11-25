@@ -1,56 +1,117 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from 'svelte';
+  import { createEventDispatcher, onMount, afterUpdate } from "svelte";
+  import { gsap } from "gsap";
 
   const dispatch = createEventDispatcher();
 
   export let open: boolean = false;
-  export let title: string = '';
-  export let content: string = '';
+  export let title: string = "";
+  export let content: string = "";
 
-  // Sluit modal
-  const close = () => {
-    dispatch('close');
-  };
-
-  // Escape-toets ondersteuning
-  const handleKeydown = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') close();
-  };
-
-  // Focus modal bij openen
+  let backdropEl: HTMLDivElement;
   let modalEl: HTMLDivElement;
 
+  const close = () => dispatch("close");
+
+  const handleKeydown = (e: KeyboardEvent) => {
+    if (e.key === "Escape") close();
+  };
+
+  // Speel animatie af wanneer open → true wordt
+  afterUpdate(() => {
+    if (open && modalEl && backdropEl) {
+      animateOpen();
+      modalEl.focus();
+    }
+  });
+
+  const animateOpen = () => {
+    gsap.fromTo(
+      backdropEl,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.3, ease: "power2.out" }
+    );
+
+    gsap.fromTo(
+      modalEl,
+      { opacity: 0, y: 40, scale: 0.95 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.35,
+        ease: "power3.out"
+      }
+    );
+  };
+
+  const animateClose = () => {
+    return new Promise<void>((resolve) => {
+      gsap.to(modalEl, {
+        opacity: 0,
+        y: 30,
+        scale: 0.95,
+        duration: 0.25,
+        ease: "power2.in"
+      });
+
+      gsap.to(backdropEl, {
+        opacity: 0,
+        duration: 0.25,
+        ease: "power1.in",
+        onComplete: resolve
+      });
+    });
+  };
+
+  // Intercept close click → speel animatie → pas daarna echt sluiten
+  const handleBackdropClick = async () => {
+    await animateClose();
+    close();
+  };
+
+  const handleButtonClick = async () => {
+    await animateClose();
+    close();
+  };
+
   onMount(() => {
-    if (open && modalEl) modalEl.focus();
-    window.addEventListener('keydown', handleKeydown);
-    return () => window.removeEventListener('keydown', handleKeydown);
+    window.addEventListener("keydown", handleKeydown);
+    return () => window.removeEventListener("keydown", handleKeydown);
   });
 </script>
 
 {#if open}
   <div
     class="backdrop"
-    on:click={close}
+    bind:this={backdropEl}
+    on:click={handleBackdropClick}
     aria-hidden="true"
   >
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
     <div
       class="modal"
+      bind:this={modalEl}
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
       tabindex="0"
-      bind:this={modalEl}
       on:click|stopPropagation
+      on:keydown|stopPropagation
     >
       <button
         type="button"
         class="close-btn"
-        on:click={close}
+        on:click={handleButtonClick}
         aria-label="Sluit modal"
-      >&times;</button>
+      >
+        &times;
+      </button>
+
       <h3 id="modal-title">{title}</h3>
-      <p>{content}</p>
+
+      <div class="modal-text">
+        {@html content}
+      </div>
     </div>
   </div>
 {/if}
@@ -59,35 +120,61 @@
   .backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 999;
+    opacity: 0; /* gsap */
   }
 
   .modal {
     background: #fff;
     padding: 2rem;
-    border-radius: 0.75rem;
-    max-width: 500px;
-    width: 90%;
+    border-radius: 1rem;
+    max-width: 550px;
+    width: 92%;
     outline: none;
     position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+    opacity: 0; /* gsap */
+    transform-origin: center;
   }
+
+  h3 {
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+  }
+
 
   .close-btn {
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
+    top: 0.75rem;
+    right: 0.75rem;
     background: transparent;
     border: none;
-    font-size: 1.5rem;
+    font-size: 2rem;
     cursor: pointer;
+    line-height: 1;
+    color: #333;
+  }
+
+  .close-btn:hover {
+    color: #000;
   }
 
   .close-btn:focus {
-    outline: 2px solid var(--accent-dark, #4b2e05);
-    outline-offset: 2px;
+    outline: 3px solid var(--accent-dark, #4b2e05);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 480px) {
+    .modal {
+      padding: 1.5rem;
+    }
+
+    h3 {
+      font-size: 1.4rem;
+    }
   }
 </style>

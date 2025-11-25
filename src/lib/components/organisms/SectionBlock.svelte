@@ -1,4 +1,3 @@
-<!-- src/lib/components/organisms/SectionBlock.svelte -->
 <script lang="ts">
   import PhotoGrid from '$lib/components/molecules/PhotoGrid.svelte';
   export let title: string;
@@ -30,6 +29,7 @@
 .section-block.reverse {
   flex-direction: column-reverse;
 }
+
 @media (min-width: 768px) {
   .section-block {
     flex-direction: row;
