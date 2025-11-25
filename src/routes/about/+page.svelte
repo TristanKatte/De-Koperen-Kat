@@ -1,305 +1,302 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import { SplitText } from 'gsap/SplitText';
-	import Button from '$lib/components/atoms/Button.svelte';
+  import { onMount } from 'svelte';
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { SplitText } from 'gsap/SplitText';
+  import { aboutContent } from '$lib/content/about';
+  import Polaroid from '$lib/components/molecules/Polaroid.svelte';
 
-	gsap.registerPlugin(ScrollTrigger, SplitText);
+  gsap.registerPlugin(ScrollTrigger, SplitText);
 
-	// voorbeeld partners & huurbrouwen
-	const partners = [
-		{ name: 'Partner 1', logo: '/images/partner1.png', url: '#' },
-		{ name: 'Partner 2', logo: '/images/partner2.png', url: '#' }
-	];
+  onMount(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-	const huurbrouwen = [
-		{
-			name: 'Brouwerij A',
-			description: 'Huur onze installatie voor je eigen brouwproject!',
-			url: '#'
-		}
-	];
+    // Animatie per sectie (h2 + p)
+    document.querySelectorAll('.text-photo-container').forEach((section) => {
+      const h2 = section.querySelector('h2');
+      const p = section.querySelector('p');
 
-	onMount(() => {
-		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		if (prefersReducedMotion) return;
+      if (h2) {
+        const splitH2 = new SplitText(h2, { type: 'chars, words' });
+        gsap.from(splitH2.chars, {
+          opacity: 0,
+          y: 50,
+          duration: 0.8,
+          stagger: 0.03,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: h2, start: 'top 85%' }
+        });
+      }
 
-		// ─────────────────────────────
-		// SplitText animatie voor teksten
-		// ─────────────────────────────
-		const textElements = document.querySelectorAll(
-			'.about-section h2, .about-section h3, .about-section p'
-		);
-		textElements.forEach((el) => {
-			const split = new SplitText(el, { type: 'chars, words' });
-			gsap.from(split.chars, {
-				scrollTrigger: {
-					trigger: el,
-					start: 'top 85%',
-					toggleActions: 'play none none reverse'
-				},
-				opacity: 0,
-				y: 30,
-				scale: 0.8,
-				stagger: 0.015,
-				duration: 0.6,
-				ease: 'back.out(1.4)'
-			});
-		});
+      if (p) {
+        const splitP = new SplitText(p, { type: 'chars, words' });
+        gsap.from(splitP.chars, {
+          opacity: 0,
+          y: 25,
+          duration: 0.8,
+          stagger: 0.02,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: p, start: 'top 85%' }
+        });
+      }
+    });
 
-		// ─────────────────────────────
-		// Counter animatie (TypeScript fix)
-		// ─────────────────────────────
-		const counters = document.querySelectorAll<HTMLElement>('.counter');
-		counters.forEach((el) => {
-			const targetValue = parseInt(el.dataset.value || '0', 10);
-			const obj = { val: 0 };
+    // Polaroid animaties
+    document.querySelectorAll('.photo-grid .polaroid').forEach((card, i) => {
+      const rotation = gsap.utils.random(-6, 6);
+      gsap.from(card, {
+        opacity: 0,
+        y: 50,
+        rotate: rotation,
+        duration: 1,
+        delay: i * 0.1,
+        ease: 'back.out(1.7)',
+        scrollTrigger: { trigger: card, start: 'top 90%', once: true }
+      });
 
-			const tween = gsap.to(obj, {
-				val: targetValue,
-				duration: 1.5,
-				ease: 'power1.out',
-				onUpdate: () => {
-					el.textContent = Math.floor(obj.val).toString();
-				},
-				scrollTrigger: {
-					trigger: el,
-					start: 'top 90%',
-					toggleActions: 'play none none reverse'
-				}
-			});
-		});
-	});
+      card.addEventListener('mouseenter', () => {
+        gsap.to(card, { y: -10, rotate: rotation / 2, duration: 0.3, ease: 'power2.out' });
+      });
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, { y: 0, rotate: rotation, duration: 0.3, ease: 'power2.in' });
+      });
+    });
+
+    // Counters animatie + fade/scale
+    document.querySelectorAll<HTMLElement>('.counter-wrapper').forEach((wrapper) => {
+      const counter = wrapper.querySelector('span')!;
+      const raw = counter.textContent!.replace(/\D/g, '');
+      const target = raw ? parseInt(raw, 10) : 0;
+      const obj = { val: 0 };
+
+      gsap.to(obj, {
+        val: target,
+        duration: 2,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: wrapper, start: 'top 90%', once: true },
+        onUpdate: () => {
+          // Verwijder komma voor jaartallen (bv 2011)
+          counter.textContent =
+            target < 10000
+              ? Math.round(obj.val).toString()
+              : Math.round(obj.val).toLocaleString();
+        }
+      });
+
+      gsap.from(wrapper, {
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: wrapper, start: 'top 90%', once: true }
+      });
+    });
+  });
 </script>
 
-<main id="main-content" class="about-section">
-	<header class="about-header">
-		<h1>Over De Koperen Kat</h1>
-		<p class="intro">
-			Wij zijn een ambachtelijke brouwerij met een passie voor bier, mensen en verhalen.
-		</p>
-	</header>
+<main class="about-section">
+  <header class="about-header">
+    <h1>{aboutContent.intro}</h1>
+  </header>
 
-	<!-- Tekstsecties -->
-	<section class="origin" aria-labelledby="origin-title">
-		<h2 id="origin-title">Ontstaan 🍺</h2>
-		<p>
-			Al vanaf de middeleeuwen is bier een onderdeel van het dagelijks leven. Delft was hier in de
-			16de eeuw het middelpunt van in Europa, als grootste bierbrouwstad. Meer dan 200 brouwerijen
-			brouwden in de hoogtijdagen 77 miljoen liter bier, waarvan veel werd geëxporteerd naar het
-			buitenland. Helaas werd door de Tachtigjarige Oorlog het begin van het einde voor Delft als
-			bierbrouwstad ingeluid, waardoor in 1922 uiteindelijk de laatste brouwerij sloot. Vanaf 2011
-			brouwt De Koperen Kat weer met veel trots kwaliteitsbieren in Delft. Rolf Katte heeft toen het
-			idee opgepakt om de oude historie van Delft weer nieuw leven in te blazen.
-		</p>
-	</section>
+  {#each aboutContent.sections as section, i}
+    <section class="text-photo-container {i % 2 === 0 ? 'left' : 'right'}">
+      <div class="text">
+        <h2>{section.title}</h2>
+        <p>{section.content}</p>
+      </div>
+      <div class="photo-grid">
+        {#each section.photos as photo, j}
+          <Polaroid src={photo} alt={`Foto ${j + 1} van ${section.title}`} rotation={j % 2 === 0 ? -5 : 5} />
+        {/each}
+      </div>
+    </section>
+  {/each}
 
-	<section class="location" aria-labelledby="location-title">
-		<h2 id="location-title">Locatie 📍</h2>
-		<p>
-			De Koperen Kat is te vinden in de Nederlandse Kabelfabriek. Dit karakteristieke pand aan de
-			Schieweg is aan de voorkant omgebouwd tot brouwerij met proeflokaal. Mark, onze brouwmeester,
-			is daar elke dag te vinden om onze bieren te brouwen. Momenteel wordt er gebrouwen in een
-			installatie van 1.000L, waarbij 6 vergistingstanks van 1.000L en 2 van 2.000L aanwezig zijn.
-			Hiermee brouwen we momenteel jaarlijks 70.000L. Ook maken we gebruik van een bottellijn,
-			waarmee we onze opvallende etiketten op de fles kunnen plaatsen.
-		</p>
-	</section>
+  <!-- Counters -->
+  <section class="counters" aria-label="Statistieken">
+    <div class="counters-grid">
+      {#each aboutContent.counters as counter}
+        <div class="counter-wrapper">
+          <span>{counter.value}</span>
+          <p>{counter.label}</p>
+        </div>
+      {/each}
+    </div>
+  </section>
 
-	<section class="passion" aria-labelledby="passion-title">
-		<h2 id="passion-title">Onze passie ❤️</h2>
-		<p>
-			Elke dag worden er bij De Koperen Kat met de beste ingrediënten de mooiste kwaliteitsbieren
-			gemaakt. Met veel passie voor het brouwen komen de bieren uit de tap, op fust of op fles. Door
-			het gebruik van veel verschillende soorten mout, hop en gist maken we elke dag bier om van te
-			genieten. Met het ruime assortiment vaste bieren, aangevuld met regelmatig limited editions,
-			brengt De Koperen Kat kwaliteitsbieren met passie.
-		</p>
-	</section>
+  <!-- Partners -->
+  <section class="partners" aria-labelledby="partners-title">
+    <h2 id="partners-title">Onze partners 🤝</h2>
+    <div class="partners-grid">
+      {#each aboutContent.partners as partner}
+        <article class="partner-card">
+          <img src={partner.logo} alt={partner.name} />
+          <p>{partner.name}</p>
+          <a href={partner.url} target="_blank" rel="noopener noreferrer">Meer info</a>
+        </article>
+      {/each}
+    </div>
+  </section>
 
-	<!-- Counters -->
-	<section class="counters" aria-label="Bedrijf statistieken">
-		<div class="counters-grid">
-			<div class="counter-wrapper">
-				<span class="counter" data-value="18">0</span>
-				<p>Soorten bieren</p>
-			</div>
-			<div class="counter-wrapper">
-				<span class="counter" data-value="250">0</span>
-				<p>Bezoekers per maand</p>
-			</div>
-			<div class="counter-wrapper">
-				<span class="counter" data-value="12">0</span>
-				<p>Jaren ervaring</p>
-			</div>
-			<div class="counter-wrapper">
-				<span class="counter" data-value="5">0</span>
-				<p>Medewerkers</p>
-			</div>
-			<div class="counter-wrapper">
-				<span class="counter" data-value="1">0</span>
-				<p>Locatie</p>
-			</div>
-		</div>
-	</section>
-
-	<!-- Partners -->
-	<section class="partners" aria-labelledby="partners-title">
-		<h2 id="partners-title">Onze partners 🤝</h2>
-		<div class="partners-grid">
-			{#each partners as partner}
-				<article class="partner-card">
-					<img src={partner.logo} alt={partner.name} />
-					<p>{partner.name}</p>
-					<a href={partner.url} target="_blank" rel="noopener noreferrer">Meer info</a>
-				</article>
-			{/each}
-		</div>
-	</section>
-
-	<!-- Huurbrouwen -->
-	<section class="huurbrouwen" aria-labelledby="huurbrouwen-title">
-		<h2 id="huurbrouwen-title">Huurbrouwen 🍻</h2>
-		<div class="huurbrouwen-grid">
-			{#each huurbrouwen as huur}
-				<article class="huur-card">
-					<h3>{huur.name}</h3>
-					<p>{huur.description}</p>
-					<a href={huur.url} target="_blank" rel="noopener noreferrer">Meer info</a>
-				</article>
-			{/each}
-		</div>
-	</section>
-
-	<div class="button-wrapper">
-		<Button href="/" label="Terug naar home" />
-	</div>
+  <!-- Huurbrouwen -->
+  <section class="huurbrouwen" aria-labelledby="huurbrouwen-title">
+    <h2 id="huurbrouwen-title">Huurbrouwen 🍻</h2>
+    <div class="partners-grid"> <!-- zelfde grid als partners -->
+      <div class="huurbrouwen-card">
+        <p>
+          Delftse Stadsbrouwerij De Koperen Kat is een brouwerij en proeflokaal ineen. Met een brouwinstallatie van 10HL en vergistingstanks van 10HL betekent dit ook dat wij plaats kunnen bieden aan huurbrouwers.
+        </p>
+        <p>
+          Heb je geen of te weinig eigen ketels en interesse in huurbrouwen bij De Koperen Kat, mail dan naar
+          <a href="mailto:huurbrouwen@dekoperenkat.nl">huurbrouwen@dekoperenkat.nl</a>.
+        </p>
+        <p>Wij hopen op een fijne samenwerking!</p>
+      </div>
+    </div>
+  </section>
 </main>
 
 <style>
-	main.about-section {
-		min-height: 100vh;
-		padding: 5rem 1.5rem;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		background-color: var(--accent-light, #ffe6b3);
-		color: var(--text-color, #222);
-	}
+  .about-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 1.5rem;
+    background-color: var(--accent-light, #ffe6b3);
+    min-height: 100dvh;
+  }
 
-	.about-header {
-		text-align: center;
-		margin-bottom: 4rem;
-	}
+  .about-header h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--accent-dark, #4b2e05);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    max-width: 900px;
+  }
 
-	h1 {
-		font-size: 2.75rem;
-		margin-bottom: 1rem;
-		color: var(--accent-dark, #4b2e05);
-	}
+  .text p {
+    color: var(--text-color, #1a1a1a);
+    font-size: 1.15rem;
+  }
 
-	.intro {
-		font-size: 1.125rem;
-		max-width: 700px;
-		margin: 0 auto;
-		color: #444;
-	}
+  .text-photo-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 8.5rem;
+    justify-content: center;
+  }
 
-	section {
-		margin-bottom: 3rem;
-		width: 100%;
-		max-width: 900px;
-	}
+  .text-photo-container.left,
+  .text-photo-container.right {
+    flex-direction: column;
+  }
 
-	h2 {
-		font-size: 2rem;
-		margin-bottom: 1rem;
-		color: var(--accent-dark, #4b2e05);
-		text-align: left;
-	}
+  .text-photo-container .text h2 {
+    text-align: left;
+  }
 
-	p {
-		font-size: 1.125rem;
-		line-height: 1.6;
-		margin-bottom: 1rem;
-	}
+  .photo-grid {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 
-	.counters-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-		gap: 2rem;
-		width: 100%;
-		max-width: 900px;
-		margin: 0 auto 3rem;
-	}
+  @media (min-width: 768px) {
+    .text-photo-container.left {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+    .text-photo-container.right {
+      flex-direction: row-reverse;
+      align-items: flex-start;
+    }
+    .photo-grid {
+      justify-content: flex-start;
+    }
+  }
 
-	.counter-wrapper {
-		text-align: center;
-		background: #c27c3a;
-		color: #fff;
-		padding: 1rem;
-		border-radius: 1rem;
-		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-	}
+  .counters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 2.95rem;
+    justify-items: center;
+    max-width: 900px;
+    margin-bottom: 3rem;
+  }
 
-	.counter {
-		font-size: 2rem;
-		font-weight: 700;
-		display: block;
-	}
+  .counter-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #c27c3a;
+    color: #1a1a1a;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    min-height: 100px;
+    width: 100%;
+  }
 
-	.partners-grid,
-	.huurbrouwen-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-		gap: 1.5rem;
-		width: 100%;
-	}
+  .counter-wrapper span {
+    font-size: 2rem;
+    font-weight: 700;
+  }
 
-	.partner-card,
-	.huur-card {
-		background: #fff;
-		padding: 1rem;
-		border-radius: 1rem;
-		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-		text-align: center;
-	}
+  .partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    justify-items: center;
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 3rem;
+  }
 
-	.partner-card img {
-		max-width: 100px;
-		margin-bottom: 0.5rem;
-	}
+  .partner-card,
+  .huurbrouwen-card {
+    text-align: center;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 100%;
+  }
 
-	a {
-		color: var(--cta-buttons, #c27c3a);
-		text-decoration: none;
-	}
+  .huurbrouwen-card {
+    color: #1a1a1a;
+    background: none;
+    box-shadow: none;
+    text-align: left;
+  }
 
-	a:hover {
-		text-decoration: underline;
-	}
+  .partner-card img {
+    max-width: 75%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 0.5rem;
+    background-color: #fff;
+  }
 
-	.button-wrapper {
-		margin-top: 2rem;
-		text-align: center;
-	}
+  .partner-card a:hover {
+  text-decoration: underline;
+}
 
-	@media (max-width: 768px) {
-		main.about-section {
-			padding: 3rem 1rem;
-		}
-
-		h1 {
-			font-size: 2.2rem;
-		}
-
-		h2 {
-			font-size: 1.5rem;
-		}
-
-		p {
-			font-size: 1rem;
-		}
-	}
+  @media (max-width: 768px) {
+    .counters-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .partners-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
