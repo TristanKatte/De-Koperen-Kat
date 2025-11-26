@@ -25,7 +25,7 @@ const menuItems: MenuItem[] = [
   // --- GEWIJZIGD ---
   { title: 'Het Proeflokaal', links: [{ label: 'Proeflokaal', href: '/tasting-room' }] },
 
-  { title: 'Nieuws', links: [{ label: 'Nieuws', href: '/nieuws' }] },
+  { title: 'Nieuws', links: [{ label: 'Nieuws', href: '/news' }] },
   { title: 'Agenda', links: [{ label: 'Agenda', href: '/agenda' }] },
   { title: 'Vacatures', links: [{ label: 'Vacatures', href: '/vacancies' }] },
   { title: 'Contact', links: [{ label: 'Contact', href: '/contact' }] }
