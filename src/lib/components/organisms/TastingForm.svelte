@@ -122,7 +122,11 @@
 
 <style>
 .tasting-section {
-  background: #4B2E05; 
+  background-image: url(/images/bar-gloed-1.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: var(--text-color-alt);
   padding: 4rem 1.5rem;
   display: flex;

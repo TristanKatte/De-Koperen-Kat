@@ -76,3 +76,19 @@ a:focus-within {
   position: absolute;
   white-space: nowrap;
 }
+
+/* Verminderde beweging */
+@media (prefers-reduced-motion: reduce) {
+
+  /* Maak scroll-behavior rustiger */
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Maak animaties en transitions korter, niet instant */
+  * {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+  }
+}
