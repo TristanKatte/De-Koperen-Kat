@@ -12,11 +12,16 @@
         {#if beer.image_url}
           <img src={beer.image_url} alt={beer.name} />
         {/if}
+
         <div class="beer-content">
           <h3>{beer.name}</h3>
           <p class="type">{beer.beer_type}</p>
           <p class="alcohol">Alcohol: {beer.alcohol_percentage}%</p>
           <p class="taste">{beer.taste}</p>
+        </div>
+
+        <div class="card-button">
+          <Button href={`/beers/${beer.slug}`} label="Meer informatie" />
         </div>
       </article>
     {/each}
@@ -58,8 +63,12 @@ h2 {
   box-sizing: border-box;
 }
 
-/* --- Bierkaarten --- */
+/* --- Bierkaart --- */
 .beer-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* knop naar onder */
+  min-height: 420px;
   background: #6b3f1a;
   color: #F5F5F0;
   border: 1px solid #ffd699;
@@ -70,12 +79,24 @@ h2 {
   transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
+/* Hover effect */
 .beer-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-  background: #7f4f27; /* subtiele hover highlight */
+  background: #7f4f27;
 }
 
+/* Focus-within */
+.beer-card:focus-within {
+  outline: 3px solid #ffd699;
+  outline-offset: 4px;
+}
+
+.card-button {
+  margin-top: auto; /* duwt knop naar onder */
+}
+
+/* --- Afbeelding --- */
 .beer-card img {
   width: 100%;
   height: auto;
@@ -100,6 +121,10 @@ h2 {
   color: #F5F5F0;
 }
 
+.beer-content {
+  margin-bottom: 1.5rem;
+}
+
 .type {
   font-style: italic;
   opacity: 0.8;
@@ -110,8 +135,9 @@ h2 {
   opacity: 0.9;
 }
 
-/* --- Button --- */
+/* --- Grote knop onder het grid --- */
 .centered-button {
+  margin-top: 3rem;
   text-align: center;
 }
 
@@ -128,6 +154,11 @@ h2 {
 
   .beer-card {
     padding: 1.5rem;
+    min-height: auto;
+  }
+
+  .centered-button {
+    margin-top: 2.5rem;
   }
 }
 </style>
