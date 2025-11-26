@@ -14,30 +14,22 @@
   };
 
   /* ----------------- DATA ----------------- */
-  const menuItems: MenuItem[] = [
-    { title: 'Home', links: [{ label: 'Home', href: '/' }] },
-    { title: 'De Brouwerij', links: [{ label: 'Over ons', href: '/about' }] },
-    { title: 'De Bieren', links: [{ label: 'Alle Bieren', href: '/beers' }] },
-    {
-      title: 'Webshop',
-      links: [
-        { label: 'Cadeausets', href: '/webshop/cadeausets' },
-        { label: 'Merchandise', href: '/webshop/merchandise' }
-      ]
-    },
-    {
-      title: 'Het Proeflokaal',
-      links: [
-        { label: 'Bezoeken', href: '/proeflokaal/bezoeken' },
-        { label: 'Afhuren', href: '/proeflokaal/afhuren' },
-        { label: 'Evenementen', href: '/proeflokaal/evenementen' }
-      ]
-    },
-    { title: 'Nieuws', links: [{ label: 'Nieuws', href: '/nieuws' }] },
-    { title: 'Agenda', links: [{ label: 'Agenda', href: '/agenda' }] },
-    { title: 'Vacatures', links: [{ label: 'Vacatures', href: '/vacancies' }] },
-    { title: 'Contact', links: [{ label: 'Contact', href: '/contact' }] }
-  ];
+const menuItems: MenuItem[] = [
+  { title: 'Home', links: [{ label: 'Home', href: '/' }] },
+  { title: 'De Brouwerij', links: [{ label: 'Over ons', href: '/about' }] },
+  { title: 'De Bieren', links: [{ label: 'Alle Bieren', href: '/beers' }] },
+
+  // --- GEWIJZIGD ---
+  { title: 'Webshop', links: [{ label: 'Webshop', href: '/webshop' }] },
+
+  // --- GEWIJZIGD ---
+  { title: 'Het Proeflokaal', links: [{ label: 'Proeflokaal', href: '/tasting-room' }] },
+
+  { title: 'Nieuws', links: [{ label: 'Nieuws', href: '/nieuws' }] },
+  { title: 'Agenda', links: [{ label: 'Agenda', href: '/agenda' }] },
+  { title: 'Vacatures', links: [{ label: 'Vacatures', href: '/vacancies' }] },
+  { title: 'Contact', links: [{ label: 'Contact', href: '/contact' }] }
+];
 
   /* ----------------- STATE ----------------- */
   let mobileOpen = false;
