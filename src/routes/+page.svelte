@@ -1,12 +1,12 @@
 <script lang="ts">
   import Hero from '$lib/components/organisms/Hero.svelte';
   import About from '$lib/components/organisms/About.svelte';
-  import TastingForm from '$lib/components/organisms/TastingForm.svelte';
   import BeersSection from '$lib/components/organisms/BeerSection.svelte';
   import EventsSection from '$lib/components/organisms/EventSection.svelte';
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   import { SplitText } from 'gsap/SplitText';
+	import TastingSection from '$lib/components/organisms/TastingSection.svelte';
 
   gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -23,7 +23,7 @@
 
 <BeersSection {beers} />
 <EventsSection {events} />
-<TastingForm showDescription={true} />
+<TastingSection />
 
 <style>
   :global(html) {

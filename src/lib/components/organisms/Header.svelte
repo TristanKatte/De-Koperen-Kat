@@ -160,7 +160,7 @@ nav li {
 
 /* NAV */
 nav.main-nav {
-  background: var(--background-color);
+  background: #f5f5f0;
   display: flex;
   justify-content: space-between;
   align-items: center;
