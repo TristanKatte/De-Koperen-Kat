@@ -68,8 +68,8 @@
 
 <style>
 	.events-overview {
-		background: var(--accent-light);
-		color: var(--text-color, #111);
+		background: var(--background-color);
+		color: var(--text-color-alt);
 		padding: 6rem 1.5rem;
 		display: flex;
 		flex-direction: column;
@@ -94,7 +94,8 @@
 	}
 
 	.event-card {
-		background: var(--card-background);
+		background: var(--background-alt);
+		color: var(--text-color-alt);
 		border: 1px solid rgba(0, 0, 0, 0.08);
 		border-radius: 1rem;
 		overflow: hidden;
@@ -108,7 +109,7 @@
 		transform: translateY(-6px);
 		box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 		border-color: var(--color-senary, #c5b48a);
-		background: #fffaf3;
+		color: var(--text-color);
 	}
 
 	img {
@@ -133,23 +134,24 @@
 		flex-direction: column;
 		gap: 0.75rem;
 		flex: 1;
+		color: var(--background-alt);
 	}
 
 	h2 {
 		font-size: 1.4rem;
 		font-weight: 600;
-		color: var(--text-color, #111);
+		color: var(--text-color-alt);
 		margin-top: 0.5rem;
 	}
 
 	.date {
 		font-size: 0.95rem;
-		color: #666;
+		color: var(--text-color-alt);
 	}
 
 	.description {
 		font-size: 1rem;
-		color: #333;
+		color: var(--text-color-alt);
 		line-height: 1.6;
 		margin: 0.5rem 0 1.5rem;
 		flex-grow: 1;

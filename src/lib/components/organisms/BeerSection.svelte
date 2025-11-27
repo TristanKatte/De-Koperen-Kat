@@ -34,7 +34,7 @@
 
 <style>
 .beers-section {
-  background-color: #4B2E05;
+  background-color: var(--background-alt);
   color: #F5F5F0;
   padding: 5rem 1.5rem;
   width: 100%;
@@ -69,9 +69,9 @@ h2 {
   flex-direction: column;
   justify-content: space-between; /* knop naar onder */
   min-height: 420px;
-  background: #6b3f1a;
-  color: #F5F5F0;
-  border: 1px solid #ffd699;
+  background: var(--background-color);
+  color: var(--text-color);
+  border: 3px solid var(--background-color-alt);
   border-radius: 1rem;
   padding: 1.75rem;
   text-align: left;
@@ -83,7 +83,6 @@ h2 {
 .beer-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-  background: #7f4f27;
 }
 
 /* Focus-within */
@@ -94,17 +93,18 @@ h2 {
 
 .card-button {
   margin-top: auto; /* duwt knop naar onder */
+  margin-top: 2.5rem;
 }
 
 /* --- Afbeelding --- */
 .beer-card img {
   width: 100%;
   height: auto;
-  max-height: 220px;
+  max-height: 350px;
   object-fit: contain;
   border-radius: 0.5rem;
   margin-bottom: 1rem;
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--background-color-alt);
 }
 
 /* --- Tekst --- */
@@ -112,13 +112,13 @@ h2 {
   font-size: 1.25rem;
   font-weight: 700;
   margin-bottom: 0.4rem;
-  color: #F5F5F0;
+  color: var(--text-color);
 }
 
 .beer-content p {
   margin: 0.2rem 0;
   line-height: 1.4;
-  color: #F5F5F0;
+  color: var(--text-color);
 }
 
 .beer-content {

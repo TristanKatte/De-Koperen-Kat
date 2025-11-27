@@ -11,6 +11,7 @@
 		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 		if (prefersReducedMotion) return;
 
+		// TEXT ANIMATIONS
 		const elements = document.querySelectorAll(
 			'.about-section h2, .about-section h3, .about-section p'
 		);
@@ -26,10 +27,27 @@
 				},
 				opacity: 0,
 				y: 30,
-				scale: 0.8,
+				scale: 0.9,
 				stagger: 0.015,
-				duration: 0.6,
+				duration: 0.55,
 				ease: 'back.out(1.4)'
+			});
+		});
+
+		// IMAGE ANIMATIONS — POLAROID FADE-IN
+		const images = gsap.utils.toArray('.polaroid') as HTMLElement[];
+
+		images.forEach((img) => {
+			gsap.from(img, {
+				scrollTrigger: {
+					trigger: img,
+					start: 'top 90%',
+				},
+				opacity: 0,
+				y: 50,
+				rotate: gsap.utils.random(-8, 8),
+				duration: 0.9,
+				ease: 'power3.out'
 			});
 		});
 	});
@@ -38,6 +56,18 @@
 <section class="about-section" aria-labelledby="about-title">
 	<div class="content">
 		<h2 id="about-title">Over Stadsbrouwerij De Koperen Kat</h2>
+
+		<div class="polaroid-grid">
+			<div class="polaroid rotate-left">
+				<img src="/images/ketels.jpg" alt="Brouwerij interieur met koperen ketels" />
+			</div>
+			<div class="polaroid rotate-right">
+				<img src="/images/bar-gloed-1.jpg" alt="Proeflokaal sfeerimpressie" />
+			</div>
+			<div class="polaroid rotate-small">
+				<img src="/images/brouwerij-feest.jpg" alt="Feest bij de brouwerij" />
+			</div>
+		</div>
 
 		<h3>Wie zijn we?</h3>
 		<p>
@@ -72,27 +102,64 @@
 
 <style>
 	.about-section {
-		min-height: 100vh;
 		padding: 5rem 1.5rem;
-		background-color: var(--accent-light);
+		background-color: var(--background-color);
 		color: var(--text-color);
 		display: flex;
-		align-items: center;
 		justify-content: center;
 	}
 
 	.content {
-		max-width: 800px;
+		max-width: 1200px;
 		width: 100%;
 		margin: 0 auto;
-		line-height: 1.7;
 	}
 
+	.content p {
+		max-width: 80ch;
+	}	
+
+	/* POLAROID GRID */
+	.polaroid-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1.5rem;
+		margin-bottom: 3rem;
+	}
+
+	.polaroid {
+		padding: 0.75rem;
+		padding-bottom: 1.5rem;
+		border-radius: 0.5rem;
+		box-shadow: 6px rgba(0, 0, 0, 0.05);
+		transition: transform 0.25s ease;
+	}
+
+	.polaroid img {
+		width: 100%;
+		height: 240px;
+		object-fit: cover;
+		border-radius: 0.35rem;
+	}
+
+	.rotate-left {
+		transform: rotate(-4deg);
+	}
+	.rotate-right {
+		transform: rotate(5deg);
+	}
+	.rotate-small {
+		transform: rotate(-1deg);
+	}
+
+	.polaroid:hover {
+		transform: scale(1.03) rotate(0deg);
+	}
+
+	/* TEXT */
 	h2 {
 		font-size: 2.25rem;
-		font-weight: 700;
 		margin-bottom: 2rem;
-		text-align: left;
 	}
 
 	h3 {
@@ -104,33 +171,26 @@
 	p {
 		font-size: 1.125rem;
 		margin-bottom: 1.5rem;
-		color: var(--text-color);
 	}
 
 	strong {
 		color: var(--cta-buttons);
 	}
 
-	.button-wrapper {
-		margin-top: 2rem;
-		text-align: left;
+	/* RESPONSIVE */
+	@media (max-width: 900px) {
+		.polaroid-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
 	}
 
-	@media (max-width: 768px) {
-		.about-section {
-			padding: 3rem 1.5rem;
+	@media (max-width: 600px) {
+		.polaroid-grid {
+			grid-template-columns: 1fr;
 		}
 
-		h2 {
-			font-size: 1.75rem;
-		}
-
-		h3 {
-			font-size: 1.25rem;
-		}
-
-		p {
-			font-size: 1rem;
+		.polaroid img {
+			height: 200px;
 		}
 	}
 </style>

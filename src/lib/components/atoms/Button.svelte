@@ -27,12 +27,13 @@
 	border: none;
 	padding: 0.75rem 1.5rem;
 	border-radius: 0.5rem;
+	border: 1px solid var(--cta-secondary);
 	cursor: pointer;
 	font-weight: 600;
 	text-decoration: none;
 	transition: 0.3s;
 }
 .btn:hover {
-	background: var(--highlight-color);
+	background: var(--cta-hover);
 }
 </style>

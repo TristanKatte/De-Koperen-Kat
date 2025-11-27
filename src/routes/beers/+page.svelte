@@ -63,8 +63,8 @@
 
 <style>
 	section {
-		background-color: #4b2e05;
-		color: #f5f5f0;
+		background-color: var(--background-alt);
+		color: var(--text-color);
 		padding: 5rem 1.5rem 6rem;
 	}
 
@@ -78,7 +78,7 @@
 	h2 {
 		font-size: 1.5rem;
 		margin-bottom: 1rem;
-        color: #f5f5f0;
+        color: var(--text-color);
 	}
 
 	.grid {
@@ -91,7 +91,7 @@
 	}
 
 	.beer-card {
-		background: rgba(255, 255, 255, 0.08);
+		background: var(--background-color);
 		border-radius: 1rem;
 		padding: 2rem 1.5rem;
 		text-align: left;

@@ -54,6 +54,7 @@
 
 <section bind:this={heroSection} class="hero">
   <div class="hero-content">
+    <img src="/images/dkk-logo.png" alt="Logo Stadsbrouwerij De Koperen Kat" class="logo" />
     <h1 id="hero-title" class="hero-title">
       Welkom bij Stadsbrouwerij De Koperen Kat
     </h1>
@@ -95,6 +96,7 @@
   inset: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
   overflow: hidden;
   z-index: 0;
 }
@@ -112,7 +114,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-color: rgba(62, 36, 15, 0.55);
+  background-color: rgba(0, 0, 0, 0.45);
   z-index: 1;
 }
 
@@ -165,23 +167,23 @@
 }
 
 .btn--primary {
-  background-color: var(--cta-buttons);
+  background-color: #ed651c;
   color: #fff;
 }
 
 .btn--primary:hover {
-  background-color: #c74d0d;
+  background-color: var(--cta-hover);
   transform: scale(1.05);
 }
 
 .btn--secondary {
-  border: 2px solid var(--cta-buttons, #ed651c);
-  color: var(--cta-buttons, #ed651c);
+  border: 2px solid #ed651c;
+  color: #f5f5f0;
   background: transparent;
 }
 
 .btn--secondary:hover {
-  background-color: var(--cta-buttons, #ed651c);
+  background-color: var(--cta-hover);
   color: #fff;
 }
 

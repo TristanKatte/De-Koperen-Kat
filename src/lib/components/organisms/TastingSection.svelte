@@ -30,7 +30,7 @@
 <style>
 /* FULL-WIDTH ACHTERGROND */
 .proeflokaal-wrapper {
-  background-color: var(--background-brown-dark);
+  background-color: var(--background-alt);
   padding: 5rem 1.5rem;
 }
 
@@ -40,7 +40,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
   align-items: center;
-  max-width: 1250px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 

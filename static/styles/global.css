@@ -2,25 +2,26 @@
 
 :root {
   /* Basis / achtergrond */
-  --background-color: #F3F2EB;
-  --background-alt: #EFEEE8;
+  --background-color: #E8DBBF;
+  --background-alt: #41312eff;
   --footer-color: #2B2D30;
 
   /* Tekst */
   --text-color: #1a1a1a;
-  --text-color-alt: #F3F2EB;
+  --text-color-alt: #F5F5F0;
   --muted-text: #666666;
   --link-color: #4A4A4A;
   --link-hover: #C65410;
   --highlight-color: #FFB400;
 
   /* Knoppen / CTA’s */
-  --cta-buttons: #93400E;
-  --cta-hover: #753006;
-  --cta-secondary: #C46522;
+  --cta-buttons: #ed651c;
+  --cta-hover: #DBA63E;
+  --cta-secondary: #FFF7E9;
 
   /* Kaarten / overlays */
-  --card-background: rgba(255, 255, 255, 0.07);
+  --card-background: #6f4516;
+  --card-background-alt: #FFF7E9;
   --card-border: #D8D8D8;
 
   /* Meldingen / status (WCAG-proof) */

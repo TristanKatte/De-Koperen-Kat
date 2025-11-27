@@ -79,14 +79,14 @@ h2 {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #d9985f;
+  background: var(--background-alt);
   border-radius: 1rem;
   border: 1px solid #1b1007;
   padding: 1.5rem;
   text-align: left;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease, outline 0.2s ease;
-  color: #f5f5f0;
+  color: var(--text-color-alt);
 }
 
 .event-card:hover {
@@ -127,6 +127,7 @@ h2 {
   font-size: 1.25rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
+  color: var(--text-color-alt);
 }
 
 .event-content p {
@@ -136,7 +137,7 @@ h2 {
 
 .card-button {
   margin-top: auto;
-  margin-top: 1rem;
+  margin-top: 2.5rem;
 }
 
 .btn {
@@ -146,7 +147,7 @@ h2 {
   font-weight: 600;
   text-decoration: none;
   text-align: center;
-  background-color: var(--cta-buttons);
+  background-color: var(--cta-secondary);
   color: #fff;
   transition: background-color 0.25s ease, transform 0.25s ease;
 }
