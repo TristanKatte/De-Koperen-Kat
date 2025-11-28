@@ -39,6 +39,14 @@
   --font-family-headings: "Noticia Text", Georgia, serif;
 }
 
+html {
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; 
+  overflow-x: hidden;
+}
+
 body {
   font-family: var(--font-family-body);
   color: var(--text-color);

@@ -56,7 +56,7 @@
   <div class="hero-content">
     <img src="/images/dkk-logo.png" alt="Logo Stadsbrouwerij De Koperen Kat" class="logo" />
     <h1 id="hero-title" class="hero-title">
-      Welkom bij Stadsbrouwerij De Koperen Kat
+      Welkom bij Stadsbrouwerij<br /> De Koperen Kat
     </h1>
     <p class="hero-subtitle">
       De oudste stadsbrouwerij van Delft
