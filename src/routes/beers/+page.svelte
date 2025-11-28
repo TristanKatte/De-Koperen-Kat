@@ -30,6 +30,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Onze Bieren</title>
+</svelte:head>
+
 <section class="beers-overview" aria-labelledby="beers-title">
 	<h1 id="beers-title">Onze Bieren</h1>
 
@@ -130,7 +134,7 @@
 
 	.type {
 		font-style: italic;
-		color: #e3d7c1;
+		color: var(--text-color);
 		margin-bottom: 0.5rem;
 	}
 

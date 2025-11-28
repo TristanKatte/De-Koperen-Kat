@@ -55,7 +55,7 @@
 
 <style>
 .event-detail-section {
-	background-color: var(--accent-light); /* lichte achtergrond */
+	background-color: var(--background-color); /* lichte achtergrond */
 	padding: 5rem 1.5rem;
 	display: flex;
 	justify-content: center;
@@ -64,7 +64,7 @@
 }
 
 .event-detail-card {
-	background: #fff; /* kaartkleur */
+	background: var(--background-alt); /* kaartkleur */
 	border-radius: 1rem;
 	padding: 2rem;
 	max-width: 800px;
@@ -84,20 +84,20 @@
 
 h1 {
 	font-size: 2rem;
-	color: #333;
+	color: var(--text-color-alt);
 	margin-bottom: 0.5rem;
 }
 
 .date,
 .location {
 	font-size: 0.95rem;
-	color: #666;
+	color: var(--text-color-alt);
 }
 
 .description {
 	font-size: 1rem;
 	line-height: 1.5;
-	color: #444;
+	color: var(--text-color-alt);
 }
 
 .buttons {

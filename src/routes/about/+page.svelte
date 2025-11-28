@@ -94,6 +94,11 @@
   });
 </script>
 
+<svelte:head>
+  <title>Over ons</title>
+  <meta name="description" content="Over ons: {import.meta.env.VITE_APP_NAME}" />
+</svelte:head>
+
 <main class="about-section">
   <header class="about-header">
     <h1>{aboutContent.intro}</h1>
@@ -163,7 +168,7 @@
     flex-direction: column;
     align-items: center;
     padding: 3rem 1.5rem;
-    background-color: var(--accent-light, #ffe6b3);
+    background-color: var(--background-color);
     min-height: 100dvh;
   }
 
@@ -171,7 +176,7 @@
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 3rem;
-    color: var(--accent-dark, #4b2e05);
+    color: var(--text-color);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     max-width: 900px;
   }
