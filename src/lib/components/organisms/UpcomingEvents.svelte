@@ -1,6 +1,6 @@
 <script lang="ts">
 	import EventPreviewCard from '$lib/components/molecules/EventPreviewCard.svelte';
-	export let events = []; // array van { title, date, image, link }
+	let { events = [] } = $props();
 </script>
 
 <section class="upcoming-events">

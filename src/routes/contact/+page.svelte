@@ -6,11 +6,11 @@
 
 	gsap.registerPlugin(ScrollTrigger);
 
-	let name = '';
-	let email = '';
-	let message = '';
-	let success = false;
-	let error: string | null = null;
+	let name = $state('');
+	let email = $state('');
+	let message = $state('');
+	let success = $state(false);
+	let error: string | null = $state(null);
 
 	async function handleSubmit(e: SubmitEvent) {
 		e.preventDefault();
@@ -97,7 +97,7 @@
 
 	<!-- --- Formulier + kaart --- -->
 	<div class="contact-layout">
-		<form class="contact-form" on:submit={handleSubmit} aria-describedby="contact-instructions">
+		<form class="contact-form" onsubmit={handleSubmit} aria-describedby="contact-instructions">
 			<p id="contact-instructions" class="sr-only">
 				Vul je naam, e-mail en bericht in om contact op te nemen.
 			</p>

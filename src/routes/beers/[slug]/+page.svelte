@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -6,7 +6,7 @@
 
 	gsap.registerPlugin(ScrollTrigger);
 
-	export let data;
+	let { data } = $props();
 	const beer = data?.beer;
 
 	onMount(() => {

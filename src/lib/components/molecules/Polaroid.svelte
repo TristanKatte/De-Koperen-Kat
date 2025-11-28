@@ -1,7 +1,11 @@
 <script lang="ts">
-  export let src: string;
-  export let alt: string = "";
-  export let rotation: number = 0; // rotatie per kaart
+  interface Props {
+    src: string;
+    alt?: string;
+    rotation?: number; // rotatie per kaart
+  }
+
+  let { src, alt = "", rotation = 0 }: Props = $props();
 </script>
 
 <div class="polaroid" style={`--rot: ${rotation}deg`}>

@@ -1,10 +1,19 @@
 <script lang="ts">
 	import Image from '$lib/components/atoms/Image.svelte';
 	import Heading from '$lib/components/atoms/Heading.svelte';
-	export let title: string;
-	export let date: string;
-	export let image: string;
-	export let link: string;
+	interface Props {
+		title: string;
+		date: string;
+		image: string;
+		link: string;
+	}
+
+	let {
+		title,
+		date,
+		image,
+		link
+	}: Props = $props();
 </script>
 
 <a href={link} class="event-card">

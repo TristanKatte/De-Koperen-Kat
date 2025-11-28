@@ -3,9 +3,7 @@
 	import FeaturedBeers from '$lib/components/organisms/FeaturedBeers.svelte';
 	import UpcomingEvents from '$lib/components/organisms/UpcomingEvents.svelte';
 
-	export let hero;
-	export let beers;
-	export let events;
+	let { hero, beers, events } = $props();
 </script>
 
 <main>

@@ -17,9 +17,9 @@
     { title: 'Contact', links: [{ label: 'Contact', href: '/contact' }] }
   ];
 
-  let mobileOpen = false;
-  let openIndex: number | null = null;
-  let overlayEl: HTMLDivElement;
+  let mobileOpen = $state(false);
+  let openIndex: number | null = $state(null);
+  let overlayEl: HTMLDivElement = $state();
 
   function toggleDropdown(i: number) {
     openIndex = openIndex === i ? null : i;
@@ -68,7 +68,7 @@
     {#each menuItems as item, i}
       <li class="menu-item">
         {#if item.links.length > 1}
-          <button class="menu-button" aria-expanded={openIndex === i} on:click={() => toggleDropdown(i)}>
+          <button class="menu-button" aria-expanded={openIndex === i} onclick={() => toggleDropdown(i)}>
             {item.title} <span class="arrow">▾</span>
           </button>
 
@@ -87,7 +87,7 @@
   </ul>
 
   <!-- MOBILE HAMBURGER -->
-  <button class="hamburger" on:click={openMenu} aria-label="Open menu">
+  <button class="hamburger" onclick={openMenu} aria-label="Open menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
@@ -99,25 +99,25 @@
   aria-hidden={!mobileOpen}
   style="display: {mobileOpen ? 'flex' : 'none'}"
 >
-  <button class="close-btn" aria-label="Sluit menu" on:click={closeMenu}>×</button>
+  <button class="close-btn" aria-label="Sluit menu" onclick={closeMenu}>×</button>
 
   <ul class="overlay-menu">
     {#each menuItems as item, i}
       <li class="overlay-item">
         {#if item.links.length > 1}
-          <button class="overlay-button" aria-expanded={openIndex === i} on:click={() => toggleDropdown(i)}>
+          <button class="overlay-button" aria-expanded={openIndex === i} onclick={() => toggleDropdown(i)}>
             {item.title} <span class="arrow">▾</span>
           </button>
 
           {#if openIndex === i}
             <ul class="overlay-dropdown">
               {#each item.links as link}
-                <li><a href={link.href} on:click={closeMenu}>{link.label}</a></li>
+                <li><a href={link.href} onclick={closeMenu}>{link.label}</a></li>
               {/each}
             </ul>
           {/if}
         {:else}
-          <a href={item.links[0].href} on:click={closeMenu}>{item.title}</a>
+          <a href={item.links[0].href} onclick={closeMenu}>{item.title}</a>
         {/if}
       </li>
     {/each}

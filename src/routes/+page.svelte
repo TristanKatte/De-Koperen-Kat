@@ -10,7 +10,7 @@
 
   gsap.registerPlugin(ScrollTrigger, SplitText);
 
-  export let data;
+  let { data } = $props();
   const beers = data.beers || [];
   const events = data.events || [];
 </script>

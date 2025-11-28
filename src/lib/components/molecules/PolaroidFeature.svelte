@@ -1,9 +1,19 @@
 <script lang="ts">
-	export let image: string;
-	export let alt: string;
-	export let title: string;
-	export let text: string;
-	export let flip: boolean = false;
+	interface Props {
+		image: string;
+		alt: string;
+		title: string;
+		text: string;
+		flip?: boolean;
+	}
+
+	let {
+		image,
+		alt,
+		title,
+		text,
+		flip = false
+	}: Props = $props();
 </script>
 
 <div class="feature {flip ? 'flip' : ''}">

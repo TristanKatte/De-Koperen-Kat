@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	let isAdult: boolean | null = null;
+	let isAdult: boolean | null = $state(null);
 
 	onMount(() => {
 		const stored = localStorage.getItem('isAdult');
@@ -24,7 +24,7 @@
 		<div class="age-gate">
 			<div class="age-gate-content">
 				<h2>Ben je 18 jaar of ouder?</h2>
-				<button on:click={confirmAge}>Ja, ik ben 18+</button>
+				<button onclick={confirmAge}>Ja, ik ben 18+</button>
 				<p>
 					We verkopen geen alcoholische producten aan minderjarigen.
 					<br />
@@ -38,7 +38,7 @@
 {/if}
 
 {#if isAdult === true}
-	<button class="reset-button" on:click={resetAge}>🔁 Reset leeftijd</button>
+	<button class="reset-button" onclick={resetAge}>🔁 Reset leeftijd</button>
 {/if}
 
 <style>

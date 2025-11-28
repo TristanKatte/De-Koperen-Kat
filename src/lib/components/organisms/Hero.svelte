@@ -6,7 +6,7 @@
 
   gsap.registerPlugin(ScrollTrigger, SplitText);
 
-  let heroSection: HTMLElement | null = null;
+  let heroSection: HTMLElement | null = $state(null);
 
   onMount(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

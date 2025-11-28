@@ -1,9 +1,18 @@
 <script lang="ts">
   import PhotoGrid from '$lib/components/molecules/PhotoGrid.svelte';
-  export let title: string;
-  export let content: string;
-  export let photos: string[];
-  export let reverse: boolean = false;
+  interface Props {
+    title: string;
+    content: string;
+    photos: string[];
+    reverse?: boolean;
+  }
+
+  let {
+    title,
+    content,
+    photos,
+    reverse = false
+  }: Props = $props();
 </script>
 
 <section class="section-block {reverse ? 'reverse' : ''}">

@@ -1,6 +1,10 @@
 <script lang="ts">
   import Polaroid from './Polaroid.svelte';
-  export let photos: string[];
+  interface Props {
+    photos: string[];
+  }
+
+  let { photos }: Props = $props();
 </script>
 
 <div class="photo-grid">
