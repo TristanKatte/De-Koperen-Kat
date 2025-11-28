@@ -1,22 +1,32 @@
 <script lang="ts">
-	export let label: string;
-	export let href: string | null = null;
-	export let onClick: (() => void) | null = null;
-	export let target: string | null = null; // nieuw
-	export let rel: string | null = null;     // nieuw
+	interface Props {
+		label: string;
+		href?: string | null;
+		onClick?: (() => void) | null;
+		target?: string | null; // nieuw
+		rel?: string | null; // nieuw
+	}
+
+	let {
+		label,
+		href = null,
+		onClick = null,
+		target = null,
+		rel = null
+	}: Props = $props();
 </script>
 
 {#if href}
 	<a
 		href={href}
-		on:click={onClick}
+		onclick={onClick}
 		target={target}
 		rel={rel}
 		class="btn">
 		{label}
 	</a>
 {:else}
-	<button on:click={onClick} class="btn">{label}</button>
+	<button onclick={onClick} class="btn">{label}</button>
 {/if}
 
 

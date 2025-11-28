@@ -4,7 +4,7 @@
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import Button from '$lib/components/atoms/Button.svelte';
 
-	export let data;
+	let { data } = $props();
 	const event = data?.event;
 
 	gsap.registerPlugin(ScrollTrigger);

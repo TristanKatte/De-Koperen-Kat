@@ -6,7 +6,7 @@
 
 	gsap.registerPlugin(ScrollTrigger);
 
-	export let data;
+	let { data } = $props();
 	const beers = data?.beers || [];
 
 	onMount(() => {

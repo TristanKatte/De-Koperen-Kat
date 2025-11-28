@@ -1,6 +1,10 @@
 <script lang="ts">
-	export let level: number = 1;
-	export let text: string;
+	interface Props {
+		level?: number;
+		text: string;
+	}
+
+	let { level = 1, text }: Props = $props();
 </script>
 
 <svelte:element this={"h" + level} class="heading">

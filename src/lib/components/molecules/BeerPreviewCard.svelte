@@ -1,10 +1,19 @@
 <script lang="ts">
 	import Image from '$lib/components/atoms/Image.svelte';
 	import Heading from '$lib/components/atoms/Heading.svelte';
-	export let name: string;
-	export let type: string;
-	export let image: string;
-	export let link: string;
+	interface Props {
+		name: string;
+		type: string;
+		image: string;
+		link: string;
+	}
+
+	let {
+		name,
+		type,
+		image,
+		link
+	}: Props = $props();
 </script>
 
 <a href={link} class="beer-card">

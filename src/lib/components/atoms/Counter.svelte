@@ -1,7 +1,11 @@
 <!-- src/lib/components/atoms/Counter.svelte -->
 <script lang="ts">
-  export let value: string;
-  export let label: string;
+  interface Props {
+    value: string;
+    label: string;
+  }
+
+  let { value, label }: Props = $props();
 </script>
 
 <div class="counter-wrapper" role="region" aria-label={label}>

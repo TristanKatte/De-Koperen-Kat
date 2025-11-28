@@ -3,11 +3,21 @@
 	import Button from '$lib/components/atoms/Button.svelte';
 	import Image from '$lib/components/atoms/Image.svelte';
 
-	export let title: string;
-	export let subtitle: string;
-	export let image: string;
-	export let ctaLabel: string;
-	export let ctaLink: string;
+	interface Props {
+		title: string;
+		subtitle: string;
+		image: string;
+		ctaLabel: string;
+		ctaLink: string;
+	}
+
+	let {
+		title,
+		subtitle,
+		image,
+		ctaLabel,
+		ctaLink
+	}: Props = $props();
 </script>
 
 <section class="hero">
