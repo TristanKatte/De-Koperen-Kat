@@ -2,36 +2,21 @@
   import { onMount } from 'svelte';
   import gsap from 'gsap';
 
-  /* ----------------- TYPES ----------------- */
-  type MenuLink = {
-    href: string;
-    label: string;
-  };
+  type MenuLink = { href: string; label: string };
+  type MenuItem = { title: string; links: MenuLink[] };
 
-  type MenuItem = {
-    title: string;
-    links: MenuLink[];
-  };
+  const menuItems: MenuItem[] = [
+    { title: 'Home', links: [{ label: 'Home', href: '/' }] },
+    { title: 'De Brouwerij', links: [{ label: 'Over ons', href: '/about' }] },
+    { title: 'De Bieren', links: [{ label: 'Alle Bieren', href: '/beers' }] },
+    { title: 'Webshop', links: [{ label: 'Webshop', href: '/webshop' }] },
+    { title: 'Het Proeflokaal', links: [{ label: 'Proeflokaal', href: '/tasting-room' }] },
+    { title: 'Nieuws', links: [{ label: 'Nieuws', href: '/news' }] },
+    { title: 'Agenda', links: [{ label: 'Agenda', href: '/agenda' }] },
+    { title: 'Vacatures', links: [{ label: 'Vacatures', href: '/vacancies' }] },
+    { title: 'Contact', links: [{ label: 'Contact', href: '/contact' }] }
+  ];
 
-  /* ----------------- DATA ----------------- */
-const menuItems: MenuItem[] = [
-  { title: 'Home', links: [{ label: 'Home', href: '/' }] },
-  { title: 'De Brouwerij', links: [{ label: 'Over ons', href: '/about' }] },
-  { title: 'De Bieren', links: [{ label: 'Alle Bieren', href: '/beers' }] },
-
-  // --- GEWIJZIGD ---
-  { title: 'Webshop', links: [{ label: 'Webshop', href: '/webshop' }] },
-
-  // --- GEWIJZIGD ---
-  { title: 'Het Proeflokaal', links: [{ label: 'Proeflokaal', href: '/tasting-room' }] },
-
-  { title: 'Nieuws', links: [{ label: 'Nieuws', href: '/news' }] },
-  { title: 'Agenda', links: [{ label: 'Agenda', href: '/agenda' }] },
-  { title: 'Vacatures', links: [{ label: 'Vacatures', href: '/vacancies' }] },
-  { title: 'Contact', links: [{ label: 'Contact', href: '/contact' }] }
-];
-
-  /* ----------------- STATE ----------------- */
   let mobileOpen = false;
   let openIndex: number | null = null;
   let overlayEl: HTMLDivElement;
@@ -40,7 +25,6 @@ const menuItems: MenuItem[] = [
     openIndex = openIndex === i ? null : i;
   }
 
-  /* ----------------- JS ENHANCEMENT ----------------- */
   onMount(() => {
     document.documentElement.classList.add('js');
 
@@ -49,26 +33,26 @@ const menuItems: MenuItem[] = [
     }
   });
 
-  /* ----------------- MOBILE MENU ----------------- */
   function openMenu() {
     mobileOpen = true;
 
     requestAnimationFrame(() => {
       gsap.to(overlayEl, {
-        y: '0%',
-        duration: 0.7,
-        ease: 'power4.out'
+        y: "0%",
+        duration: 0.6,
+        ease: "power4.out"
       });
     });
   }
 
   function closeMenu() {
     gsap.to(overlayEl, {
-      y: '-100%',
-      duration: 0.7,
-      ease: 'power4.in',
+      y: "-100%",
+      duration: 0.6,
+      ease: "power4.in",
       onComplete: () => {
         mobileOpen = false;
+        openIndex = null;
       }
     });
   }
@@ -80,58 +64,49 @@ const menuItems: MenuItem[] = [
   </a>
 
   <!-- DESKTOP MENU -->
-  <ul class="menu desktop-menu">
+  <ul class="desktop-menu">
     {#each menuItems as item, i}
       <li class="menu-item">
         {#if item.links.length > 1}
-          <button
-            class="menu-button"
-            aria-expanded={openIndex === i}
-            on:click={() => toggleDropdown(i)}
-          >
-            {item.title}<span class="arrow">▾</span>
+          <button class="menu-button" aria-expanded={openIndex === i} on:click={() => toggleDropdown(i)}>
+            {item.title} <span class="arrow">▾</span>
           </button>
 
           {#if openIndex === i}
             <ul class="dropdown">
               {#each item.links as link}
-                <li><a href={link.href} class="menu-link">{link.label}</a></li>
+                <li><a class="menu-link" href={link.href}>{link.label}</a></li>
               {/each}
             </ul>
           {/if}
         {:else}
-          <a href={item.links[0].href} class="menu-link">{item.title}</a>
+          <a class="menu-link" href={item.links[0].href}>{item.title}</a>
         {/if}
       </li>
     {/each}
   </ul>
 
-  <!-- HAMBURGER -->
-  <button class="hamburger" on:click={openMenu} aria-label="Menu">
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
+  <!-- MOBILE HAMBURGER -->
+  <button class="hamburger" on:click={openMenu} aria-label="Open menu">
+    <span></span><span></span><span></span>
   </button>
 </nav>
 
-<!-- MOBILE OVERLAY (hidden by default without JS) -->
+<!-- MOBILE OVERLAY -->
 <div
   bind:this={overlayEl}
   class="mobile-overlay"
   aria-hidden={!mobileOpen}
+  style="display: {mobileOpen ? 'flex' : 'none'}"
 >
-  <button class="close-btn" on:click={closeMenu}>×</button>
+  <button class="close-btn" aria-label="Sluit menu" on:click={closeMenu}>×</button>
 
   <ul class="overlay-menu">
     {#each menuItems as item, i}
       <li class="overlay-item">
         {#if item.links.length > 1}
-          <button
-            class="overlay-button"
-            aria-expanded={openIndex === i}
-            on:click={() => toggleDropdown(i)}
-          >
-            {item.title}<span class="arrow">▾</span>
+          <button class="overlay-button" aria-expanded={openIndex === i} on:click={() => toggleDropdown(i)}>
+            {item.title} <span class="arrow">▾</span>
           </button>
 
           {#if openIndex === i}
@@ -150,15 +125,10 @@ const menuItems: MenuItem[] = [
 </div>
 
 <style>
-/* RESET */
-nav ul,
-nav li {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+/* ---------------- RESET ---------------- */
+nav ul, nav li { margin: 0; padding: 0; list-style: none; }
 
-/* NAV */
+/* ---------------- NAV ---------------- */
 nav.main-nav {
   background: #f5f5f0;
   display: flex;
@@ -167,22 +137,18 @@ nav.main-nav {
   padding: 1rem 2rem;
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 100;
 }
 
-.logo img {
-  height: 3rem;
-}
+.logo img { height: 3rem; }
 
-/* DESKTOP MENU */
+/* ---------------- DESKTOP MENU ---------------- */
 .desktop-menu {
   display: flex;
   gap: 2rem;
 }
 
-.menu-item {
-  position: relative;
-}
+.menu-item { position: relative; }
 
 .menu-button,
 .menu-link {
@@ -190,10 +156,9 @@ nav.main-nav {
   border: none;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--link-color);
   cursor: pointer;
   padding: 0.5rem 1rem;
-  transition: color 0.2s;
+  color: var(--link-color);
 }
 
 .menu-button:hover,
@@ -201,50 +166,52 @@ nav.main-nav {
   color: var(--highlight-color);
 }
 
+/* DROPDOWN */
 .dropdown {
   position: absolute;
-  top: 100%;
   left: 0;
-  width: 100%;
+  top: 100%;
   background: var(--background-color);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 0 0 0.4rem 0.4rem;
-  padding: 0.4rem 0;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 0 0 .4rem .4rem;
+  width: 100%;
+  padding: 0.5rem 0;
+  box-shadow: 0 6px 12px rgba(0,0,0,.1);
   z-index: 20;
 }
 
 .dropdown li a {
   display: block;
-  padding: 0.4rem 1rem;
-  color: var(--link-color);
+  padding: .5rem 1rem;
   font-weight: 600;
 }
 
-.dropdown li a:hover {
-  color: var(--highlight-color);
-}
-
-/* HAMBURGER */
+/* ---------------- HAMBURGER ---------------- */
 .hamburger {
   display: none;
   flex-direction: column;
-  gap: 5px;
+  gap: .4rem;
   background: none;
   border: none;
   cursor: pointer;
 }
 
-.hamburger .bar {
+.hamburger span {
   width: 28px;
   height: 3px;
-  background: var(--link-color);
+  background: var(--text-color);
 }
 
-/* MOBILE OVERLAY */
-/* Hidden by default until JS activates it */
+/* ---------------- MOBILE OVERLAY ---------------- */
+.js .mobile-overlay { display: none; }
+
 .mobile-overlay {
-  display: none; /* PE fix */
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  flex-direction: column;
+  padding: 2rem;
+  background: var(--background-color);
+  z-index: 200;
 }
 
 .close-btn {
@@ -252,46 +219,44 @@ nav.main-nav {
   font-size: 3rem;
   background: none;
   border: none;
-  color: var(--link-color);
   cursor: pointer;
 }
 
 .overlay-menu {
-  margin-top: 4rem;
+  margin-top: 3rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  list-style: none;
 }
 
-.overlay-button,
-.overlay-menu a {
+.overlay-item button,
+.overlay-item a {
   font-size: 2rem;
-  font-weight: 600;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--link-color);
   background: none;
   border: none;
-  color: var(--link-color);
   text-align: left;
-  cursor: pointer;
+}
+
+.overlay-item a:hover {
+  transition: .2s color ease-in-out;
+  color: var(--highlight-color);
+  text-decoration: underline;
 }
 
 .overlay-dropdown {
   padding-left: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: .75rem;
 }
 
-.overlay-dropdown li a {
-  font-size: 1.5rem;
-}
-
-/* RESPONSIVE */
+/* ---------------- RESPONSIVE ---------------- */
 @media (max-width: 900px) {
-  .desktop-menu {
-    display: none;
-  }
-  .hamburger {
-    display: flex;
-  }
+  .desktop-menu { display: none; }
+  .hamburger { display: flex; }
 }
 </style>
