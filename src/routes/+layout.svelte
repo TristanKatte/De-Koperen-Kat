@@ -3,13 +3,12 @@
   import Footer from '$lib/components/organisms/Footer.svelte';
   import { onMount } from 'svelte';
   import { fade, scale, fly } from 'svelte/transition';
-  import { onNavigate } from '$app/navigation';
 
   let { children } = $props();
 
-  // ✅ Correct Svelte 5 runes syntax
-  let AgeGateComponent: typeof import('$lib/components/AgeGate.svelte').default | null = null;
-  let ageGateLoaded = false;
+  // ✅ Gebruik $state voor reactive variables
+  let AgeGateComponent = $state<typeof import('$lib/components/AgeGate.svelte').default | null>(null);
+  let ageGateLoaded = $state(false);
 
   onMount(async () => {
     const module = await import('$lib/components/AgeGate.svelte');
@@ -17,6 +16,8 @@
     ageGateLoaded = true;
   });
 
+  // Browser-native view transitions
+  import { onNavigate } from '$app/navigation';
   onNavigate((navigation) => {
     if (!document.startViewTransition) return;
 
@@ -45,6 +46,7 @@
   <AgeGateComponent />
 {/if}
 
+
 <style>
   :global(body) {
     margin: 0;
@@ -56,24 +58,5 @@
   .page-transition {
     view-transition-name: page;
     min-height: 100vh;
-  }
-
-  :global(.age-gate-backdrop) {
-    position: fixed;
-    inset: 0;
-    backdrop-filter: blur(10px);
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9998;
-  }
-  :global(.age-gate-content) {
-    text-align: center;
-    background: white;
-    padding: 2rem;
-    border-radius: 1rem;
-    max-width: 400px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
   }
 </style>
