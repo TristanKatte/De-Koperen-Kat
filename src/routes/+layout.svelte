@@ -1,89 +1,60 @@
 <script lang="ts">
-  import Header from '$lib/components/organisms/Header.svelte';
-  import Footer from '$lib/components/organisms/Footer.svelte';
-  import { onMount } from 'svelte';
-  import { fade, scale, fly } from 'svelte/transition';
-  import { onNavigate } from '$app/navigation';
+	import { onNavigate } from "$app/navigation";
+	import { fade, scale, fly } from "svelte/transition";
 
-  let { children } = $props();
+	import Header from '$lib/components/organisms/Header.svelte';
+	import Footer from '$lib/components/organisms/Footer.svelte';
+	// import AgeGate from '$lib/components/AgeGate.svelte';
 
-  // 🔹 Dynamische client-only AgeGate
-  let AgeGate: typeof import('$lib/components/AgeGate.svelte').default | null = null;
-  let ageGateLoaded = false;
+	let { children } = $props();
 
-  onMount(async () => {
-    const module = await import('$lib/components/AgeGate.svelte');
-    AgeGate = module.default;
-    ageGateLoaded = true;
-  });
+	// Browser-native view transitions
+	onNavigate((navigation) => {
+		if (!document.startViewTransition) return;
 
-  // Browser-native view transitions
-  onNavigate((navigation) => {
-    if (!document.startViewTransition) return;
-
-    return new Promise((resolve) => {
-      document.startViewTransition(async () => {
-        resolve();
-        await navigation.complete;
-      });
-    });
-  });
+		return new Promise((resolve) => {
+			document.startViewTransition(async () => {
+				resolve();
+				await navigation.complete;
+			});
+		});
+	});
 </script>
 
 <svelte:head>
-  <link rel="icon" type="image/svg+xml" href="/images/dkk-logo-cropped.png" />
-  <link rel="stylesheet" href="/styles/global.css" />
+	<!-- 🔥 Gebruik een statische favicon in /static/ -->
+	<link rel="icon" type="image/svg+xml" href="/images/dkk-logo-cropped.png" />
+
+	<!-- Global CSS -->
+	<link rel="stylesheet" href="/styles/global.css" />
 </svelte:head>
 
 <Header />
 
 <!-- PAGE TRANSITION WRAPPER -->
 <div class="page-transition" in:fade={{ duration: 200 }}>
-  <div in:scale={{ duration: 250, start: 0.98 }}>
-    <div in:fly={{ y: 20, duration: 220 }}>
-      {@render children?.()}
-    </div>
-  </div>
+	<div in:scale={{ duration: 250, start: 0.98 }}>
+		<div in:fly={{ y: 20, duration: 220 }}>
+			{@render children?.()}
+		</div>
+	</div>
 </div>
 
 <Footer />
 
-<!-- 🔹 AgeGate client-only -->
-{#if ageGateLoaded && AgeGate}
-  <AgeGate />
-{/if}
+<!-- <AgeGate /> -->
 
 <style>
-  :global(body) {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    height: 100%;
-  }
+	:global(body) {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+		height: 100%;
+	}
 
-  .page-transition {
-    view-transition-name: page;
-    min-height: 100vh;
-  }
-
-  /* Optioneel: globale AgeGate styles zodat layout tijdens eerste load intact blijft */
-  :global(.age-gate-backdrop) {
-    position: fixed;
-    inset: 0;
-    backdrop-filter: blur(10px);
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9998;
-  }
-
-  :global(.age-gate-content) {
-    text-align: center;
-    background: white;
-    padding: 2rem;
-    border-radius: 1rem;
-    max-width: 400px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
-  }
+	/* Belangrijk voor browser view transitions */
+	.page-transition {
+		view-transition-name: page;
+		min-height: 100vh;
+	}
 </style>
