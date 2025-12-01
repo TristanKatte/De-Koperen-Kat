@@ -1,13 +1,23 @@
-import { supabase } from '$lib/supabaseClient';
+import { supabaseServer } from '$lib/supabaseClient.server';
 
 export const load = async () => {
-  const { data: beers, error: beersError } = await supabase.from('beers').select('*');
-  const { data: events, error: eventsError } = await supabase.from('events').select('*');
+  try {
+    const { data: beers, error: beersError } = await supabaseServer.from('beers').select('*');
+    const { data: events, error: eventsError } = await supabaseServer.from('events').select('*');
 
-  if (beersError || eventsError) console.error('Error loading data:', beersError || eventsError);
+    if (beersError || eventsError) {
+      console.error('Supabase error:', beersError || eventsError);
+    }
 
-  return {
-    beers: beers || [],
-    events: events || []
-  };
+    return {
+      beers: beers || [],
+      events: events || []
+    };
+  } catch (err) {
+    console.error('Unexpected load error:', err);
+    return {
+      beers: [],
+      events: []
+    };
+  }
 };
