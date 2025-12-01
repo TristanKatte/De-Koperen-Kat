@@ -1,45 +1,49 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+  import { onMount } from 'svelte';
+  import { browser } from '$app/environment';
 
-	let isAdult: boolean | null = null;
+  let isAdult: boolean | null = null;
 
+  onMount(() => {
+    if (browser) {
+      const stored = localStorage.getItem('isAdult');
+      isAdult = stored === 'true';
+    }
+  });
 
-	onMount(() => {
-		const stored = localStorage.getItem('isAdult');
-		isAdult = stored === 'true';
-	});
+  function confirmAge() {
+    if (!browser) return;
+    localStorage.setItem('isAdult', 'true');
+    isAdult = true;
+  }
 
-	function confirmAge() {
-		localStorage.setItem('isAdult', 'true');
-		isAdult = true;
-	}
-
-	function resetAge() {
-		localStorage.removeItem('isAdult');
-		isAdult = false;
-	}
+  function resetAge() {
+    if (!browser) return;
+    localStorage.removeItem('isAdult');
+    isAdult = false;
+  }
 </script>
 
-{#if isAdult === false}
-	<div class="age-gate-backdrop">
-		<div class="age-gate">
-			<div class="age-gate-content">
-				<h2>Ben je 18 jaar of ouder?</h2>
-				<button onclick={confirmAge}>Ja, ik ben 18+</button>
-				<p>
-					We verkopen geen alcoholische producten aan minderjarigen.
-					<br />
-					<a href="https://www.nix18.nl" target="_blank" rel="noopener noreferrer">
-						Lees meer op NIX18.nl
-					</a>
-				</p>
-			</div>
-		</div>
-	</div>
+{#if browser && isAdult === false}
+  <div class="age-gate-backdrop">
+    <div class="age-gate">
+      <div class="age-gate-content">
+        <h2>Ben je 18 jaar of ouder?</h2>
+        <button on:click={confirmAge}>Ja, ik ben 18+</button>
+        <p>
+          We verkopen geen alcoholische producten aan minderjarigen.
+          <br />
+          <a href="https://www.nix18.nl" target="_blank" rel="noopener noreferrer">
+            Lees meer op NIX18.nl
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
 {/if}
 
-{#if isAdult === true}
-	<button class="reset-button" onclick={resetAge}>🔁 Reset leeftijd</button>
+{#if browser && isAdult === true}
+  <button class="reset-button" on:click={resetAge}>🔁 Reset leeftijd</button>
 {/if}
 
 <style>

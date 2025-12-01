@@ -34,9 +34,11 @@
 
 <Header />
 
-{#if showAgeGate}
+{#if browser}
   <AgeGate />
 {/if}
+
+
 
 <!-- PAGE TRANSITION WRAPPER -->
 <div class="page-transition" in:fade={{ duration: 200 }}>
