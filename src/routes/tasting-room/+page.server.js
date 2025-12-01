@@ -1,6 +1,5 @@
 /** @type {import('./$types').PageServerLoad} */
 export function load() {
-	// Default timeslots
 	return {
 		timeslots: [
 			{ value: '09:00', label: '09:00 – 10:00' },
@@ -14,6 +13,7 @@ export function load() {
 export const actions = {
 	default: async ({ request }) => {
 		const data = await request.formData();
+
 		const name = data.get('name') || '';
 		const email = data.get('email') || '';
 		const date = data.get('date') || '';
@@ -34,8 +34,12 @@ export const actions = {
 			};
 		}
 
-		// Hier kun je de reservering opslaan
-		console.log('Proeflokaal geboekt:', { name, email, date, timeslot });
+		console.log('Proeflokaal geboekt:', {
+			name,
+			email,
+			date,
+			timeslot
+		});
 
 		return { success: true };
 	}

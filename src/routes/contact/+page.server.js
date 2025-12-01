@@ -1,6 +1,5 @@
 /** @type {import('./$types').PageServerLoad} */
 export function load() {
-	// Default select options
 	return {
 		categories: [
 			{ value: '', label: 'Selecteer...' },
@@ -14,6 +13,7 @@ export function load() {
 export const actions = {
 	default: async ({ request }) => {
 		const data = await request.formData();
+
 		const name = data.get('name') || '';
 		const email = data.get('email') || '';
 		const message = data.get('message') || '';
@@ -33,8 +33,12 @@ export const actions = {
 			};
 		}
 
-		// Hier kun je de data opslaan of mail versturen
-		console.log('Contact formulier verzonden:', { name, email, message, category });
+		console.log('Contact formulier verzonden:', {
+			name,
+			email,
+			message,
+			category
+		});
 
 		return { success: true };
 	}
