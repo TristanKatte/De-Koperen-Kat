@@ -1,60 +1,62 @@
 <script lang="ts">
-	import { onNavigate } from "$app/navigation";
-	import { fade, scale, fly } from "svelte/transition";
+  import Header from '$lib/components/organisms/Header.svelte';
+  import Footer from '$lib/components/organisms/Footer.svelte';
+  import { onMount } from 'svelte';
+  import { fade, scale, fly } from 'svelte/transition';
 
-	import Header from '$lib/components/organisms/Header.svelte';
-	import Footer from '$lib/components/organisms/Footer.svelte';
-	import AgeGate from '$lib/components/AgeGate.svelte';
+  let { children } = $props();
 
-	let { children } = $props();
+  // ✅ Gebruik $state voor reactive variables
+  let AgeGateComponent = $state<typeof import('$lib/components/AgeGate.svelte').default | null>(null);
+  let ageGateLoaded = $state(false);
 
-	// Browser-native view transitions
-	onNavigate((navigation) => {
-		if (!document.startViewTransition) return;
+  onMount(async () => {
+    const module = await import('$lib/components/AgeGate.svelte');
+    AgeGateComponent = module.default;
+    ageGateLoaded = true;
+  });
 
-		return new Promise((resolve) => {
-			document.startViewTransition(async () => {
-				resolve();
-				await navigation.complete;
-			});
-		});
-	});
+  // Browser-native view transitions
+  import { onNavigate } from '$app/navigation';
+  onNavigate((navigation) => {
+    if (!document.startViewTransition) return;
+
+    return new Promise((resolve) => {
+      document.startViewTransition(async () => {
+        resolve();
+        await navigation.complete;
+      });
+    });
+  });
 </script>
-
-<svelte:head>
-	<!-- 🔥 Gebruik een statische favicon in /static/ -->
-	<link rel="icon" type="image/svg+xml" href="/images/dkk-logo-cropped.png" />
-
-	<!-- Global CSS -->
-	<link rel="stylesheet" href="/styles/global.css" />
-</svelte:head>
 
 <Header />
 
-<!-- PAGE TRANSITION WRAPPER -->
 <div class="page-transition" in:fade={{ duration: 200 }}>
-	<div in:scale={{ duration: 250, start: 0.98 }}>
-		<div in:fly={{ y: 20, duration: 220 }}>
-			{@render children?.()}
-		</div>
-	</div>
+  <div in:scale={{ duration: 250, start: 0.98 }}>
+    <div in:fly={{ y: 20, duration: 220 }}>
+      {@render children?.()}
+    </div>
+  </div>
 </div>
 
 <Footer />
 
-<AgeGate />
+{#if ageGateLoaded && AgeGateComponent}
+  <AgeGateComponent />
+{/if}
+
 
 <style>
-	:global(body) {
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
-		height: 100%;
-	}
+  :global(body) {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+  }
 
-	/* Belangrijk voor browser view transitions */
-	.page-transition {
-		view-transition-name: page;
-		min-height: 100vh;
-	}
+  .page-transition {
+    view-transition-name: page;
+    min-height: 100vh;
+  }
 </style>

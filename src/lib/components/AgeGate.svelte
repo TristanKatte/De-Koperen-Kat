@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	let isAdult: boolean | null = $state(null);
+	let isAdult: boolean | null = null;
+
 
 	onMount(() => {
 		const stored = localStorage.getItem('isAdult');
