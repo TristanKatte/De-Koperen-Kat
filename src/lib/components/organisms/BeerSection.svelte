@@ -1,20 +1,14 @@
 <script lang="ts">
-	import Button from '$lib/components/atoms/Button.svelte';
+  import Button from '$lib/components/atoms/Button.svelte';
 
-	interface Beer {
-		name: string;
-		slug: string;
-		image_url?: string;
-		beer_type?: string;
-		alcohol_percentage?: number;
-		taste?: string;
-	}
-
-	interface Props {
-		beers?: Beer[];
-	}
-
-	let { beers = [] }: Props = $props();
+  export let beers: {
+    name: string;
+    slug: string;
+    image_url?: string;
+    beer_type?: string;
+    alcohol_percentage?: number;
+    taste?: string;
+  }[] = [];
 </script>
 
 <section class="beers-section" aria-labelledby="beers-title">

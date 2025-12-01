@@ -1,11 +1,17 @@
 <script lang="ts">
   import Button from '$lib/components/atoms/Button.svelte';
-  interface Props {
-    events?: any[];
-  }
 
-  let { events = [] }: Props = $props();
+  export let events: {
+    title: string;
+    slug: string;
+    image_url?: string;
+    date: string;
+    time?: string;
+    location?: string;
+    external_url?: string;
+  }[] = [];
 </script>
+
 
 <section class="events-section" aria-labelledby="events-title">
   <h2 id="events-title">Agenda</h2>

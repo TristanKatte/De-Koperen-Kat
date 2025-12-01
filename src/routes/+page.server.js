@@ -5,9 +5,7 @@ export const load = async () => {
     const { data: beers, error: beersError } = await supabaseServer.from('beers').select('*');
     const { data: events, error: eventsError } = await supabaseServer.from('events').select('*');
 
-    if (beersError || eventsError) {
-      console.error('Supabase error:', beersError || eventsError);
-    }
+    if (beersError || eventsError) console.error('Supabase error:', beersError || eventsError);
 
     return {
       beers: beers || [],
@@ -15,9 +13,6 @@ export const load = async () => {
     };
   } catch (err) {
     console.error('Unexpected load error:', err);
-    return {
-      beers: [],
-      events: []
-    };
+    return { beers: [], events: [] };
   }
 };
