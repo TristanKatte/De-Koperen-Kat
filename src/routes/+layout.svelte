@@ -4,7 +4,10 @@
 
 	import Header from '$lib/components/organisms/Header.svelte';
 	import Footer from '$lib/components/organisms/Footer.svelte';
-	// import AgeGate from '$lib/components/AgeGate.svelte';
+	import AgeGate from '$lib/components/AgeGate.svelte';
+	import { browser } from '$app/environment';
+
+	let showAgeGate = browser;
 
 	let { children } = $props();
 
@@ -31,6 +34,10 @@
 
 <Header />
 
+{#if showAgeGate}
+  <AgeGate />
+{/if}
+
 <!-- PAGE TRANSITION WRAPPER -->
 <div class="page-transition" in:fade={{ duration: 200 }}>
 	<div in:scale={{ duration: 250, start: 0.98 }}>
@@ -42,7 +49,7 @@
 
 <Footer />
 
-<!-- <AgeGate /> -->
+
 
 <style>
 	:global(body) {
