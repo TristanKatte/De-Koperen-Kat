@@ -1,8 +1,21 @@
-import { supabaseServer } from '$lib/supabaseClient.server';
+// +page.server.js
+import { supabase } from '$lib/supabaseClient';
 
-export const load = async () => {
-  const { data: beers } = await supabaseServer.from('beers').select('*');
-  const { data: events } = await supabaseServer.from('events').select('*');
+export async function load() {
+	const { data: beers, error: beersError } = await supabase
+		.from('beers')
+		.select('*');
 
-  return { beers, events };
-};
+	const { data: events, error: eventsError } = await supabase
+		.from('events')
+		.select('*');
+
+	if (beersError || eventsError) {
+		console.error('Error loading data:', beersError || eventsError);
+	}
+
+	return {
+		beers,
+		events
+	};
+}
