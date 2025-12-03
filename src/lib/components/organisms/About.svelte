@@ -29,7 +29,7 @@
 				y: 30,
 				scale: 0.9,
 				stagger: 0.015,
-				duration: 0.55,
+				duration: 0.25,
 				ease: 'back.out(1.4)'
 			});
 		});

@@ -21,7 +21,7 @@
         gsap.from(splitH2.chars, {
           opacity: 0,
           y: 50,
-          duration: 0.8,
+          duration: 0.15,
           stagger: 0.03,
           ease: 'power2.out',
           scrollTrigger: { trigger: h2, start: 'top 85%' }
@@ -33,7 +33,7 @@
         gsap.from(splitP.chars, {
           opacity: 0,
           y: 25,
-          duration: 0.8,
+          duration: 0.15,
           stagger: 0.02,
           ease: 'power2.out',
           scrollTrigger: { trigger: p, start: 'top 85%' }
@@ -71,7 +71,7 @@
 
       gsap.to(obj, {
         val: target,
-        duration: 2,
+        duration: 0.25,
         ease: 'power3.out',
         scrollTrigger: { trigger: wrapper, start: 'top 90%', once: true },
         onUpdate: () => {
@@ -86,7 +86,7 @@
       gsap.from(wrapper, {
         opacity: 0,
         scale: 0.8,
-        duration: 0.8,
+        duration: 0.25,
         ease: 'power2.out',
         scrollTrigger: { trigger: wrapper, start: 'top 90%', once: true }
       });
