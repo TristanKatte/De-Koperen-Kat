@@ -11,11 +11,16 @@
 
   gsap.registerPlugin(ScrollTrigger, SplitText);
 
-  // ✅ Svelte 5 syntax: SSR props
-  export let data: {
+  
+  interface Props {
+    // ✅ Svelte 5 syntax: SSR props
+    data: {
     beers: any[];
     events: any[];
   };
+  }
+
+  let { data }: Props = $props();
 
   const beers = data.beers ?? [];
   const events = data.events ?? [];

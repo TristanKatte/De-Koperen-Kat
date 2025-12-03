@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { browser } from '$app/environment';
 
-  let isAdult: boolean | null = null;
+  let isAdult: boolean | null = $state(null);
 
   onMount(() => {
     if (browser) {
@@ -29,7 +29,7 @@
     <div class="age-gate">
       <div class="age-gate-content">
         <h2>Ben je 18 jaar of ouder?</h2>
-        <button on:click={confirmAge}>Ja, ik ben 18+</button>
+        <button onclick={confirmAge}>Ja, ik ben 18+</button>
         <p>
           We verkopen geen alcoholische producten aan minderjarigen.
           <br />
@@ -43,7 +43,7 @@
 {/if}
 
 {#if browser && isAdult === true}
-  <button class="reset-button" on:click={resetAge}>🔁 Reset leeftijd</button>
+  <button class="reset-button" onclick={resetAge}>🔁 Reset leeftijd</button>
 {/if}
 
 <style>
