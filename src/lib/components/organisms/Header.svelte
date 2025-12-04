@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import gsap from 'gsap';
+  import { javascript } from '$lib/utils/javascriptEnabled.svelte.js';
 
   type MenuLink = { href: string; label: string };
   type MenuItem = { title: string; links: MenuLink[] };
@@ -19,18 +20,14 @@
 
   let mobileOpen = $state(false);
   let openIndex: number | null = $state(null);
-  let overlayEl: HTMLDivElement = $state();
+  let overlayEl: HTMLElement;
 
   function toggleDropdown(i: number) {
     openIndex = openIndex === i ? null : i;
   }
 
   onMount(() => {
-    document.documentElement.classList.add('js');
-
-    if (overlayEl) {
-      gsap.set(overlayEl, { y: '-100%' });
-    }
+    if (overlayEl) gsap.set(overlayEl, { y: '-100%' });
   });
 
   function openMenu() {
@@ -38,18 +35,18 @@
 
     requestAnimationFrame(() => {
       gsap.to(overlayEl, {
-        y: "0%",
+        y: '0%',
         duration: 0.6,
-        ease: "power4.out"
+        ease: 'power4.out'
       });
     });
   }
 
   function closeMenu() {
     gsap.to(overlayEl, {
-      y: "-100%",
+      y: '-100%',
       duration: 0.6,
-      ease: "power4.in",
+      ease: 'power4.in',
       onComplete: () => {
         mobileOpen = false;
         openIndex = null;
@@ -58,24 +55,36 @@
   }
 </script>
 
-<nav class="main-nav">
+<nav
+  class="main-nav"
+  class:js-enabled={javascript.enabled}
+  aria-label="Hoofdmenu"
+>
+
   <a href="/" class="logo">
-    <img src="/images/dkk-logo-cropped.png" alt="Brouwerij Logo" />
+    <img src="/images/dkk-logo-cropped.png" alt="Brouwerij De Koperen Kat Logo" />
   </a>
 
-  <!-- DESKTOP MENU -->
+  <!-- DESKTOP -->
   <ul class="desktop-menu">
     {#each menuItems as item, i}
       <li class="menu-item">
         {#if item.links.length > 1}
-          <button class="menu-button" aria-expanded={openIndex === i} onclick={() => toggleDropdown(i)}>
-            {item.title} <span class="arrow">▾</span>
+          <button
+            class="menu-button"
+            aria-expanded={openIndex === i}
+            aria-haspopup="true"
+            aria-controls={"desktop-dd-" + i}
+            onclick={() => toggleDropdown(i)}
+          >
+            {item.title}
+            <span class="arrow">▾</span>
           </button>
 
           {#if openIndex === i}
-            <ul class="dropdown">
+            <ul class="dropdown" id={"desktop-dd-" + i}>
               {#each item.links as link}
-                <li><a class="menu-link" href={link.href}>{link.label}</a></li>
+                <li><a href={link.href} class="menu-link">{link.label}</a></li>
               {/each}
             </ul>
           {/if}
@@ -87,48 +96,53 @@
   </ul>
 
   <!-- MOBILE HAMBURGER -->
-  <button class="hamburger" onclick={openMenu} aria-label="Open menu">
+  <button class="hamburger" onclick={openMenu} aria-label="Open navigatie">
     <span></span><span></span><span></span>
   </button>
+
+  <!-- MOBILE OVERLAY -->
+  <div
+    bind:this={overlayEl}
+    class="mobile-overlay"
+    aria-hidden={!mobileOpen}
+  >
+    <button class="close-btn" onclick={closeMenu} aria-label="Sluit menu">×</button>
+
+    <ul class="overlay-menu">
+      {#each menuItems as item, i}
+        <li class="overlay-item">
+          {#if item.links.length > 1}
+            <button
+              class="overlay-button"
+              aria-expanded={openIndex === i}
+              aria-haspopup="true"
+              aria-controls={"mobile-dd-" + i}
+              onclick={() => toggleDropdown(i)}
+            >
+              {item.title} <span class="arrow">▾</span>
+            </button>
+
+            {#if openIndex === i}
+              <ul class="overlay-dropdown" id={"mobile-dd-" + i}>
+                {#each item.links as link}
+                  <li><a href={link.href} onclick={closeMenu}>{link.label}</a></li>
+                {/each}
+              </ul>
+            {/if}
+          {:else}
+            <a href={item.links[0].href} onclick={closeMenu}>{item.title}</a>
+          {/if}
+        </li>
+      {/each}
+    </ul>
+  </div>
 </nav>
 
-<!-- MOBILE OVERLAY -->
-<div
-  bind:this={overlayEl}
-  class="mobile-overlay"
-  aria-hidden={!mobileOpen}
-  style="display: {mobileOpen ? 'flex' : 'none'}"
->
-  <button class="close-btn" aria-label="Sluit menu" onclick={closeMenu}>×</button>
-
-  <ul class="overlay-menu">
-    {#each menuItems as item, i}
-      <li class="overlay-item">
-        {#if item.links.length > 1}
-          <button class="overlay-button" aria-expanded={openIndex === i} onclick={() => toggleDropdown(i)}>
-            {item.title} <span class="arrow">▾</span>
-          </button>
-
-          {#if openIndex === i}
-            <ul class="overlay-dropdown">
-              {#each item.links as link}
-                <li><a href={link.href} onclick={closeMenu}>{link.label}</a></li>
-              {/each}
-            </ul>
-          {/if}
-        {:else}
-          <a href={item.links[0].href} onclick={closeMenu}>{item.title}</a>
-        {/if}
-      </li>
-    {/each}
-  </ul>
-</div>
-
 <style>
-/* ---------------- RESET ---------------- */
-nav ul, nav li { margin: 0; padding: 0; list-style: none; }
+/* RESET */
+ul, li { margin: 0; padding: 0; list-style: none; }
 
-/* ---------------- NAV ---------------- */
+/* NAV WRAPPER */
 nav.main-nav {
   background: #f5f5f0;
   display: flex;
@@ -142,7 +156,7 @@ nav.main-nav {
 
 .logo img { height: 3rem; }
 
-/* ---------------- DESKTOP MENU ---------------- */
+/* DESKTOP MENU */
 .desktop-menu {
   display: flex;
   gap: 2rem;
@@ -158,7 +172,7 @@ nav.main-nav {
   font-weight: 600;
   cursor: pointer;
   padding: 0.5rem 1rem;
-  color: var(--link-color);
+  color: var(--text-color);
 }
 
 .menu-button:hover,
@@ -173,19 +187,12 @@ nav.main-nav {
   top: 100%;
   background: var(--background-color);
   border-radius: 0 0 .4rem .4rem;
-  width: 100%;
   padding: 0.5rem 0;
   box-shadow: 0 6px 12px rgba(0,0,0,.1);
   z-index: 20;
 }
 
-.dropdown li a {
-  display: block;
-  padding: .5rem 1rem;
-  font-weight: 600;
-}
-
-/* ---------------- HAMBURGER ---------------- */
+/* HAMBURGER */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -201,9 +208,7 @@ nav.main-nav {
   background: var(--text-color);
 }
 
-/* ---------------- MOBILE OVERLAY ---------------- */
-.js .mobile-overlay { display: none; }
-
+/* MOBILE OVERLAY */
 .mobile-overlay {
   position: fixed;
   top: 0; left: 0;
@@ -212,6 +217,12 @@ nav.main-nav {
   padding: 2rem;
   background: var(--background-color);
   z-index: 200;
+  display: block;
+  transform: translateY(-100%);
+}
+
+.js-enabled .mobile-overlay {
+  display: flex;
 }
 
 .close-btn {
@@ -227,22 +238,19 @@ nav.main-nav {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  list-style: none;
 }
 
-.overlay-item button,
+.overlay-button,
 .overlay-item a {
   font-size: 2rem;
   font-weight: 700;
-  text-decoration: none;
-  color: var(--link-color);
   background: none;
   border: none;
   text-align: left;
+  color: var(--text-color);
 }
 
 .overlay-item a:hover {
-  transition: .2s color ease-in-out;
   color: var(--highlight-color);
   text-decoration: underline;
 }
@@ -254,7 +262,7 @@ nav.main-nav {
   gap: .75rem;
 }
 
-/* ---------------- RESPONSIVE ---------------- */
+/* RESPONSIVE */
 @media (max-width: 900px) {
   .desktop-menu { display: none; }
   .hamburger { display: flex; }

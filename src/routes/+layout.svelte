@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { onNavigate } from "$app/navigation";
-	import { fade, scale, fly } from "svelte/transition";
+	import { onNavigate } from '$app/navigation';
+	import { fade, scale, fly } from 'svelte/transition';
+	import { onMount } from 'svelte';
+	import { javascript } from '$lib/utils/javascriptEnabled.svelte.js';
 
 	import Header from '$lib/components/organisms/Header.svelte';
 	import Footer from '$lib/components/organisms/Footer.svelte';
@@ -10,6 +12,13 @@
 	let showAgeGate = browser;
 
 	let { children } = $props();
+
+	onMount(() => {
+		// Check if JavaScript is enabled
+		if (typeof window !== 'undefined' && typeof window.document !== 'undefined') {
+			javascript.enabled = true;
+		}
+	});
 
 	// Browser-native view transitions
 	onNavigate((navigation) => {
@@ -35,10 +44,8 @@
 <Header />
 
 {#if browser}
-  <AgeGate />
+	<AgeGate />
 {/if}
-
-
 
 <!-- PAGE TRANSITION WRAPPER -->
 <div class="page-transition" in:fade={{ duration: 200 }}>
@@ -50,8 +57,6 @@
 </div>
 
 <Footer />
-
-
 
 <style>
 	:global(body) {
