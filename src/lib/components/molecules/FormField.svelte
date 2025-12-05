@@ -8,7 +8,7 @@
 		name: string;
 		value?: string;
 		error?: string | null;
-		type?: 'text' | 'email' | 'textarea' | 'select';
+		type?: 'text' | 'email' | 'textarea' | 'select' | 'date' | 'number';
 		children?: (() => any) | null;
 		options?: { value: string; label: string }[];
 	}
@@ -72,6 +72,6 @@
 .form-field {
 	display: flex;
 	flex-direction: column;
-	gap: 0.35rem;
+	gap: 0.55rem;
 }
 </style>

@@ -1,45 +1,31 @@
-/** @type {import('./$types').PageServerLoad} */
-export function load() {
-	return {
-		categories: [
-			{ value: '', label: 'Selecteer...' },
-			{ value: 'feedback', label: 'Feedback' },
-			{ value: 'support', label: 'Support' }
-		]
-	};
-}
+import { fail } from '@sveltejs/kit';
 
-/** @type {import('./$types').Actions} */
 export const actions = {
 	default: async ({ request }) => {
-		const data = await request.formData();
+		const formData = await request.formData();
+		const values = {
+			name: formData.get('name')?.toString() ?? '',
+			email: formData.get('email')?.toString() ?? '',
+			message: formData.get('message')?.toString() ?? '',
+			category: formData.get('category')?.toString() ?? ''
+		};
 
-		const name = data.get('name') || '';
-		const email = data.get('email') || '';
-		const message = data.get('message') || '';
-		const category = data.get('category') || '';
+		const errors = {
+			name: !values.name ? 'Naam is verplicht' : null,
+			email: !values.email ? 'Email is verplicht' : null,
+			message: !values.message ? 'Bericht is verplicht' : null,
+			category: !values.category ? 'Categorie is verplicht' : null
+		};
 
-		const errors = {};
+		const hasErrors = Object.values(errors).some(Boolean);
 
-		if (!name) errors.name = 'Naam is verplicht';
-		if (!email) errors.email = 'Email is verplicht';
-		if (!message) errors.message = 'Bericht is verplicht';
-
-		if (Object.keys(errors).length > 0) {
-			return {
-				success: false,
-				errors,
-				values: { name, email, message, category }
-			};
+		if (hasErrors) {
+			return fail(400, { form: { values, error: errors, success: false } });
 		}
 
-		console.log('Contact formulier verzonden:', {
-			name,
-			email,
-			message,
-			category
-		});
+		// Hier zou je normaal gesproken de gegevens verwerken, zoals het verzenden van een e-mail
+		console.log('Verzonden:', values);
 
-		return { success: true };
+		return { form: { values: { name: '', email: '', message: '', category: '' }, error: { name: null, email: null, message: null, category: null }, success: true } };
 	}
 };

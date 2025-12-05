@@ -33,6 +33,7 @@
 	text-decoration: none;
 	transition: 0.3s;
 	width: 100%; /* optioneel voor forms */
+	margin-top: 2rem;
 }
 .form-btn:disabled {
 	opacity: 0.5;
