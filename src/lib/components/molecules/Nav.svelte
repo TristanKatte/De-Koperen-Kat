@@ -74,6 +74,12 @@
 		max-height: 0;
 		overflow: hidden;
 		transition: max-height 0.3s ease-in-out;
+		flex-direction: row;
+	}
+
+	nav.js-enabled  li {
+		flex: 0 1 auto;
+		min-width: 5px;
 	}
 
 	nav.js-enabled ul.is-open {
@@ -102,7 +108,7 @@
 	/* Desktop styling */
 	@media (min-width: 700px) {
 		nav.js-enabled ul {
-			display: flex !important;
+			display: flex;
 			flex-direction: row;
 			gap: 2rem;
 			max-height: none;
