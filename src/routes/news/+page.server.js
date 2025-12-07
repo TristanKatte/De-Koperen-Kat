@@ -1,21 +1,17 @@
-import { createClient } from '@supabase/supabase-js';
-import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
-
-const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
+// +page.server.js
+import { supabase } from '$lib/supabaseClient.js';
 
 export async function load() {
-    const today = new Date().toISOString(); // YYYY-MM-DD
+  // Haal de evenementen op uit de 'news-events' tabel
+  const { data: events, error } = await supabase
+    .from('news_events')
+    .select('*')
+    .order('date', { ascending: true }); // op datum gesorteerd
 
-    const { data: events, error } = await supabase
-        .from('news-events')
-        .select('*')
-        .gte('date', today)   // alleen toekomstige events
-        .order('date', { ascending: true }); // eerstvolgende bovenaan
+  if (error) {
+    console.error('Error loading events:', error);
+    return { events: [] };
+  }
 
-    if (error) {
-        console.error('Error loading events:', error);
-        return { events: [] };
-    }
-
-    return { events };
+  return { events };
 }
