@@ -7,5 +7,15 @@ export default defineConfig({
 		fs: {
 			allow: ['./slicemachine.config.json']
 		}
+	},
+	build: {
+		rollupOptions: {
+			// ❗ voorkomt dat zware libraries duizenden keren in server functies komen
+			external: [
+				'@supabase/supabase-js',
+				'@supabase/auth-js',
+				'@supabase/storage-js'
+			]
+		}
 	}
 });
