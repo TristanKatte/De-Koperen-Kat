@@ -35,10 +35,6 @@
 		<div class="event-button">
 			<Button href={`/news/${event.slug}`} label="Meer informatie" />
 		</div>
-
-		<p class="event-description">
-			{event.description}
-		</p>
 	</div>
 </article>
 
@@ -81,10 +77,5 @@
 		color: #c4661f;
 		margin: 0.25rem 0;
 		text-transform: capitalize;
-	}
-
-	.event-description {
-		color: #444;
-		font-size: 0.95rem;
 	}
 </style>
