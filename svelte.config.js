@@ -1,19 +1,24 @@
 import adapter from '@sveltejs/adapter-netlify';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
-/** @type {import('@sveltejs/kit').Config} */
 const config = {
-  kit: {
-    adapter: adapter({
-      edge: false,
-      split: true // ✅ functie splitting inschakelen
-    }),
-    csrf: {
-      checkOrigin: false
-    }
-  },
+	preprocess: vitePreprocess(),
 
-  preprocess: vitePreprocess()
+	kit: {
+		adapter: adapter({
+			edge: false,
+			split: false
+		}),
+
+		// BELANGRIJK → anders probeert SvelteKit te prerenderen
+		prerender: {
+			entries: []
+		},
+
+		csrf: {
+			checkOrigin: false
+		}
+	}
 };
 
 export default config;
