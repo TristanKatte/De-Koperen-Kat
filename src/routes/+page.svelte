@@ -4,9 +4,7 @@
   import BeersSection from '$lib/components/organisms/BeerSection.svelte';
   import EventsSection from '$lib/components/organisms/EventSection.svelte';
   import TastingSection from '$lib/components/organisms/TastingSection.svelte';
-  import { onMount } from 'svelte';
-
-
+  
   export const ssr = false;
   
   interface Props {
