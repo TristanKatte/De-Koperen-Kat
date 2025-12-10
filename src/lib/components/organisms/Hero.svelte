@@ -1,4 +1,5 @@
 <script lang="ts">
+	export const ssr = false;
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';

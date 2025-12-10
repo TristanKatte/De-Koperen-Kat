@@ -1,4 +1,5 @@
 <script lang="ts">
+  export const ssr = false;
   import Button from '$lib/components/atoms/Button.svelte';
 </script>
 
