@@ -5,15 +5,9 @@
   import EventsSection from '$lib/components/organisms/EventSection.svelte';
   import TastingSection from '$lib/components/organisms/TastingSection.svelte';
   import { onMount } from 'svelte';
-  import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import { SplitText } from 'gsap/SplitText';
+
 
   export const ssr = false;
-
-
-  gsap.registerPlugin(ScrollTrigger, SplitText);
-
   
   interface Props {
     // ✅ Svelte 5 syntax: SSR props
@@ -27,10 +21,6 @@
 
   const beers = data.beers ?? [];
   const events = data.events ?? [];
-
-  onMount(() => {
-    // GSAP animaties hier uitvoeren
-  });
 </script>
 
 <svelte:head>
