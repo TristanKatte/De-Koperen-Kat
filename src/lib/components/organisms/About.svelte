@@ -1,56 +1,59 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import { SplitText } from 'gsap/SplitText';
-	import Button from '../atoms/Button.svelte';
+  export const ssr = false;
+  import { onMount } from 'svelte';
+  import Button from '../atoms/Button.svelte';
 
-	gsap.registerPlugin(ScrollTrigger, SplitText);
+  onMount(async () => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
 
-	onMount(() => {
-		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		if (prefersReducedMotion) return;
+    // ⬇️ Dynamisch importeren — voorkomt Netlify SSR errors
+    const { gsap } = await import('gsap');
+    const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+    const { SplitText } = await import('gsap/SplitText');
 
-		// TEXT ANIMATIONS
-		const elements = document.querySelectorAll(
-			'.about-section h2, .about-section h3, .about-section p'
-		);
+    gsap.registerPlugin(ScrollTrigger, SplitText);
 
-		elements.forEach((el) => {
-			const split = new SplitText(el, { type: 'chars, words' });
+    // TEXT ANIMATIONS
+    const elements = document.querySelectorAll(
+      '.about-section h2, .about-section h3, .about-section p'
+    );
 
-			gsap.from(split.chars, {
-				scrollTrigger: {
-					trigger: el,
-					start: 'top 80%',
-					toggleActions: 'play none none reverse'
-				},
-				opacity: 0,
-				y: 30,
-				scale: 0.9,
-				stagger: 0.015,
-				duration: 0.25,
-				ease: 'back.out(1.4)'
-			});
-		});
+    elements.forEach((el) => {
+      const split = new SplitText(el, { type: 'chars, words' });
 
-		// IMAGE ANIMATIONS — POLAROID FADE-IN
-		const images = gsap.utils.toArray('.polaroid') as HTMLElement[];
+      gsap.from(split.chars, {
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 30,
+        scale: 0.9,
+        stagger: 0.015,
+        duration: 0.25,
+        ease: 'back.out(1.4)'
+      });
+    });
 
-		images.forEach((img) => {
-			gsap.from(img, {
-				scrollTrigger: {
-					trigger: img,
-					start: 'top 90%',
-				},
-				opacity: 0,
-				y: 50,
-				rotate: gsap.utils.random(-8, 8),
-				duration: 0.9,
-				ease: 'power3.out'
-			});
-		});
-	});
+    // IMAGE ANIMATIONS — polaroids
+    const images = gsap.utils.toArray('.polaroid') as HTMLElement[];
+
+    images.forEach((img) => {
+      gsap.from(img, {
+        scrollTrigger: {
+          trigger: img,
+          start: 'top 90%'
+        },
+        opacity: 0,
+        y: 50,
+        rotate: gsap.utils.random(-8, 8),
+        duration: 0.9,
+        ease: 'power3.out'
+      });
+    });
+  });
 </script>
 
 <section class="about-section" aria-labelledby="about-title">
