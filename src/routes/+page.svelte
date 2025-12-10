@@ -9,6 +9,9 @@
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   import { SplitText } from 'gsap/SplitText';
 
+  export const ssr = false;
+
+
   gsap.registerPlugin(ScrollTrigger, SplitText);
 
   
