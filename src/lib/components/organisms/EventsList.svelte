@@ -36,7 +36,7 @@
 </script>
 
 <section class="events-section">
-	<h1>Evenementen Agenda</h1>
+	<h1>Komende evenementen</h1>
 
 	{#if events.length > 0}
 		<div class="agenda-grid">
