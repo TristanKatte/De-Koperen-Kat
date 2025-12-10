@@ -1,98 +1,90 @@
 <script lang="ts">
-	export const ssr = false;
-	import { onMount } from 'svelte';
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import { SplitText } from 'gsap/SplitText';
+  export const ssr = false;
+  import { onMount } from 'svelte';
+  import { gsap } from 'gsap';
 
-	gsap.registerPlugin(ScrollTrigger, SplitText);
+  let heroSection: HTMLElement | null = $state(null);
 
-	let heroSection: HTMLElement | null = $state(null);
+  onMount(async () => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+    if (!heroSection) return;
 
-	onMount(() => {
-		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		if (prefersReducedMotion) return;
+    // ⬇️ Dynamische import — voorkomt Netlify SSR crash
+    const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+    const { SplitText } = await import('gsap/SplitText');
 
-		if (!heroSection) return;
+    gsap.registerPlugin(ScrollTrigger, SplitText);
 
-		// Selecteer elementen
-		const logoEl = heroSection.querySelector('.logo');
-		const titleEl = heroSection.querySelector('.hero-title');
-		const subtitleEl = heroSection.querySelector('.hero-subtitle');
-		const buttons = gsap.utils.toArray('.hero-actions .btn');
+    const logoEl = heroSection.querySelector('.logo');
+    const titleEl = heroSection.querySelector('.hero-title');
+    const subtitleEl = heroSection.querySelector('.hero-subtitle');
+    const buttons = gsap.utils.toArray('.hero-actions .btn');
 
-		// SplitText voor animatie
-		const splitTitle = titleEl
-			? new SplitText(titleEl, { type: 'chars', charsClass: 'char' })
-			: null;
-		const splitSubtitle = subtitleEl
-			? new SplitText(subtitleEl, { type: 'words', wordsClass: 'word' })
-			: null;
+    const splitTitle = titleEl ? new SplitText(titleEl, { type: 'chars', charsClass: 'char' }) : null;
+    const splitSubtitle = subtitleEl ? new SplitText(subtitleEl, { type: 'words', wordsClass: 'word' }) : null;
 
-		const tl = gsap.timeline({
-			scrollTrigger: {
-				trigger: heroSection,
-				start: 'top 85%'
-			}
-		});
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: heroSection,
+        start: 'top 85%'
+      }
+    });
 
-		// Logo animatie
-		if (logoEl) {
-			tl.from(logoEl, {
-				opacity: 0,
-				x: -100,
-				duration: 0.6,
-				ease: 'power2.out'
-			});
-		}
+    if (logoEl) {
+      tl.from(logoEl, {
+        opacity: 0,
+        x: -100,
+        duration: 0.6,
+        ease: 'power2.out'
+      });
+    }
 
-		// Titel animatie
-		if (splitTitle) {
-			tl.from(
-				splitTitle.chars,
-				{
-					opacity: 0,
-					y: 50,
-					scale: 0,
-					stagger: 0.03,
-					duration: 0.45,
-					ease: 'elastic.out(1, 0.6)'
-				},
-				'-=0.3'
-			); // overlap met logo
-		}
+    if (splitTitle) {
+      tl.from(
+        splitTitle.chars,
+        {
+          opacity: 0,
+          y: 50,
+          scale: 0,
+          stagger: 0.03,
+          duration: 0.45,
+          ease: 'elastic.out(1, 0.6)'
+        },
+        '-=0.3'
+      );
+    }
 
-		// Subtitle animatie
-		if (splitSubtitle) {
-			tl.from(
-				splitSubtitle.words,
-				{
-					opacity: 0,
-					y: 25,
-					stagger: 0.05,
-					duration: 0.45,
-					ease: 'power2.out'
-				},
-				'-=0.6'
-			); // overlap met titel
-		}
+    if (splitSubtitle) {
+      tl.from(
+        splitSubtitle.words,
+        {
+          opacity: 0,
+          y: 25,
+          stagger: 0.05,
+          duration: 0.45,
+          ease: 'power2.out'
+        },
+        '-=0.6'
+      );
+    }
 
-		// Buttons animatie
-		if (buttons.length) {
-			tl.from(
-				buttons,
-				{
-					opacity: 0,
-					y: 15,
-					stagger: 0.12,
-					duration: 0.45,
-					ease: 'power2.out'
-				},
-				'-=0.5'
-			); // overlap met subtitle
-		}
-	});
+    if (buttons.length) {
+      tl.from(
+        buttons,
+        {
+          opacity: 0,
+          y: 15,
+          stagger: 0.12,
+          duration: 0.45,
+          ease: 'power2.out'
+        },
+        '-=0.5'
+      );
+    }
+  });
 </script>
+
 
 <section bind:this={heroSection} class="hero">
 	<div class="hero-content">
