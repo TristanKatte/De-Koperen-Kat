@@ -1,11 +1,13 @@
 <script lang="ts">
+  export const ssr = false;
+  
   import Hero from '$lib/components/organisms/Hero.svelte';
   import About from '$lib/components/organisms/About.svelte';
   import BeersSection from '$lib/components/organisms/BeerSection.svelte';
   import EventsSection from '$lib/components/organisms/EventSection.svelte';
   import TastingSection from '$lib/components/organisms/TastingSection.svelte';
   
-  export const ssr = false;
+  
   
   interface Props {
     // ✅ Svelte 5 syntax: SSR props
