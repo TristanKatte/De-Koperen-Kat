@@ -2,7 +2,8 @@
 	import VacancyCard from '$lib/components/molecules/VacancyCard.svelte';
 
   let { data } = $props();
-  const vacancies = data.vacancies;
+  const vacancies = data.vacancies ?? []; 
+
 </script>
 
 <section class="vacature-overview">

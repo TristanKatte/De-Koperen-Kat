@@ -10,7 +10,7 @@
 
   <h2>{v.title}</h2>
 
-  <Button href={`/vacatures/${v.slug}`} label="Meer info" />
+  <Button href={`/vacancies/${v.slug}`} label="Meer info" />
 
 </article>
 
