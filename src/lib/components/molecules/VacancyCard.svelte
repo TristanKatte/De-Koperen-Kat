@@ -28,9 +28,7 @@
 }
 
 .vacancy-card:nth-child(1) {
-  /* grotere kaart voor de eerste vacature */
   grid-column: span 1;
-
 }
 
 .vacancy-card .thumb {

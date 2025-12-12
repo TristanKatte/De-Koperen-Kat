@@ -58,7 +58,7 @@
 	}
 
 	ul {
-		list-style: none;
+		list-style: "🎯";
 		margin-left: 1.5rem;
     margin-bottom: 2rem;
 	}
