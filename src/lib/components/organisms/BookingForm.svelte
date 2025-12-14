@@ -49,6 +49,9 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+		background-color: var(--background-alt);
+		padding: 2rem;
+		color: var(--text-color-alt);
 	}
 	.success {
 		color: green;
