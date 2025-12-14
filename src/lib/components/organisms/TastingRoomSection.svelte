@@ -50,7 +50,7 @@
 		</p>
 	</div>
 
-	<BookingForm {form} />
+	
 </section>
 
 <style>
@@ -58,6 +58,11 @@
 		max-width: 1200px;
 		margin: 0 auto;
 		padding: 2rem 1rem;
+	}
+
+	.tastingroom-overview p {
+		margin-bottom: 2rem;
+		max-width: 75ch;
 	}
 
 	/* Responsive voor mobiel */

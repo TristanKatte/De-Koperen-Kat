@@ -3,8 +3,25 @@
 	import FormButton from '$lib/components/atoms/FormButton.svelte';
 	import { enhance } from '$app/forms';
 
-	const { form } = $props();
+	export let form = {
+		values: {
+			name: '',
+			email: '',
+			date: '',
+			people: '',
+			notes: ''
+		},
+		error: {
+			name: null,
+			email: null,
+			date: null,
+			people: null,
+			notes: null
+		},
+		success: false
+	};
 </script>
+
 
 <form method="POST" novalidate use:enhance>
 	<FormField label="Naam" name="name" value={form.values.name} error={form.error.name} />

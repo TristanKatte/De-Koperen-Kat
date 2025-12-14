@@ -1,13 +1,8 @@
-<script>
-	import BookingForm from "$lib/components/organisms/BookingForm.svelte";
-	import TastingRoomSection from "$lib/components/organisms/TastingRoomSection.svelte";
+<script lang="ts">
+  import TastingRoomTabs from '$lib/components/organisms/TastingRoomTabs.svelte';
+  import { page } from '$app/stores';
 
+  export let data;
 </script>
 
-<svelte:head>
-    <title>Proeflokaal</title>
-</svelte:head>
-
-<section class="tasting-room-section">
-<TastingRoomSection />
-</section>
+<TastingRoomTabs form={$page.form ?? data.form} />
