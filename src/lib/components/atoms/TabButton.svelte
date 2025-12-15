@@ -28,10 +28,12 @@ button {
   border: none;
   padding: 0.5rem 1rem;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 1rem;
   color: #555;
   border-bottom: 2px solid transparent;
   transition: border-color 0.2s, color 0.2s;
+  width: 33.33%;
 }
 
 button.active,

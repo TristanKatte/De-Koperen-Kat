@@ -30,8 +30,22 @@
 		display: none;
 	}
 
+	summary h3 {
+		font-size: 1.25rem;
+		font-weight: 700;
+	}
+
+	summary h3:hover {
+		text-decoration: underline;
+	}
+
+	summary h3:active {
+		text-decoration: none;
+	}
+
+
 	summary h3::after {
-		content: '▼';
+		content: '►';
 		margin-left: 0.5rem;
 		transition: transform 0.3s ease;
 	}
