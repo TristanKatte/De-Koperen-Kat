@@ -1,30 +1,35 @@
 <script lang="ts">
-	import Accordion from '$lib/components/molecules/Accordion.svelte';
-	import BookingForm from '$lib/components/organisms/BookingForm.svelte';
-
-	export let form;
 </script>
 
-<div
-	id="tabpanel-evenementen"
-	role="tabpanel"
-	aria-labelledby="tab-evenementen"
-	tabindex="0"
->
-	<h2>Evenementen</h2>
+<div id="tabpanel-evenementen" role="tabpanel" aria-labelledby="tab-evenementen" tabindex="0">
+	<section>
+		<h2>Evenementen</h2>
 
-	<p>
-		Regelmatig organiseren we proeverijen, workshops en speciale avonden
-		in ons proeflokaal.
-	</p>
-
-	<ul>
-		<li>🍺 Bierproeverijen</li>
-		<li>🎓 Workshops brouwen</li>
-		<li>🎉 Speciale releases</li>
-	</ul>
-
-	<Accordion title="Aanmelden voor een evenement">
-		<BookingForm form={form} />
-	</Accordion>
+		<p>
+			Naast alle activiteiten die we regelmatig organiseren in de brouwerij, zijn er ook evenementen
+			die door de brouwerij georganiseerd worden of waar wij op aanwezig zijn. Zo organiseren wij
+			jaarlijks een feestje om onze verjaardag te vieren, wat inmiddels een compleet festival is.
+			Het Zomerbierfestival wordt elk jaar op het terrein van de brouwerij gehouden, waarbij we ook
+			bevriende brouwerijen uitnodigen en zorgen voor genoeg te eten. Ook treden er verschillende
+			bands op. Een en al gezelligheid en plezier! Daarnaast zie je ons regelmatig op bierfestivals
+			staan. Regelmatig wordt de lijst up to date gehouden. Via onze evenementenpagina op Facebook
+			of onder het kopje “Agenda” kunnen alle aankomende evenementen gevonden worden!
+		</p>
+	</section>
 </div>
+
+<style>
+	section {
+		padding: 2rem 0;
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	section p {
+		max-width: 75ch;
+	}
+
+	[role='tabpanel'] {
+		padding: 2rem 0;
+	}
+</style>

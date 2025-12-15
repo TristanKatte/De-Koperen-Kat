@@ -47,7 +47,7 @@
 {:else if activeTab === 'afhuren'}
 	<RentalPanel {form} />
 {:else}
-	<EventPanel {form} />
+	<EventPanel />
 {/if}
 
 <style>
@@ -61,5 +61,6 @@
 		margin-right: auto;
     max-width: 1200px;
     margin-top: 2rem;
+    justify-content: center;
 	}
 </style>

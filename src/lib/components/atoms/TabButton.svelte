@@ -33,7 +33,8 @@ button {
   color: #555;
   border-bottom: 2px solid transparent;
   transition: border-color 0.2s, color 0.2s;
-  width: 33.33%;
+  outline: none;
+  width: 100%;
 }
 
 button.active,

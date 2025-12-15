@@ -33,6 +33,7 @@
 	summary h3 {
 		font-size: 1.25rem;
 		font-weight: 700;
+		color: var(--text-color-alt);
 	}
 
 	summary h3:hover {
