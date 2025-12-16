@@ -14,7 +14,7 @@
 
 <style>
 	details {
-		border-bottom: 1px solid #ddd;
+		border-bottom: 1px solid var(--text-color-alt);
 	}
 
 	summary {
@@ -33,7 +33,7 @@
 	summary h3 {
 		font-size: 1.25rem;
 		font-weight: 700;
-		color: var(--text-color-alt);
+		color: var(--text-color);
 	}
 
 	summary h3:hover {
@@ -56,6 +56,13 @@
 	}
 
 	.accordion-content {
+		overflow: hidden;
+		max-height: 0;
 		padding-bottom: 1rem;
+		transition: max-height 0.4s ease;
+	}
+
+	details[open] .accordion-content {
+		max-height: 1000px;
 	}
 </style>

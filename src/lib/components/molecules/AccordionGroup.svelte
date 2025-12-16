@@ -152,8 +152,8 @@
 		width: 100%;
 		margin: 0 auto;
 		padding: 2rem 1rem;
-		background-color: var(--background-alt);
-		color: var(--text-color-alt);
+		background-color: var(--background-color);
+		color: var(--text-color);
 	}
 
 	table {

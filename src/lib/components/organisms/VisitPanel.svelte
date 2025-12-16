@@ -23,7 +23,9 @@
 			</p>
 		</div>
 		<div class="media">
-			<img src="./images/bar-gloed-1.jpg" alt="glas op de bar" />
+			<figure>
+				<img src="./images/bar-glas-ketels.jpg" alt="glas op de bar" />
+			</figure>
 		</div>
 	</section>
 
@@ -38,7 +40,9 @@
 			</ul>
 		</div>
 		<div class="media">
-			<img src="./images/bar-gloed.jpg" alt="glas op de bar" />
+			<figure>
+				<img src="./images/vergisting-ketels.jpg" alt="glas op de bar" />
+			</figure>
 		</div>
 	</section>
 
@@ -52,16 +56,15 @@
 			</ul>
 		</div>
 		<div class="media">
-			<img src="./images/bar-gloed-1.jpg" alt="glas op de bar" />
+			<figure>
+				<img src="./images/bar-gloed-1.jpg" alt="glas op de bar" />
+			</figure>
 		</div>
 	</section>
 
-	
-<section>
-	<AccordionGroup {form} />
-
+	<section>
+		<AccordionGroup {form} />
 	</section>
-
 </div>
 
 <style>
@@ -77,11 +80,11 @@
 		margin-left: 1.5rem;
 		margin-bottom: 2rem;
 	}
-	
+
 	li {
 		margin-bottom: 0.5rem;
 	}
-	
+
 	[role='tabpanel'] {
 		padding: 2rem 0;
 	}
@@ -108,10 +111,14 @@
 		max-width: 80ch;
 	}
 
+	figure {
+		border-radius: 0.75rem;
+	}
+
 	.media {
 		width: 100%;
 		overflow: hidden;
-		border-radius: 0.75rem;
+		
 	}
 
 	.media img {
@@ -120,6 +127,7 @@
 		object-fit: cover;
 		transform: scale(1.1);
 		transition: transform 1.2s ease;
+		border-radius: 0.75rem;
 	}
 
 	/* Hover zoom-out effect */
@@ -134,7 +142,7 @@
 		.zigzag-item,
 		.zigzag-item.reverse {
 			grid-template-columns: 1fr;
-			text-align: center;
+			text-align: left;
 		}
 
 		.zigzag-item.reverse {
@@ -144,6 +152,11 @@
 		.text {
 			max-width: 75ch;
 			margin: 0 auto;
+			padding: 0 2rem 0 2rem;
+		}
+
+		section {
+			padding: 0 2rem;
 		}
 	}
 

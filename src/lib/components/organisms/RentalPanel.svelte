@@ -6,46 +6,57 @@
 </script>
 
 <div id="tabpanel-afhuren" role="tabpanel" aria-labelledby="tab-afhuren" tabindex="0">
+<section class="zigzag-item">
+  <!-- LINKS -->
+  <div class="zigzag-text">
+    <h2>Proeflokaal afhuren</h2>
+
+    <p>
+      Wilt u ons proeflokaal gebruiken voor uw eigen activiteit, evenement, borrel, feest of
+      andere gelegenheid? Dat kan!
+    </p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>Wat?</td>
+          <td>Afhuren Proeflokaal</td>
+        </tr>
+        <tr>
+          <td>Min/Max personen</td>
+          <td>10 – 120 personen</td>
+        </tr>
+        <tr>
+          <td>Huur per uur</td>
+          <td>Op aanvraag</td>
+        </tr>
+        <tr>
+          <td>Catering</td>
+          <td>Op aanvraag</td>
+        </tr>
+        <tr>
+          <td>Afkoop drank</td>
+          <td>Op aanvraag</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Ook is standaard in het proeflokaal een beamer met scherm van 2 bij 3 meter aanwezig,
+      een groot beeldscherm, feestverlichting, geluid, PA en 2 microfoons.
+    </p>
+  </div>
+
+  <!-- RECHTS -->
+  <div class="zigzag-media">
+    <figure>
+      <img src="./images/bar-gloed-1.jpg" alt="glas op de bar" />
+    </figure>
+  </div>
+</section>
+
+
 	<section>
-		<h2>Proeflokaal afhuren</h2>
-
-		<p>
-			Wilt u ons proeflokaal gebruiken voor uw eigen activiteit, evenement, borrel, feest of andere
-			gelegenheid? Dat kan! Buiten openingstijden en in de avonduren kan het proeflokaal afgehuurd
-			worden voor de gelegenheid die ú in gedachten heeft. Ook is hierbij eventueel een volledig
-			verzorgde catering bij te boeken en is de drank af te kopen.
-		</p>
-
-		<table>
-			<tbody>
-				<tr>
-					<td>Wat?</td>
-					<td>Afhuren Proeflokaal</td>
-				</tr>
-				<tr>
-					<td>Min/Max personen</td>
-					<td>10 – 120 personen</td>
-				</tr>
-				<tr>
-					<td>Huur per uur</td>
-					<td>Op aanvraag</td>
-				</tr>
-				<tr>
-					<td>Catering</td>
-					<td>Op aanvraag</td>
-				</tr>
-				<tr>
-					<td>Afkoop drank</td>
-					<td>Op aanvraag</td>
-				</tr>
-			</tbody>
-		</table>
-		<p>
-			Ook is standaard in het proeflokaal een beamer met scherm van 2 bij 3 meter aanwezig, een
-			groot beeldscherm, feestverlichting, geluid, PA en 2 microfoons. Voor meer informatie of om
-			een aanvraag te doen kunt u het contactformulier onderaan deze pagina invullen.
-		</p>
-
 		<Accordion title="Vraag een offerte aan">
 			<BookingForm {form} />
 		</Accordion>
@@ -65,5 +76,69 @@
 
 	[role='tabpanel'] {
 		padding: 2rem 0;
+	}
+
+	td {
+		font-weight: 500;
+	}
+
+.zigzag-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.zigzag-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 75ch;
+}
+
+.zigzag-media img {
+  width: 100%;
+  border-radius: 0.75rem;
+  object-fit: cover;
+  transform: scale(1.1);
+  transition: transform 1.2s ease;
+}
+
+
+@media (hover: hover) {
+  .zigzag-media:hover img {
+    transform: scale(1);
+  }
+}
+	/* Mobiel: alles onder elkaar */
+	@media (max-width: 768px) {
+		.zigzag-item {
+			grid-template-columns: 1fr;
+			text-align: left;
+		}
+
+		.zigzag-text {
+			max-width: 75ch;
+			margin: 0 auto;
+			padding: 0 2rem 0 2rem;
+		}
+
+		table {
+			margin: 2rem;
+		}
+
+		section {
+			padding: 0 2rem;
+		}
+	}
+
+	/* Reduced motion */
+	@media (prefers-reduced-motion: reduce) {
+		.zigzag-media img {
+			transition: none;
+			transform: none;
+		}
 	}
 </style>

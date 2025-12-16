@@ -6,12 +6,27 @@
 
 	export let form;
 
-	let activeTab: 'bezoeken' | 'afhuren' | 'evenementen' = 'bezoeken';
+	const tabs = ['bezoeken', 'afhuren', 'evenementen'] as const;
+	type Tab = (typeof tabs)[number];
 
-	const setTab = (tab: typeof activeTab) => {
-		activeTab = tab;
-	};
+	let activeTab: Tab = 'bezoeken';
+
+	function onKeydown(e: KeyboardEvent) {
+		const index = tabs.indexOf(activeTab);
+
+		if (e.key === 'ArrowRight') {
+			activeTab = tabs[(index + 1) % tabs.length];
+			e.preventDefault();
+		}
+
+		if (e.key === 'ArrowLeft') {
+			activeTab = tabs[(index - 1 + tabs.length) % tabs.length];
+			e.preventDefault();
+		}
+	}
 </script>
+
+<svelte:window on:keydown={onKeydown} />
 
 <div role="tablist" aria-label="Proeflokaal tabs" class="tabs">
 	<TabButton

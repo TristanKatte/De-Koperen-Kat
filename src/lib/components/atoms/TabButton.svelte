@@ -17,7 +17,8 @@
   aria-selected={active}
   aria-controls={ariaControls}
   class:active
-  on:click={handleClick}
+  onclick={handleClick}
+  tabindex={active ? 0 : -1}
 >
   <slot />
 </button>
