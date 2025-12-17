@@ -13,11 +13,12 @@
 .webshop-list {
     display: grid;
     grid-template-columns: 1fr; /* Mobiel: 1 kolom */
-    gap: 1.5rem;
+    gap: 2.5rem;
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem 1rem;
 }
+
 
 @media (min-width: 600px) {
     .webshop-list {
@@ -33,7 +34,7 @@
 
 @media (min-width: 1200px) {
     .webshop-list {
-        grid-template-columns: repeat(5, 1fr); /* Grote desktop: 5 kolommen */
+        grid-template-columns: repeat(3, 1fr); /* Grote desktop: 5 kolommen */
     }
 }
 </style>
