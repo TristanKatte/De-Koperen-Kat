@@ -75,19 +75,19 @@
 	}
 
 	.cart-link {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.25rem;
-}
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
 
-.cart-count {
-	font-size: 0.75rem;
-	background: var(--cta-buttons);
-	color: white;
-	padding: 0.1rem 0.4rem;
-	border-radius: 999px;
-	line-height: 1;
-}
+	.cart-count {
+		font-size: 0.75rem;
+		background: var(--cta-buttons);
+		color: white;
+		padding: 0.1rem 0.4rem;
+		border-radius: 999px;
+		line-height: 1;
+	}
 
 	/* JS-enabled: menu kan ingeklapt worden */
 	nav.js-enabled ul {
