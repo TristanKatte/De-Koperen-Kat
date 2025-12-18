@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { cart } from '$lib/stores/cart';
+	import { cart } from '$lib/stores/cart';
 	import Button from '$lib/components/atoms/Button.svelte';
 
 	export let data;
@@ -18,10 +18,10 @@
 			id: product.id,
 			slug: product.slug,
 			title: product.title,
-			price: product.price,
+			price: product.price_cents, // omzetting van centen naar euro's
 			image_url: product.image_url,
-			max_quantity: product.max_quantity,
-			quantity: 0
+			quantity: 1,
+			max_quantity: product.max_quantity
 		});
 	}
 </script>
@@ -38,7 +38,7 @@
 
 		<p class="price">
 			{#if product.price_cents !== null}
-				{priceFormatter.format(product.price_cents)}
+				{priceFormatter.format(product.price_cents / 100)}
 			{:else}
 				Prijs op aanvraag
 			{/if}

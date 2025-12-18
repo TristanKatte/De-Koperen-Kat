@@ -21,7 +21,7 @@
 
     <p class="product-price">
       {#if product.price_cents}
-        €{(product.price_cents.toFixed(2))}
+        €{(product.price_cents / 100).toFixed(2)}
       {:else}
         Prijs op aanvraag
       {/if}
