@@ -119,7 +119,7 @@
 	}
 
 	.content p {
-		max-width: 80ch;
+		max-width: 75ch;
 	}	
 
 	/* POLAROID GRID */
