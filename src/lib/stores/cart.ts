@@ -6,44 +6,49 @@ function createCart() {
 
 	return {
 		subscribe,
-
-		// 👇 voeg dit toe
 		set,
 
+		/** Voeg een item toe aan de winkelmand */
 		add(item: CartItem) {
 			update(items => {
 				const existing = items.find(i => i.id === item.id);
 
+				// Converteer price altijd naar number
+				const price = Number(item.price) || 0;
+
 				if (existing) {
-					if (
-						existing.max_quantity &&
-						existing.quantity >= existing.max_quantity
-					) {
+					// Check max_quantity
+					if (existing.max_quantity && existing.quantity >= existing.max_quantity) {
 						return items;
 					}
 
 					existing.quantity += 1;
+					existing.price = price; // houd prijs correct
 					return [...items];
 				}
 
-				return [...items, { ...item, quantity: 1 }];
+				// Nieuw item toevoegen
+				return [...items, { ...item, price, quantity: 1 }];
 			});
 		},
 
+		/** Verwijder een item */
 		remove(id: number) {
 			update(items => items.filter(item => item.id !== id));
 		},
 
+		/** Update quantity van een item */
 		updateQuantity(id: number, quantity: number) {
 			update(items =>
 				items.map(item =>
 					item.id === id
-						? { ...item, quantity: Math.max(1, quantity) }
+						? { ...item, quantity: Math.max(1, quantity), price: Number(item.price) || 0 }
 						: item
 				)
 			);
 		},
 
+		/** Wis de winkelmand */
 		clear() {
 			set([]);
 		}
@@ -52,10 +57,16 @@ function createCart() {
 
 export const cart = createCart();
 
-export const cartCount = derived(cart, items =>
-	items.reduce((sum, item) => sum + item.quantity, 0)
+/** Totaal aantal items in de winkelmand */
+export const cartCount = derived(cart, $cart =>
+	$cart.reduce((total, item) => total + item.quantity, 0)
 );
 
-export const cartTotal = derived(cart, items =>
-	items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+/** Totale prijs van de winkelmand */
+export const cartTotal = derived(cart, $cart =>
+  $cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
 );
+
+
+/** Winkelmand leegmaken */
+export const clearCart = () => cart.clear();
