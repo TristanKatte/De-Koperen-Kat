@@ -26,81 +26,138 @@
 	}
 </script>
 
-<article class="product-detail">
-	<div class="media">
-		{#if product.image_url}
-			<img src={product.image_url} alt={product.title} loading="eager" />
-		{/if}
-	</div>
-
-	<div class="content">
-		<h1>{product.title}</h1>
-
-		<p class="price">
-			{#if product.price_cents !== null}
-				{priceFormatter.format(product.price_cents / 100)}
-			{:else}
-				Prijs op aanvraag
+<article class="product-detail" aria-labelledby="product-title">
+	<div class="product-grid">
+		<!-- Links: afbeelding -->
+		<div class="product-media">
+			{#if product.image_url}
+				<img
+					src={product.image_url}
+					alt={`Afbeelding van ${product.title}`}
+					loading="eager"
+				/>
 			{/if}
-		</p>
+		</div>
 
-		{#if product.description}
-			<p class="description">{product.description}</p>
-		{/if}
+		<!-- Rechts: content -->
+		<div class="product-content">
+			<h1 id="product-title">{product.title}</h1>
 
-		<div class="actions">
-			<label>
-				Aantal
-				<input type="number" min="1" bind:value={quantity} />
-			</label>
+			<p class="price">
+				{#if product.price_cents !== null}
+					{priceFormatter.format(product.price_cents / 100)}
+				{:else}
+					Prijs op aanvraag
+				{/if}
+			</p>
 
-			<Button label="In winkelmand" onClick={addToCart} />
+			{#if product.description}
+				<p class="description">{product.description}</p>
+			{/if}
+
+			<div class="actions">
+				<label>
+					Aantal
+					<input
+						type="number"
+						min="1"
+						max={product.max_quantity}
+						bind:value={quantity}
+					/>
+				</label>
+
+				<Button label="In winkelmand" onClick={addToCart} />
+				
+			</div>
 		</div>
 	</div>
 </article>
 
+
 <style>
 	.product-detail {
-		display: flex;
-	}
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 5rem 1.5rem;
+	color: var(--text-color, #2b2b2b);
+}
 
-	.media {
-		flex: 1;
-	}
+.product-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 3rem;
+}
 
-	.content {
-		flex: 1;
-		padding: 1rem;
-	}
+/* Afbeelding */
+.product-media img {
+	width: 100%;
+	max-height: 450px;
+	object-fit: contain;
+	border-radius: 1rem;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+	transition: transform 0.3s ease;
+}
 
+.product-media img:hover {
+	transform: scale(1.02);
+}
+
+/* Content */
+.product-content h1 {
+	font-size: 2.5rem;
+	color: #4b2e05;
+	margin-bottom: 0.5rem;
+	font-weight: 700;
+}
+
+.price {
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: #4b2e05;
+	margin-bottom: 1.5rem;
+}
+
+.description {
+	font-size: 1.125rem;
+	line-height: 1.7;
+	color: #333;
+	margin-bottom: 2rem;
+}
+
+/* Actions */
+.actions {
+	display: flex;
+	align-items: flex-end;
+	gap: 1rem;
+}
+
+.actions label {
+	display: flex;
+	flex-direction: column;
+	font-size: 0.9rem;
+	color: #555;
+}
+
+input {
+	width: 4rem;
+	padding: 0.4rem;
+	font-size: 1rem;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+	.product-grid {
+		grid-template-columns: 1fr 1fr;
+		align-items: start;
+	}
+}
+
+/* Mobile actions onder elkaar */
+@media (max-width: 480px) {
 	.actions {
-		display: flex;
-		gap: 1rem;
-		margin-top: 1rem;
+		flex-direction: column;
+		align-items: stretch;
 	}
+}
 
-	.description {
-		margin-top: 1rem;
-	}
-
-	.price {
-		font-weight: bold;
-		margin-top: 1rem;
-	}
-
-	input {
-		width: 4rem;
-	}
-
-	@media (max-width: 768px) {
-		.product-detail {
-			flex-direction: column;
-		}
-	}
-
-	@media (max-width: 480px) {
-		.actions {
-			flex-direction: column;
-		}
-	}
 </style>
