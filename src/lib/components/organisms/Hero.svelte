@@ -1,88 +1,99 @@
 <script lang="ts">
-  export const ssr = false;
-  import { onMount } from 'svelte';
-  import { gsap } from 'gsap';
+	export const ssr = false;
 
-  let heroSection: HTMLElement | null = $state(null);
+	import { onMount } from 'svelte';
 
-  onMount(async () => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-    if (!heroSection) return;
+	let heroSection: HTMLElement | null = null;
 
-    // ⬇️ Dynamische import — voorkomt Netlify SSR crash
-    const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-    const { SplitText } = await import('gsap/SplitText');
+	onMount(async () => {
+		if (typeof window === 'undefined') return;
 
-    gsap.registerPlugin(ScrollTrigger, SplitText);
+		const prefersReducedMotion =
+			window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (prefersReducedMotion) return;
+		if (!heroSection) return;
 
-    const logoEl = heroSection.querySelector('.logo');
-    const titleEl = heroSection.querySelector('.hero-title');
-    const subtitleEl = heroSection.querySelector('.hero-subtitle');
-    const buttons = gsap.utils.toArray('.hero-actions .btn');
+		// ✅ Alles dynamisch laden
+		const gsapModule = await import('gsap');
+		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+		const { SplitText } = await import('gsap/SplitText');
 
-    const splitTitle = titleEl ? new SplitText(titleEl, { type: 'chars', charsClass: 'char' }) : null;
-    const splitSubtitle = subtitleEl ? new SplitText(subtitleEl, { type: 'words', wordsClass: 'word' }) : null;
+		const gsap = gsapModule.gsap;
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: heroSection,
-        start: 'top 85%'
-      }
-    });
+		gsap.registerPlugin(ScrollTrigger, SplitText);
 
-    if (logoEl) {
-      tl.from(logoEl, {
-        opacity: 0,
-        x: -100,
-        duration: 0.6,
-        ease: 'power2.out'
-      });
-    }
+		const logoEl = heroSection.querySelector('.logo');
+		const titleEl = heroSection.querySelector('.hero-title');
+		const subtitleEl = heroSection.querySelector('.hero-subtitle');
+		const buttons = gsap.utils.toArray<HTMLElement>('.hero-actions .btn');
 
-    if (splitTitle) {
-      tl.from(
-        splitTitle.chars,
-        {
-          opacity: 0,
-          y: 50,
-          scale: 0,
-          stagger: 0.03,
-          duration: 0.45,
-          ease: 'elastic.out(1, 0.6)'
-        },
-        '-=0.3'
-      );
-    }
+		const splitTitle = titleEl
+			? new SplitText(titleEl, { type: 'chars', charsClass: 'char' })
+			: null;
 
-    if (splitSubtitle) {
-      tl.from(
-        splitSubtitle.words,
-        {
-          opacity: 0,
-          y: 25,
-          stagger: 0.05,
-          duration: 0.45,
-          ease: 'power2.out'
-        },
-        '-=0.6'
-      );
-    }
+		const splitSubtitle = subtitleEl
+			? new SplitText(subtitleEl, { type: 'words', wordsClass: 'word' })
+			: null;
 
-    if (buttons.length) {
-      tl.from(
-        buttons,
-        {
-          opacity: 0,
-          y: 15,
-          stagger: 0.12,
-          duration: 0.45,
-          ease: 'power2.out'
-        },
-        '-=0.5'
-      );
-    }
-  });
+		const tl = gsap.timeline({
+			scrollTrigger: {
+				trigger: heroSection,
+				start: 'top 85%'
+			}
+		});
+
+		if (logoEl) {
+			tl.from(logoEl, {
+				opacity: 0,
+				x: -100,
+				duration: 0.6,
+				ease: 'power2.out'
+			});
+		}
+
+		if (splitTitle) {
+			tl.from(
+				splitTitle.chars,
+				{
+					opacity: 0,
+					y: 50,
+					scale: 0,
+					stagger: 0.03,
+					duration: 0.45,
+					ease: 'elastic.out(1, 0.6)'
+				},
+				'-=0.3'
+			);
+		}
+
+		if (splitSubtitle) {
+			tl.from(
+				splitSubtitle.words,
+				{
+					opacity: 0,
+					y: 25,
+					stagger: 0.05,
+					duration: 0.45,
+					ease: 'power2.out'
+				},
+				'-=0.6'
+			);
+		}
+
+		if (buttons.length) {
+			tl.from(
+				buttons,
+				{
+					opacity: 0,
+					y: 15,
+					stagger: 0.12,
+					duration: 0.45,
+					ease: 'power2.out'
+				},
+				'-=0.5'
+			);
+		}
+	});
 </script>
 
 
@@ -103,10 +114,6 @@
 			</div>
 		</div>
 	</div>
-
-	<div class="hero-image">
-		<img src="/images/brewery-hero.jpg" alt="Brouwerij" />
-	</div>
 </section>
 
 <style>
@@ -114,60 +121,69 @@
 		position: relative;
 		display: grid;
 		place-items: center;
+		width: 100%;
 		min-height: 100vh;
 		color: #fff;
 		overflow: hidden;
 		text-align: center;
 		margin: auto;
-	}
-
-	.hero-top {
-		display: flex;
-		flex-wrap: wrap; 
-		align-items: center; 
-		justify-content: center; 
-		gap: 3rem;
-	}
-	
-  .logo {
-		max-width: 250px;
-		height: auto;
-    transform: translate(5px, -40px);
-	}
-
-	.hero-text {
-		flex: 1;
-		text-align: left; /* tekst links uitlijnen */
-    max-width: 600px;
-    margin: 0 auto;
-	}
-
-	/* ===== Achtergrondafbeelding ===== */
-	.hero-image {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
+		background-size: cover;
+		background-position: center;
+		animation: animate 25s infinite ease-in-out;
 		object-fit: cover;
 		overflow: hidden;
 		z-index: 0;
 	}
 
-	.hero-image img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		object-position: center;
-		display: block;
-	}
-
-	/* Overlaykleur */
-	.hero-image::after {
+	.hero::after {
 		content: '';
 		position: absolute;
 		inset: 0;
 		background-color: rgba(0, 0, 0, 0.45);
 		z-index: 1;
+	}
+
+	@keyframes animate {
+		0% {
+			background-image: url(/images/brewery-hero.png);
+		}
+
+		25% {
+			background-image: url(/images/bar-gloed.png);
+		}
+
+		50% {
+			background-image: url(/images/bar-gloed-1.png);
+		}
+
+		75% {
+			background-image: url(/images/vergisting-ketels.png);
+		}
+
+		100% {
+			background-image: url(/images/bar-glas-ketels.png);
+		}
+	}
+
+	.hero-top {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		gap: 3rem;
+	}
+
+	.logo {
+		max-width: 250px;
+		height: auto;
+		transform: translate(5px, -40px);
+	}
+
+	.hero-text {
+		flex: 1;
+		text-align: left; /* tekst links uitlijnen */
+		max-width: 600px;
+		margin: 0 auto;
 	}
 
 	/* ===== Tekst & content ===== */

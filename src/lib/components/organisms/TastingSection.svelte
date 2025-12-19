@@ -1,11 +1,48 @@
 <script lang="ts">
   export const ssr = false;
+  import { onMount } from 'svelte';
   import Button from '$lib/components/atoms/Button.svelte';
+
+  let contentEl: HTMLElement;
+  let imageEl: HTMLElement;
+
+  onMount(async () => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    // Dynamische import voorkomt SSR-fouten
+    const gsapModule = await import('gsap');
+    const gsap = gsapModule.gsap;
+    const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from(contentEl, {
+      x: -100,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: contentEl,
+        start: 'top 80%',
+      },
+    });
+
+    gsap.from(imageEl, {
+      x: 100,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: imageEl,
+        start: 'top 80%',
+      },
+    });
+  });
 </script>
 
 <section class="proeflokaal-wrapper">
   <div class="proeflokaal-teaser">
-    <div class="content">
+    <div class="content" bind:this={contentEl}>
       <h2>Bezoek ons Proeflokaal</h2>
       <p>
         Beleef onze bieren in een unieke sfeer. Reserveer jouw plek voor een rondleiding, proeverij 
@@ -14,7 +51,7 @@
       <Button href="/tasting-room" label="Reserveer nu" />
     </div>
 
-    <div class="image">
+    <div class="image" bind:this={imageEl}>
       <img
         src="/images/bar-gloed-1.jpg"
         alt="Gezellige sfeer in het proeflokaal"
@@ -26,6 +63,7 @@
     </div>
   </div>
 </section>
+
 
 
 <style>
