@@ -1,16 +1,46 @@
 <script lang="ts">
-	export const ssr = false;
-	import Button from '$lib/components/atoms/Button.svelte';
-	import Carousel from '$lib/components/organisms/Carousel.svelte';
+  export const ssr = false;
+  import { onMount } from 'svelte';
+  import Button from '$lib/components/atoms/Button.svelte';
+  import Carousel from '$lib/components/organisms/Carousel.svelte';
 
 	interface Props {
 		beers?: any[];
 	}
 
 	let { beers = [] }: Props = $props();
+
+	  let sectionEl: HTMLElement | null = null;
+
+  onMount(async () => {
+    if (!sectionEl) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    // ⬇ Dynamisch importeren om Netlify SSR errors te voorkomen
+    const { gsap } = await import('gsap');
+    const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Alle carousel slides targetten
+    const slides = sectionEl.querySelectorAll('.carousel-content .beer-layout');
+
+    gsap.from(slides, {
+      scrollTrigger: {
+        trigger: sectionEl,
+        start: 'top 80%',
+      },
+      opacity: 0,
+      y: 40,
+      duration: 0.7,
+      stagger: 0.2,
+      ease: 'power2.out',
+    });
+  });
 </script>
 
-<section class="beers-section" aria-labelledby="beers-title">
+<section class="beers-section" bind:this={sectionEl} aria-labelledby="beers-title">
 	<h2 id="beers-title">Onze Bieren</h2>
 
 <Carousel ariaLabel="Onze bieren"  items={beers.slice(0, 8)} />

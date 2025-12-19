@@ -185,7 +185,7 @@
 	}
 
 	.beer-image-wrapper {
-		width: 40%;
+		width: 100%;
 		max-height: 660px; /* 👈 groter */
 		object-fit: contain;
 		border-radius: 1rem;
@@ -199,6 +199,7 @@
 		width: 100%;
 		max-height: 660px;
 		object-fit: contain;
+
 		border-radius: 0;
 	}
 
@@ -223,7 +224,7 @@
 	.beer-info p {
 		color: var(--text-color-alt);
 		line-height: 1.6;
-		max-width: 75ch;
+		max-width: 80ch;
 	}
 
 	.beer-stats {
