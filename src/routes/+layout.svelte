@@ -3,6 +3,8 @@
 	import { fade, scale, fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import { javascript } from '$lib/utils/javascriptEnabled.svelte.js';
+	import '$lib/stores/cartPersist';
+
 
 	import Header from '$lib/components/organisms/Header.svelte';
 	import Footer from '$lib/components/organisms/Footer.svelte';

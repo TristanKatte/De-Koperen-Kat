@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { javascript } from '$lib/utils/javascriptEnabled.svelte.js';
+	import { cartCount } from '$lib/stores/cart';
 	export let menuItems: { title: string; links: { label: string; href: string }[] }[];
 
 	let isOpen = false;
@@ -38,6 +39,14 @@
 				{/if}
 			</li>
 		{/each}
+		<li class="cart-item">
+			<a href="/webshop/cart" class="cart-link">
+				🛒 Winkelmand
+				{#if $cartCount > 0}
+					<span class="cart-count">{$cartCount}</span>
+				{/if}
+			</a>
+		</li>
 	</ul>
 </nav>
 
@@ -50,9 +59,8 @@
 		margin: 0;
 		padding: 0;
 		list-style: none;
-		font-size: .95rem;
+		font-size: 0.95rem;
 		font-weight: 600;
-
 	}
 
 	nav li {
@@ -66,6 +74,21 @@
 		gap: 0.5rem;
 	}
 
+	.cart-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
+
+	.cart-count {
+		font-size: 0.75rem;
+		background: var(--cta-buttons);
+		color: white;
+		padding: 0.1rem 0.4rem;
+		border-radius: 999px;
+		line-height: 1;
+	}
+
 	/* JS-enabled: menu kan ingeklapt worden */
 	nav.js-enabled ul {
 		display: none;
@@ -77,7 +100,7 @@
 		flex-direction: row;
 	}
 
-	nav.js-enabled  li {
+	nav.js-enabled li {
 		flex: 0 1 auto;
 		min-width: 5px;
 	}
