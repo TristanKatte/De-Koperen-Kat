@@ -66,7 +66,7 @@
 									Meer info
 								</a>
 							{:else}
-								<Button href={`/nieuws/${event.slug}`} label="Meer info" />
+								<Button href={`/news/${event.slug}`} label="Meer info" />
 							{/if}
 						</div>
 					</div>
@@ -104,7 +104,6 @@
 								<Button href={`/news/${event.slug}`} label="Meer info" />
 							{/if}
 						</div>
-						
 					</div>
 				</article>
 			{/each}
