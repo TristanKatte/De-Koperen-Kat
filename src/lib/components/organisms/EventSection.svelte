@@ -61,10 +61,12 @@
 									href={event.external_url}
 									target="_blank"
 									rel="noopener noreferrer"
-									class="btn btn--primary">Meer info</a
+									class="btn btn--primary"
 								>
+									Meer info
+								</a>
 							{:else}
-								<Button href={`/agenda/${event.slug}`} label="Meer info" />
+								<Button href={`/nieuws/${event.slug}`} label="Meer info" />
 							{/if}
 						</div>
 					</div>
@@ -90,14 +92,16 @@
 
 						<div class="card-button">
 							{#if event.external_url}
-								<Button
-									href={event.external_url}
+								<a
+									href={`/news/${event.slug}`}
 									target="_blank"
 									rel="noopener noreferrer"
-									label="Meer info"
-								/>
+									class="btn btn--primary"
+								>
+									Meer info
+								</a>
 							{:else}
-								<Button href={`/agenda/${event.slug}`} label="Meer info" />
+								<Button href={`/news/${event.slug}`} label="Meer info" />
 							{/if}
 						</div>
 					</div>
@@ -108,6 +112,7 @@
 
 	<div class="centered-button">
 		<Button href="/agenda" label="Bekijk agenda" />
+		<Button href="/news" label="Bekijk alle komende evenementen" />
 	</div>
 </section>
 

@@ -42,9 +42,9 @@
   </div>
 {/if}
 
-{#if browser && isAdult === true}
+<!-- {#if browser && isAdult === true}
   <button class="reset-button" onclick={resetAge}>🔁 Reset leeftijd</button>
-{/if}
+{/if} -->
 
 <style>
 	/* Achtergrond blur */
@@ -101,18 +101,5 @@
 	a {
 		color: var(--cta-buttons, #8b0000);
 		text-decoration: underline;
-	}
-
-	.reset-button {
-		position: fixed;
-		bottom: 1rem;
-		right: 1rem;
-		background: teal;
-		color: white;
-		border: 1px solid green;
-		border-radius: 0.5rem;
-		padding: 0.5rem 1rem;
-		cursor: pointer;
-		backdrop-filter: blur(5px);
 	}
 </style>
