@@ -42,9 +42,6 @@
   </div>
 {/if}
 
-<!-- {#if browser && isAdult === true}
-  <button class="reset-button" onclick={resetAge}>🔁 Reset leeftijd</button>
-{/if} -->
 
 <style>
 	/* Achtergrond blur */
