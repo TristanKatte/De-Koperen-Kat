@@ -104,6 +104,7 @@
 								<Button href={`/news/${event.slug}`} label="Meer info" />
 							{/if}
 						</div>
+						
 					</div>
 				</article>
 			{/each}
