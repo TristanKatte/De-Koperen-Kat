@@ -1,3 +1,6 @@
+<script>
+	</script>
+
 <footer class="site-footer">
 	<div class="footer-content">
 		<div class="footer-brand">
@@ -5,59 +8,100 @@
 			<p>Ambachtelijk gebrouwen sinds 2011</p>
 		</div>
 
+		<div class="footer-socials">
+			<a href="https://www.facebook.com/dekoperenkat" target="_blank" rel="noopener noreferrer"
+				>Facebook</a
+			>
+			<a href="https://www.instagram.com/dekoperenkat/" target="_blank" rel="noopener noreferrer"
+				>Instagram</a
+			>
+		</div>
+
 
 		<div class="footer-info">
 			<p>&copy; {new Date().getFullYear()} Brouwerij De Koperen Kat. Alle rechten voorbehouden.</p>
+			
 		</div>
 	</div>
 </footer>
 
 <style>
 	.site-footer {
-		background-color: var(--footer-color);
-		color: var(--background-color);
-		padding: 5rem 2rem 3rem; /* extra ademruimte bovenaan */
-		border-top: 1px solid rgba(0, 0, 0, 0.1);
-	}
+	background-color: var(--footer-color);
+	color: var(--background-color);
+	padding: 4rem 2rem 3rem;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
 
+.footer-content {
+	max-width: 1200px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 2.5rem;
+	text-align: center;
+	align-items: center;
+}
+
+/* ===== Brand ===== */
+.footer-brand h2 {
+	font-family: var(--font-family-headings);
+	font-size: 2rem;
+	margin-bottom: 0.5rem;
+	color: #ed651c;
+}
+
+.footer-brand p {
+	margin: 0;
+	font-size: 1rem;
+	opacity: 0.9;
+}
+
+/* ===== Socials ===== */
+.footer-socials {
+	display: flex;
+	gap: 1.5rem;
+	justify-content: center;
+	align-items: center;
+}
+
+.footer-socials a {
+	color: var(--background-color);
+	text-decoration: none;
+	font-weight: 500;
+	transition: color 0.25s ease;
+}
+
+.footer-socials a:hover {
+	color: var(--cta-hover);
+}
+
+/* ===== Info ===== */
+.footer-info {
+	font-size: 0.9rem;
+	opacity: 0.85;
+}
+
+/* ===== Desktop layout ===== */
+@media (min-width: 768px) {
 	.footer-content {
-		max-width: 1200px;
-		margin: 0 auto;
-		display: flex;
-		flex-direction: column;
+		grid-template-columns: 1fr auto 1fr;
 		align-items: center;
-		gap: 3rem;
-		text-align: center;
+		text-align: left;
 	}
 
-	.footer-brand h2 {
-		font-family: var(--font-family-headings);
-		font-size: 2rem;
-		margin-bottom: 0.5rem;
-		color: #ed651c;
+	.footer-brand {
+		justify-self: start;
+	}
+
+	.footer-socials {
+		justify-self: center;
 	}
 
 	.footer-info {
-		font-size: 0.9rem;
-		color: var(--background-color);
-		margin-top: 1rem;
+		justify-self: end;
+		text-align: right;
 	}
+}
 
-	@media (min-width: 768px) {
-		.footer-content {
-			flex-direction: row;
-			justify-content: space-between;
-			align-items: flex-start;
-			text-align: left;
-		}
-
-		.footer-brand {
-			flex: 1;
-		}
-
-		.footer-info {
-			flex: 1;
-			text-align: right;
-		}
-	}
 </style>

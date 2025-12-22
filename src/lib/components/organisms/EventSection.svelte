@@ -259,6 +259,9 @@
 	.centered-button {
 		text-align: center;
 		margin-top: 6rem;
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
 	}
 
 	@media (max-width: 1024px) {
@@ -302,7 +305,8 @@
 		}
 
 		.centered-button {
-			margin-top: 2.5rem;
+			margin-top: 4.5rem;
+			flex-direction: column;
 		}
 	}
 </style>

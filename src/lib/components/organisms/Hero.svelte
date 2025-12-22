@@ -8,8 +8,7 @@
 	onMount(async () => {
 		if (typeof window === 'undefined') return;
 
-		const prefersReducedMotion =
-			window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 		if (prefersReducedMotion) return;
 		if (!heroSection) return;
 
@@ -96,7 +95,6 @@
 	});
 </script>
 
-
 <section bind:this={heroSection} class="hero">
 	<div class="hero-content">
 		<div class="hero-top">
@@ -181,7 +179,7 @@
 
 	.hero-text {
 		flex: 1;
-		text-align: left; /* tekst links uitlijnen */
+		text-align: center; /* tekst links uitlijnen */
 		max-width: 600px;
 		margin: 0 auto;
 	}
@@ -226,6 +224,7 @@
 		flex-wrap: wrap;
 		gap: 1rem;
 		margin-top: 1rem;
+		justify-content: center;
 	}
 
 	.btn {
@@ -261,13 +260,39 @@
 	}
 
 	/* ===== Responsiviteit ===== */
+	@media (min-width: 70rem) {
+		.hero-text {
+			max-width: 45ch;
+		}
+	}
+
 	@media (min-width: 50rem) {
 		.hero-content {
-			padding: 6rem 5rem;
+			display: grid;
+			grid-template-columns: auto 1fr;
+			align-items: center;
+			gap: 4rem;
+
+			text-align: left;
+			justify-items: start;
 		}
 
-		.hero-title {
-			font-size: clamp(2.5rem, 3vw + 1rem, 5rem);
+		.hero-top {
+			display: contents; /* laat grid leidend zijn */
+		}
+
+		.logo {
+			max-width: 300px;
+			transform: none;
+		}
+
+		.hero-text {
+			max-width: 70ch;
+			text-align: left;
+		}
+
+		.hero-actions {
+			justify-content: flex-start;
 		}
 	}
 
