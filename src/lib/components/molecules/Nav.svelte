@@ -17,7 +17,7 @@
 		class="hamburger"
 		aria-label="Open navigatie"
 		aria-expanded={isOpen}
-		on:click={toggleMenu}
+		on:click={() => (isOpen = !isOpen)}
 	>
 		<span></span>
 		<span></span>
@@ -26,21 +26,22 @@
 
 	<ul class:is-open={isOpen}>
 		{#each menuItems as item}
-			<li>
+			<li class="menu-group">
 				{#if item.links.length > 1}
-					<span>{item.title}</span>
+					<h3 class="menu-heading">{item.title}</h3>
 					<ul class="dropdown">
 						{#each item.links as link}
-							<li><a href={link.href}>{link.label}</a></li>
+							<li><a href={link.href} on:click={() => (isOpen = false)}>{link.label}</a></li>
 						{/each}
 					</ul>
 				{:else}
-					<a href={item.links[0].href}>{item.title}</a>
+					<a href={item.links[0].href} on:click={() => (isOpen = false)}>{item.title}</a>
 				{/if}
 			</li>
 		{/each}
+
 		<li class="cart-item">
-			<a href="/webshop/cart" class="cart-link">
+			<a href="/webshop/cart" class="menu-link cart-link" on:click={() => (isOpen = false)}>
 				🛒 Winkelmand
 				{#if $cartCount > 0}
 					<span class="cart-count">{$cartCount}</span>
@@ -52,6 +53,10 @@
 
 <style>
 	/* Basis: altijd zichtbaar voor no-JS */
+	nav {
+		position: relative;
+		z-index: 100;
+	}
 	nav ul {
 		display: flex;
 		flex-wrap: wrap;
@@ -67,24 +72,53 @@
 		flex: 0 1 auto;
 	}
 
+	.menu-group {
+		width: 100%;
+		text-align: right;
+	}
+
+	.menu-heading {
+		display: block;
+		letter-spacing: 0.12rem;
+		text-transform: uppercase;
+		opacity: 0.6;
+		margin-bottom: 0.75rem;
+	}
+
+	.menu-link,
+	.dropdown a {
+		display: block;
+		width: 100%;
+		text-align: center;
+		padding: 0.75rem 0;
+		font-size: 1.25rem;
+	}
+
 	.dropdown {
 		margin-left: 0.5rem;
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
+		gap: 0.25rem;
 	}
 
 	.cart-link {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.25rem;
+		gap: 0.4rem;
+		font-weight: 600; /* gelijk aan menu */
+		font-size: inherit;
+		padding: 0;
+	}
+
+	.cart-item {
+		margin-top: 1rem; /* was 2rem */
 	}
 
 	.cart-count {
-		font-size: 0.75rem;
+		font-size: 0.65rem;
 		background: var(--cta-buttons);
 		color: white;
-		padding: 0.1rem 0.4rem;
+		padding: 0.1rem 0.35rem;
 		border-radius: 999px;
 		line-height: 1;
 	}
@@ -118,6 +152,10 @@
 		background: none;
 		border: none;
 		cursor: pointer;
+		position: fixed;
+		top: 1.5rem;
+		right: 1.5rem;
+		z-index: 110;
 	}
 
 	.hamburger span {
@@ -130,6 +168,21 @@
 
 	/* Desktop styling */
 	@media (min-width: 700px) {
+		.menu-group {
+			width: auto;
+			text-align: left;
+		}
+
+		.menu-heading {
+			display: none;
+		}
+
+		.menu-link,
+		.dropdown a {
+			font-size: 0.95rem;
+			padding: 0;
+		}
+
 		nav.js-enabled ul {
 			display: flex;
 			flex-direction: row;
@@ -152,6 +205,45 @@
 	@media (max-width: 699px) {
 		nav.js-enabled .hamburger {
 			display: flex;
+		}
+
+		nav.js-enabled ul {
+			position: fixed;
+			inset: 0;
+			background: #f5f5f0;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 2rem;
+			opacity: 0;
+			pointer-events: none;
+			transform: translateY(-20px);
+			transition:
+				opacity 0.3s ease,
+				transform 0.3s ease;
+		}
+
+		nav.js-enabled ul.is-open {
+			opacity: 1;
+			pointer-events: auto;
+			transform: translateY(0);
+		}
+
+		nav.js-enabled li {
+			width: 100%;
+			text-align: center;
+		}
+
+		.cart-item {
+			margin-top: 2rem; /* ruimte boven winkelmand */
+			display: flex;
+			justify-content: center; /* horizontaal centreren */
+		}
+
+		.cart-item .cart-link {
+			display: inline-flex; /* behouden voor icon + count */
+			align-items: center;
+			justify-content: center; /* centreren */
 		}
 	}
 </style>
