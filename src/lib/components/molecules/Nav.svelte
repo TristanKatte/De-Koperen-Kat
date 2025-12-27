@@ -191,7 +191,7 @@
 		}
 
 		.hamburger {
-			display: none;
+			display: block;
 		}
 
 		.dropdown {
