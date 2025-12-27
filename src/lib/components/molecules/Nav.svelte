@@ -111,7 +111,7 @@
 	}
 
 	.cart-item {
-		margin-top: 1rem; /* was 2rem */
+		margin-top: 0; /* was 2rem */
 	}
 
 	.cart-count {
