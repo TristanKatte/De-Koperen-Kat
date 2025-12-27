@@ -158,6 +158,14 @@
 		z-index: 110;
 	}
 
+nav.js-enabled .hamburger {
+	position: fixed;
+	top: 1.25rem;
+	right: 1.25rem;
+	z-index: 9999;
+}
+
+
 	.hamburger span {
 		width: 28px;
 		height: 3px;
