@@ -158,20 +158,19 @@
 		z-index: 110;
 	}
 
-nav.js-enabled .hamburger {
-	position: fixed;
-	top: 1.25rem;
-	right: 1.25rem;
-	z-index: 9999;
-}
-
-
 	.hamburger span {
-		width: 28px;
-		height: 3px;
-		background: var(--text-color, #000);
 		display: block;
-		transition: all 0.3s ease;
+		width: 25px;
+		height: 3px;
+		background: #333;
+		border-radius: 2px;
+	}
+
+	nav.js-enabled .hamburger {
+		position: fixed;
+		top: 1.25rem;
+		right: 1.25rem;
+		z-index: 9999;
 	}
 
 	/* Desktop styling */
@@ -198,8 +197,8 @@ nav.js-enabled .hamburger {
 			max-height: none;
 		}
 
-		.hamburger {
-			display: block;
+		nav.js-enabled li {
+			min-width: auto;
 		}
 
 		.dropdown {
@@ -213,10 +212,16 @@ nav.js-enabled .hamburger {
 	@media (max-width: 699px) {
 		nav.js-enabled .hamburger {
 			display: flex;
-		position: fixed;
-		top: 1.25rem;
-		right: 1.25rem;
-		z-index: 1001;
+			position: fixed;
+			top: 1.75rem;
+			right: 1.75rem;
+			gap: 0.5rem;
+			z-index: 1001;
+		}
+
+		nav.js-enabled .hamburger span {
+			width: 28px;
+			height: 3px;
 		}
 
 		nav.js-enabled ul {

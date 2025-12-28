@@ -13,11 +13,9 @@
 	let imageEl: HTMLElement;
 	let titleEl: HTMLElement;
 	let statsEl: HTMLElement;
-	let descriptionEl: HTMLElement;
 
 	// GSAP lazy instance
 	let gsapInstance: typeof import('gsap')['gsap'] | null = null;
-
 
 	async function loadGSAP() {
 		if (!gsapInstance) {
@@ -39,36 +37,23 @@
 
 	async function animateTo(index: number) {
 		const gsap = await loadGSAP();
-		if (!gsap || !imageEl || !titleEl || !statsEl || !descriptionEl) return;
+		if (!gsap || !imageEl || !titleEl || !statsEl) return;
 
 		isAnimating = true;
 
-		// primaire elementen (beeld + titel + stats)
 		const primary = [imageEl, titleEl, statsEl];
-
-		// secundair (description)
-		const secondary = [descriptionEl];
 
 		// UIT
 		gsap.to(primary, {
 			opacity: 0,
 			y: 40,
 			duration: 0.3,
-			ease: 'power2.in'
-		});
-
-		gsap.to(secondary, {
-			opacity: 0,
-			y: 20,
-			duration: 0.25,
 			ease: 'power2.in',
-			delay: 0.05,
 			onComplete: () => {
 				current = index;
 
 				// reset positie
 				gsap.set(primary, { y: -30 });
-				gsap.set(secondary, { y: -15 });
 
 				// IN
 				gsap.to(primary, {
@@ -76,15 +61,7 @@
 					y: 0,
 					duration: 0.45,
 					ease: 'power2.out',
-					stagger: 0.08
-				});
-
-				gsap.to(secondary, {
-					opacity: 1,
-					y: 0,
-					duration: 0.5,
-					ease: 'power2.out',
-					delay: 0.15,
+					stagger: 0.08,
 					onComplete: () => {
 						isAnimating = false;
 					}
@@ -98,6 +75,7 @@
 		if (e.key === 'ArrowLeft') prev();
 	}
 </script>
+
 
 
 <section class="carousel" aria-label={ariaLabel}>
@@ -117,9 +95,6 @@
 				<div class="beer-info">
 					<h3 bind:this={titleEl}>{items[current].name}</h3>
 					<p class="type">{items[current].beer_type}</p>
-					<p class="beer-description" bind:this={descriptionEl}>
-						{items[current].description}
-					</p>
 
 					<div class="beer-stats" bind:this={statsEl}>
 						<div class="stat">
