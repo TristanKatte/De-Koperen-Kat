@@ -160,12 +160,13 @@
 	}
 
 	.beer-image-wrapper {
+		background-color: var(--background-color);
 		width: 100%;
-		max-height: 660px; /* 👈 groter */
+		max-height: 760px; /* 👈 groter */
 		object-fit: contain;
 		border-radius: 1rem;
 		margin-bottom: 2rem;
-		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+		box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 		transition: transform 0.3s ease;
 		overflow: hidden;
 	}
@@ -174,7 +175,6 @@
 		width: 100%;
 		max-height: 660px;
 		object-fit: contain;
-
 		border-radius: 0;
 	}
 
@@ -236,11 +236,6 @@
 		background: rgba(255, 255, 255, 0.25);
 	}
 
-	.description {
-		max-width: 480px;
-		line-height: 1.6;
-		margin-bottom: 1.5rem;
-	}
 
 	/* NAV */
 	.nav {
