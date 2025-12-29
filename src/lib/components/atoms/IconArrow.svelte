@@ -52,8 +52,9 @@
 		transition: transform 0.25s ease;
         background-color: var(--background-color);
         color: var(--text-color);
-        border-radius: 50%;
-        padding: 0.5rem;
+        border-radius: 1rem;
+		width: 100%;
+        padding: 0.55rem;
 	}
 
     .icon-arrow:hover {

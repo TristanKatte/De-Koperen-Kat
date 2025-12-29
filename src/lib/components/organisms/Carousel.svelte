@@ -1,212 +1,258 @@
 <script lang="ts">
-	export const ssr = false;
-
+	import { onMount } from 'svelte';
 	import Button from '$lib/components/atoms/Button.svelte';
 	import IconArrow from '$lib/components/atoms/IconArrow.svelte';
 
 	export let items: any[] = [];
 	export let ariaLabel = 'Carousel';
 
+	let carouselEl: HTMLElement | null = null;
+	let slideEls: HTMLElement[] = [];
+
 	let current = 0;
 	let isAnimating = false;
+	let isJsEnabled = false;
+	let isProgrammaticScroll = false;
 
-	let imageEl: HTMLElement;
-	let titleEl: HTMLElement;
-	let statsEl: HTMLElement;
+	let gsap: (typeof import('gsap'))['gsap'] | null = null;
 
-	// GSAP lazy instance
-	let gsapInstance: typeof import('gsap')['gsap'] | null = null;
+	onMount(async () => {
+		isJsEnabled = true;
 
-	async function loadGSAP() {
-		if (!gsapInstance) {
-			const mod = await import('gsap');
-			gsapInstance = mod.gsap;
+		// Verzamel slides na render
+		if (carouselEl) {
+			slideEls = Array.from(carouselEl.querySelectorAll<HTMLElement>('.carousel-item'));
 		}
-		return gsapInstance;
+
+		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		if (!prefersReducedMotion) {
+			const mod = await import('gsap');
+			gsap = mod.gsap;
+		}
+	});
+
+function scrollToIndex(index: number) {
+	if (!carouselEl) return;
+
+	const slide = slideEls[index];
+	if (!slide) return;
+
+	const carouselRect = carouselEl.getBoundingClientRect();
+	const slideRect = slide.getBoundingClientRect();
+
+	const offset =
+		slideRect.left -
+		carouselRect.left +
+		carouselEl.scrollLeft -
+		(carouselRect.width - slideRect.width) / 2;
+
+	carouselEl.scrollTo({
+		left: offset,
+		behavior: 'smooth'
+	});
+
+	current = index;
+}
+
+
+function next() {
+	if (isAnimating) return;
+
+	if (current === items.length - 1) {
+		scrollToIndex(0); // instant
+		return;
 	}
 
-	function next() {
-		if (isAnimating) return;
-		animateTo((current + 1) % items.length);
-	}
+	scrollToIndex(current + 1);
+}
+
 
 	function prev() {
 		if (isAnimating) return;
-		animateTo((current - 1 + items.length) % items.length);
+		scrollToIndex((current - 1 + items.length) % items.length);
 	}
 
-	async function animateTo(index: number) {
-		const gsap = await loadGSAP();
-		if (!gsap || !imageEl || !titleEl || !statsEl) return;
+	function handleScroll() {
+		if (!carouselEl || isProgrammaticScroll) return;
+		current = getClosestSlideIndex();
+	}
 
-		isAnimating = true;
+	function getClosestSlideIndex() {
+		if (!carouselEl) return 0;
 
-		const primary = [imageEl, titleEl, statsEl];
+		const scrollCenter = carouselEl.scrollLeft + carouselEl.clientWidth / 2;
 
-		// UIT
-		gsap.to(primary, {
-			opacity: 0,
-			y: 40,
-			duration: 0.3,
-			ease: 'power2.in',
-			onComplete: () => {
-				current = index;
+		let closestIndex = 0;
+		let smallestDistance = Infinity;
 
-				// reset positie
-				gsap.set(primary, { y: -30 });
+		slideEls.forEach((slide, index) => {
+			const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
 
-				// IN
-				gsap.to(primary, {
-					opacity: 1,
-					y: 0,
-					duration: 0.45,
-					ease: 'power2.out',
-					stagger: 0.08,
-					onComplete: () => {
-						isAnimating = false;
-					}
-				});
+			const distance = Math.abs(scrollCenter - slideCenter);
+
+			if (distance < smallestDistance) {
+				smallestDistance = distance;
+				closestIndex = index;
 			}
 		});
+
+		return closestIndex;
 	}
 
-	function handleKeydown(e: KeyboardEvent) {
-		if (e.key === 'ArrowRight') next();
-		if (e.key === 'ArrowLeft') prev();
+	function handleDotKeydown(e: KeyboardEvent, index: number) {
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.preventDefault();
+			scrollToIndex(index);
+		}
+
+		if (e.key === 'ArrowRight') {
+			e.preventDefault();
+			scrollToIndex((index + 1) % items.length);
+		}
+
+		if (e.key === 'ArrowLeft') {
+			e.preventDefault();
+			scrollToIndex((index - 1 + items.length) % items.length);
+		}
 	}
 </script>
 
-
-
-<section class="carousel" aria-label={ariaLabel}>
-	<button class="nav prev" on:click={prev} aria-label="Vorige" on:keydown={handleKeydown}>
-		<IconArrow direction="left" />
-	</button>
-
-	<div class="carousel-content">
-		{#if items.length}
-			<div class="beer-layout">
-				<div class="beer-image-wrapper" bind:this={imageEl}>
-					<img src={items[current].image_url} alt={items[current].name} />
+<section class="carousel-wrapper" aria-label={ariaLabel}>
+	<div class="carousel" bind:this={carouselEl} on:scroll={handleScroll}>
+		{#each items as item (item.slug)}
+			<article class="carousel-item">
+				<div class="beer-image-wrapper">
+					<img src={item.image_url} alt={item.name} />
 				</div>
 
-				<div class="divider"></div>
-
 				<div class="beer-info">
-					<h3 bind:this={titleEl}>{items[current].name}</h3>
-					<p class="type">{items[current].beer_type}</p>
+					<h3>{item.name}</h3>
+					<p class="type">{item.beer_type}</p>
 
-					<div class="beer-stats" bind:this={statsEl}>
+					<div class="beer-stats">
 						<div class="stat">
-							<span class="value">{items[current].alcohol_percentage}%</span>
+							<span class="value">{item.alcohol_percentage}%</span>
 							<span class="label">Alcohol</span>
 						</div>
-
 						<div class="stat-divider"></div>
-
 						<div class="stat">
-							<span class="value">{items[current].ebu}</span>
+							<span class="value">{item.ebu}</span>
 							<span class="label">EBU</span>
 						</div>
-
 						<div class="stat-divider"></div>
-
 						<div class="stat">
-							<span class="value">{items[current].ebc}</span>
+							<span class="value">{item.ebc}</span>
 							<span class="label">EBC</span>
 						</div>
 					</div>
 
-					<p class="description">{items[current].taste}</p>
-
-					<Button href={`/beers/${items[current].slug}`} label="Meer informatie" />
+					<Button href={`/beers/${item.slug}`} label="Meer informatie" />
 				</div>
-			</div>
-		{/if}
+			</article>
+		{/each}
 	</div>
 
-	<button class="nav next" on:click={next} aria-label="Volgende" on:keydown={handleKeydown}>
-		<IconArrow direction="right" />
-	</button>
+	{#if isJsEnabled}
+		<button class="nav prev" on:click={prev} aria-label="Vorige">
+			<IconArrow direction="left" />
+		</button>
+		<button class="nav next" on:click={next} aria-label="Volgende">
+			<IconArrow direction="right" />
+		</button>
+	{/if}
+
+	<nav class="carousel-dots" aria-label="Carousel navigatie">
+		{#each items as item, i (item.slug)}
+			<button
+				class="dot"
+				class:active={i === current}
+				role="tab"
+				aria-selected={i === current}
+				aria-label={`Ga naar slide ${i + 1}`}
+				tabindex={i === current ? 0 : -1}
+				on:click|preventDefault={() => scrollToIndex(i)}
+				on:keydown={(e) => handleDotKeydown(e, i)}
+			>
+			</button>
+		{/each}
+	</nav>
 </section>
 
 <style>
-	.carousel {
+	.carousel-wrapper {
 		position: relative;
-		width: 60%;
-		min-height: 70vh;
-		margin: 0 auto;
+		width: 80%;
+		overflow: hidden;
+	}
+
+	.carousel {
 		display: flex;
-		align-items: center;
-		justify-content: center;
 		gap: 2rem;
-		background-color: var(--background-alt);
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scroll-behavior: smooth;
+		padding: 2rem 0;
+		height: min(70vh, 720px);
+		overscroll-behavior-x: contain;
 	}
 
-	.carousel-content {
-		flex: 1;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+	.carousel::-webkit-scrollbar {
+		display: none;
 	}
 
-	.beer-layout {
+	.carousel-item {
+		flex: 0 0 100%;
+		scroll-snap-align: center;
 		display: grid;
-		grid-template-columns: 1.4fr auto 1fr;
+		grid-template-columns: 1.4fr 1fr;
 		gap: 3rem;
 		align-items: center;
-		justify-items: center;
-		width: 100%;
+		height: 100%;
+		padding: 2rem;
+		box-sizing: border-box;
 	}
 
 	.beer-image-wrapper {
-		background-color: var(--background-color);
 		width: 100%;
+		height: 100%;
+		max-height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		will-change: transform, opacity;
+	}
+
+	.beer-image-wrapper img {
+		background-color: var(--background-color);
+		width: 50%;
 		max-height: 760px; /* 👈 groter */
 		object-fit: contain;
 		border-radius: 1rem;
 		margin-bottom: 2rem;
 		box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 		transition: transform 0.3s ease;
-		overflow: hidden;
-	}
-
-	.beer-image-wrapper img {
-		width: 100%;
-		max-height: 660px;
-		object-fit: contain;
-		border-radius: 0;
-	}
-
-	.divider {
-		width: 2px;
-		height: 70%;
-		background-color: var(--background-color);
 	}
 
 	.beer-info h3 {
-		font-size: 2.2rem;
+		font-size: 2rem;
 		margin-bottom: 0.25rem;
 		color: var(--text-color-alt);
+		will-change: transform, opacity;
 	}
 
 	.type {
 		font-style: italic;
 		opacity: 0.8;
-		margin-bottom: 1.5rem;
-	}
-
-	.beer-info p {
-		color: var(--text-color-alt);
-		line-height: 1.6;
-		max-width: 80ch;
+		margin-bottom: 1.25rem;
 	}
 
 	.beer-stats {
 		display: flex;
 		align-items: center;
 		gap: 2rem;
-		margin-bottom: 2rem;
+		margin-bottom: 1.5rem;
+		will-change: transform, opacity;
 	}
 
 	.stat {
@@ -217,25 +263,15 @@
 	}
 
 	.stat .value {
-		font-size: 2.25rem;
+		font-size: 2rem;
 		font-weight: 700;
-		line-height: 1;
-	}
-
-	.stat .label {
-		font-size: 0.8rem;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		opacity: 0.7;
-		margin-top: 0.25rem;
 	}
 
 	.stat-divider {
-		width: 1px;
+		width: 2px;
 		height: 48px;
-		background: rgba(255, 255, 255, 0.25);
+		background-color: var(--background-color);
 	}
-
 
 	/* NAV */
 	.nav {
@@ -249,107 +285,123 @@
 	}
 
 	.nav.prev {
-		left: -6rem;
+		left: 1rem;
 	}
 
 	.nav.next {
-		right: -6rem;
+		right: 1rem;
 	}
 
-	/* MEDIA QUERIES */
-	@media screen and (max-width: 768px) {
-		.carousel {
-			width: 100%;
-			min-height: auto;
-			padding: 3rem 1rem;
-			margin: 0;
-		}
+	.carousel-dots {
+		display: flex;
+		justify-content: center;
+		gap: 0.75rem;
+		margin-top: 1.5rem;
+	}
 
-		.beer-layout {
-			grid-template-columns: 1fr;
-			gap: 1rem;
-			text-align: left;
-			justify-items: center;
-		}
+	.carousel-dots button {
+		scroll-margin-top: 0;
+	}
 
+	.dot {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: var(--background-color);
+		border: none;
+		cursor: pointer;
+	}
+
+	.dot.active {
+		background: var(--accent-color);
+	}
+
+	.dot:focus-visible {
+		outline: 2px solid var(--accent-color);
+		outline-offset: 3px;
+	}
+
+	/* Desktop / laptop */
+	@media (min-width: 769px) {
 		.beer-image-wrapper {
-			padding: 1.5rem;
-			border-radius: 1rem;
-			margin-left: auto;
-			margin-right: auto;
+			max-height: 520px; /* 👈 hier regel je de visuele grootte */
 		}
 
 		.beer-image-wrapper img {
-			max-height: 500px;
+			max-height: 520px;
+		}
+
+		.stat-divider {
+			height: 40px;
+			width: 1.5px;
+			background-color: var(--background-color);
+		}
+	}
+
+	/* Responsive */
+	@media (max-width: 768px) {
+		.carousel-wrapper {
 			width: 100%;
-			max-height: 660px;
-			object-fit: contain;
-			border-radius: 0;
 		}
 
-		.divider {
-			display: none;
+		.carousel-item {
+			flex: 0 0 90%;
+			grid-template-columns: 1fr;
+			text-align: center;
+			height: auto;
+			justify-content: center;
 		}
 
-		.beer-info {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
+		.carousel-item {
+			height: auto;
+			grid-template-columns: 1fr;
 		}
 
 		.beer-stats {
 			justify-content: center;
 		}
 
-		.beer-info p {
-			max-width: 50ch;
-		}
-
-		.nav {
-			top: auto;
-			bottom: -3.5rem;
-			transform: none;
-			margin: 0 auto;
-		}
-
 		.nav.prev {
-			left: 2rem;
+			left: 1.75rem;
 		}
 
 		.nav.next {
-			right: 2rem;
+			right: 1.75rem;
 		}
-	}
 
-	@media screen and (max-width: 480px) {
-		.carousel {
-			padding: 2rem 1rem;
-			margin: 0;
+		.carousel-item {
+			gap: 1rem;
 		}
 
 		.beer-image-wrapper {
-			padding: 1rem;
-			border-radius: 0.85rem;
-			margin: 0 auto;
-			width: 100%;
-			max-width: 320px;
+			max-height: 350px; /* 👈 hier regel je de visuele grootte */
 		}
 
 		.beer-image-wrapper img {
-			max-height: 300px;
-			justify-self: center;
+			max-height: 350px;
 		}
 
-		.beer-layout {
-			justify-items: center;
+		.beer-info h3 {
+			font-size: 1.5rem;
 		}
 
 		.stat .value {
-			font-size: 1.75rem;
+			font-size: 1.5rem;
+			font-weight: 600;
 		}
 
 		.stat-divider {
-			height: 36px;
+			height: 32px;
+			width: 10px;
+			background-color: var(--background-alt);
+		}
+
+		.beer-stats {
+			gap: 1rem;
+		}
+
+		.stat .label {
+			font-size: 0.75rem;
 		}
 	}
 </style>
