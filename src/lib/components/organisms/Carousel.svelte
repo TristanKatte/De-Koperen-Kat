@@ -19,7 +19,6 @@
 	onMount(async () => {
 		isJsEnabled = true;
 
-		// Verzamel slides na render
 		if (carouselEl) {
 			slideEls = Array.from(carouselEl.querySelectorAll<HTMLElement>('.carousel-item'));
 		}
@@ -32,45 +31,69 @@
 		}
 	});
 
-function scrollToIndex(index: number) {
-	if (!carouselEl) return;
+	function scrollToIndex(index: number) {
+	if (!carouselEl || !slideEls.length || isAnimating) return;
+	if (!gsap) return; // safety check
 
-	const slide = slideEls[index];
-	if (!slide) return;
+	const oldSlide = slideEls[current];
+	const newSlide = slideEls[index];
+	if (!oldSlide || !newSlide) return;
 
-	const carouselRect = carouselEl.getBoundingClientRect();
-	const slideRect = slide.getBoundingClientRect();
+	isAnimating = true;
+	isProgrammaticScroll = true;
 
-	const offset =
-		slideRect.left -
-		carouselRect.left +
-		carouselEl.scrollLeft -
-		(carouselRect.width - slideRect.width) / 2;
+	const oldEls = oldSlide.querySelectorAll<HTMLElement>('.beer-image-wrapper, h3, .beer-stats');
+	const newEls = newSlide.querySelectorAll<HTMLElement>('.beer-image-wrapper, h3, .beer-stats');
 
-	carouselEl.scrollTo({
-		left: offset,
-		behavior: 'smooth'
+	// UIT animatie oude slide
+	gsap.to(oldEls, {
+		opacity: 0,
+		y: 40,
+		duration: 0.3,
+		ease: 'power2.in',
+		onComplete: () => {
+			// scroll naar nieuwe slide
+			const carouselRect = carouselEl!.getBoundingClientRect();
+			const slideRect = newSlide.getBoundingClientRect();
+			const offset =
+				slideRect.left -
+				carouselRect.left +
+				carouselEl!.scrollLeft -
+				(carouselRect.width - slideRect.width) / 2;
+
+			carouselEl!.scrollTo({ left: offset, behavior: 'smooth' });
+
+			// reset positie nieuwe slide
+			gsap!.set(newEls, { opacity: 0, y: -30 });
+
+			// IN animatie nieuwe slide
+			gsap!.to(newEls, {
+				opacity: 1,
+				y: 0,
+				duration: 0.45,
+				stagger: 0.08,
+				ease: 'power2.out',
+				onComplete: () => {
+					current = index;
+					isAnimating = false;
+					isProgrammaticScroll = false;
+				}
+			});
+		}
 	});
-
-	current = index;
 }
 
 
-function next() {
-	if (isAnimating) return;
-
-	if (current === items.length - 1) {
-		scrollToIndex(0); // instant
-		return;
+	function next() {
+		if (isAnimating) return;
+		const nextIndex = (current + 1) % items.length;
+		scrollToIndex(nextIndex);
 	}
-
-	scrollToIndex(current + 1);
-}
-
 
 	function prev() {
 		if (isAnimating) return;
-		scrollToIndex((current - 1 + items.length) % items.length);
+		const prevIndex = (current - 1 + items.length) % items.length;
+		scrollToIndex(prevIndex);
 	}
 
 	function handleScroll() {
@@ -80,7 +103,6 @@ function next() {
 
 	function getClosestSlideIndex() {
 		if (!carouselEl) return 0;
-
 		const scrollCenter = carouselEl.scrollLeft + carouselEl.clientWidth / 2;
 
 		let closestIndex = 0;
@@ -88,9 +110,7 @@ function next() {
 
 		slideEls.forEach((slide, index) => {
 			const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
-
 			const distance = Math.abs(scrollCenter - slideCenter);
-
 			if (distance < smallestDistance) {
 				smallestDistance = distance;
 				closestIndex = index;
@@ -105,12 +125,10 @@ function next() {
 			e.preventDefault();
 			scrollToIndex(index);
 		}
-
 		if (e.key === 'ArrowRight') {
 			e.preventDefault();
 			scrollToIndex((index + 1) % items.length);
 		}
-
 		if (e.key === 'ArrowLeft') {
 			e.preventDefault();
 			scrollToIndex((index - 1 + items.length) % items.length);
@@ -120,8 +138,8 @@ function next() {
 
 <section class="carousel-wrapper" aria-label={ariaLabel}>
 	<div class="carousel" bind:this={carouselEl} on:scroll={handleScroll}>
-		{#each items as item (item.slug)}
-			<article class="carousel-item">
+		{#each items as item, i (item.slug)}
+			<article class="carousel-item" id={`slide-${i}`}>
 				<div class="beer-image-wrapper">
 					<img src={item.image_url} alt={item.name} />
 				</div>
@@ -162,27 +180,35 @@ function next() {
 		</button>
 	{/if}
 
-	<nav class="carousel-dots" aria-label="Carousel navigatie">
-		{#each items as item, i (item.slug)}
-			<button
-				class="dot"
-				class:active={i === current}
-				role="tab"
-				aria-selected={i === current}
-				aria-label={`Ga naar slide ${i + 1}`}
-				tabindex={i === current ? 0 : -1}
-				on:click|preventDefault={() => scrollToIndex(i)}
-				on:keydown={(e) => handleDotKeydown(e, i)}
-			>
-			</button>
-		{/each}
-	</nav>
+	{#if isJsEnabled}
+		<nav class="carousel-dots" aria-label="Carousel navigatie">
+			{#each items as item, i (item.slug)}
+				<button
+					class="dot"
+					class:active={i === current}
+					role="tab"
+					aria-selected={i === current}
+					aria-label={`Ga naar slide ${i + 1}`}
+					tabindex={i === current ? 0 : -1}
+					on:click|preventDefault={() => scrollToIndex(i)}
+					on:keydown={(e) => handleDotKeydown(e, i)}
+				></button>
+			{/each}
+		</nav>
+	{:else}
+		<nav class="carousel-dots no-js" aria-label="Carousel navigatie">
+			{#each items as item, i (item.slug)}
+				<a href={`#slide-${i}`} class="dot" aria-label={`Ga naar slide ${i + 1}`}></a>
+			{/each}
+		</nav>
+	{/if}
 </section>
 
 <style>
 	.carousel-wrapper {
 		position: relative;
 		width: 80%;
+		margin: 0 auto;
 		overflow: hidden;
 	}
 
@@ -216,17 +242,15 @@ function next() {
 	.beer-image-wrapper {
 		width: 100%;
 		height: 100%;
-		max-height: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		will-change: transform, opacity;
 	}
 
 	.beer-image-wrapper img {
 		background-color: var(--background-color);
 		width: 50%;
-		max-height: 760px; /* 👈 groter */
+		max-height: 520px; /* pas hier desktop hoogte aan */
 		object-fit: contain;
 		border-radius: 1rem;
 		margin-bottom: 2rem;
@@ -238,7 +262,6 @@ function next() {
 		font-size: 2rem;
 		margin-bottom: 0.25rem;
 		color: var(--text-color-alt);
-		will-change: transform, opacity;
 	}
 
 	.type {
@@ -252,7 +275,6 @@ function next() {
 		align-items: center;
 		gap: 2rem;
 		margin-bottom: 1.5rem;
-		will-change: transform, opacity;
 	}
 
 	.stat {
@@ -273,7 +295,6 @@ function next() {
 		background-color: var(--background-color);
 	}
 
-	/* NAV */
 	.nav {
 		position: absolute;
 		top: 50%;
@@ -299,10 +320,6 @@ function next() {
 		margin-top: 1.5rem;
 	}
 
-	.carousel-dots button {
-		scroll-margin-top: 0;
-	}
-
 	.dot {
 		width: 10px;
 		height: 10px;
@@ -321,23 +338,6 @@ function next() {
 		outline-offset: 3px;
 	}
 
-	/* Desktop / laptop */
-	@media (min-width: 769px) {
-		.beer-image-wrapper {
-			max-height: 520px; /* 👈 hier regel je de visuele grootte */
-		}
-
-		.beer-image-wrapper img {
-			max-height: 520px;
-		}
-
-		.stat-divider {
-			height: 40px;
-			width: 1.5px;
-			background-color: var(--background-color);
-		}
-	}
-
 	/* Responsive */
 	@media (max-width: 768px) {
 		.carousel-wrapper {
@@ -350,39 +350,17 @@ function next() {
 			text-align: center;
 			height: auto;
 			justify-content: center;
-		}
-
-		.carousel-item {
-			height: auto;
-			grid-template-columns: 1fr;
-		}
-
-		.beer-stats {
-			justify-content: center;
-		}
-
-		.nav.prev {
-			left: 1.75rem;
-		}
-
-		.nav.next {
-			right: 1.75rem;
-		}
-
-		.carousel-item {
 			gap: 1rem;
-		}
-
-		.beer-image-wrapper {
-			max-height: 350px; /* 👈 hier regel je de visuele grootte */
 		}
 
 		.beer-image-wrapper img {
 			max-height: 350px;
+			width: 100%;
 		}
 
-		.beer-info h3 {
-			font-size: 1.5rem;
+		.beer-stats {
+			justify-content: center;
+			gap: 1rem;
 		}
 
 		.stat .value {
@@ -392,16 +370,12 @@ function next() {
 
 		.stat-divider {
 			height: 32px;
-			width: 10px;
+			width: 1.5px;
 			background-color: var(--background-alt);
 		}
 
-		.beer-stats {
-			gap: 1rem;
-		}
-
-		.stat .label {
-			font-size: 0.75rem;
+		.beer-info h3 {
+			font-size: 1.5rem;
 		}
 	}
 </style>
