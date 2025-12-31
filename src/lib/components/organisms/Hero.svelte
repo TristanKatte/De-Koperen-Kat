@@ -1,304 +1,272 @@
 <script lang="ts">
-	export const ssr = false;
+  export const ssr = false;
 
-	import { onMount } from 'svelte';
+  import { onMount } from 'svelte';
 
-	let heroSection: HTMLElement | null = null;
+  let heroSection: HTMLElement | null = null;
+  let imageEls: HTMLImageElement[] = [];
 
-	onMount(async () => {
-		if (typeof window === 'undefined') return;
+  const images = [
+    {
+      png: '/images/brewery-hero.png',
+      webp: '/images/brewery-hero.webp',
+      width: 1920,
+      height: 1080
+    },
+    {
+      png: '/images/bar-gloed.png',
+      webp: '/images/bar-gloed.webp',
+      width: 1920,
+      height: 1080
+    },
+    {
+      png: '/images/vergisting-ketels.png',
+      webp: '/images/vergisting-ketels.webp',
+      width: 1920,
+      height: 1080
+    }
+  ];
 
-		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		if (prefersReducedMotion) return;
-		if (!heroSection) return;
+  let current = 0;
+  let gsap: typeof import('gsap').gsap | null = null;
 
-		// ✅ Alles dynamisch laden
-		const gsapModule = await import('gsap');
-		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-		const { SplitText } = await import('gsap/SplitText');
+  onMount(async () => {
+    if (!heroSection) return;
 
-		const gsap = gsapModule.gsap;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-		gsap.registerPlugin(ScrollTrigger, SplitText);
+    const gsapModule = await import('gsap');
+    const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+    const { SplitText } = await import('gsap/SplitText');
 
-		const logoEl = heroSection.querySelector('.logo');
-		const titleEl = heroSection.querySelector('.hero-title');
-		const subtitleEl = heroSection.querySelector('.hero-subtitle');
-		const buttons = gsap.utils.toArray<HTMLElement>('.hero-actions .btn');
+    gsap = gsapModule.gsap;
+    gsap.registerPlugin(ScrollTrigger, SplitText);
 
-		const splitTitle = titleEl
-			? new SplitText(titleEl, { type: 'chars', charsClass: 'char' })
-			: null;
+    // ===== Hero text animaties =====
+    const logoEl = heroSection.querySelector('.logo');
+    const titleEl = heroSection.querySelector('.hero-title');
+    const subtitleEl = heroSection.querySelector('.hero-subtitle');
+    const buttons = gsap.utils.toArray<HTMLElement>('.hero-actions .btn');
 
-		const splitSubtitle = subtitleEl
-			? new SplitText(subtitleEl, { type: 'words', wordsClass: 'word' })
-			: null;
+    const splitTitle = titleEl
+      ? new SplitText(titleEl, { type: 'chars', charsClass: 'char' })
+      : null;
 
-		const tl = gsap.timeline({
-			scrollTrigger: {
-				trigger: heroSection,
-				start: 'top 85%'
-			}
-		});
+    const splitSubtitle = subtitleEl
+      ? new SplitText(subtitleEl, { type: 'words', wordsClass: 'word' })
+      : null;
 
-		if (logoEl) {
-			tl.from(logoEl, {
-				opacity: 0,
-				x: -100,
-				duration: 0.6,
-				ease: 'power2.out'
-			});
-		}
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: heroSection, start: 'top 85%' }
+    });
 
-		if (splitTitle) {
-			tl.from(
-				splitTitle.chars,
-				{
-					opacity: 0,
-					y: 50,
-					scale: 0,
-					stagger: 0.03,
-					duration: 0.45,
-					ease: 'elastic.out(1, 0.6)'
-				},
-				'-=0.3'
-			);
-		}
+    if (logoEl) tl.from(logoEl, { opacity: 0, x: -80, duration: 0.6 });
+    if (splitTitle)
+      tl.from(splitTitle.chars, {
+        opacity: 0,
+        y: 40,
+        scale: 0.8,
+        stagger: 0.03,
+        duration: 0.45,
+        ease: 'power3.out'
+      }, '-=0.3');
+    if (splitSubtitle)
+      tl.from(splitSubtitle.words, { opacity: 0, y: 20, stagger: 0.05, duration: 0.4 }, '-=0.4');
+    if (buttons.length) tl.from(buttons, { opacity: 0, y: 15, stagger: 0.12, duration: 0.4 }, '-=0.3');
 
-		if (splitSubtitle) {
-			tl.from(
-				splitSubtitle.words,
-				{
-					opacity: 0,
-					y: 25,
-					stagger: 0.05,
-					duration: 0.45,
-					ease: 'power2.out'
-				},
-				'-=0.6'
-			);
-		}
+    // ===== Crossfade hero images =====
+    if (!prefersReducedMotion && imageEls.length > 1) {
+      gsap.set(imageEls, { opacity: 0 });
+      gsap.set(imageEls[0], { opacity: 1 });
 
-		if (buttons.length) {
-			tl.from(
-				buttons,
-				{
-					opacity: 0,
-					y: 15,
-					stagger: 0.12,
-					duration: 0.45,
-					ease: 'power2.out'
-				},
-				'-=0.5'
-			);
-		}
-	});
+      setInterval(() => {
+        const next = (current + 1) % imageEls.length;
+        gsap!.to(imageEls[current], { opacity: 0, duration: 0.6 });
+        gsap!.to(imageEls[next], { opacity: 1, duration: 0.8 });
+        current = next;
+      }, 7000);
+    }
+  });
 </script>
 
 <section bind:this={heroSection} class="hero">
-	<div class="hero-content">
-		<div class="hero-top">
-			<img src="/images/dkk-logo.png" alt="Logo" class="logo" />
+  <div class="hero-media">
+    {#each images as img, i}
+      <picture class="hero-picture">
+        <source srcset={img.webp} type="image/webp" />
+        <img
+          bind:this={imageEls[i]}
+          src={img.png}
+          width={img.width}
+          height={img.height}
+          alt=""
+          aria-hidden="true"
+          loading={i === 0 ? 'eager' : 'lazy'}
+        />
+      </picture>
+    {/each}
+    <div class="hero-overlay"></div>
+  </div>
 
-			<div class="hero-text">
-				<h1 class="hero-title">
-					Welkom bij <span class="no-break">Stadsbrouwerij<br />De Koperen Kat</span>
-				</h1>
-				<p class="hero-subtitle">De oudste stadsbrouwerij van Delft</p>
-				<div class="hero-actions">
-					<a href="/beers" class="btn btn--primary">Bekijk onze bieren</a>
-					<a href="/tasting-room" class="btn btn--secondary">Boek een proeflokaal</a>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="hero-content">
+    <div class="hero-top">
+      <img
+        src="/images/dkk-logo.png"
+        alt="Stadsbrouwerij De Koperen Kat"
+        class="logo"
+        width="260"
+        height="260"
+      />
+
+      <div class="hero-text">
+        <h1 class="hero-title">
+          Welkom bij
+          <span class="no-break">
+            Stadsbrouwerij<br />De Koperen Kat
+          </span>
+        </h1>
+        <p class="hero-subtitle">De oudste stadsbrouwerij van Delft</p>
+        <div class="hero-actions">
+          <a href="/beers" class="btn btn--primary">Bekijk onze bieren</a>
+          <a href="/tasting-room" class="btn btn--secondary">Boek een proeflokaal</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <style>
-	.hero {
-		position: relative;
-		display: grid;
-		place-items: center;
-		width: 100%;
-		min-height: 100vh;
-		color: #fff;
-		overflow: hidden;
-		text-align: center;
-		margin: auto;
-		background-size: cover;
-		background-position: center;
-		animation: animate 25s infinite ease-in-out;
-		object-fit: cover;
-		overflow: hidden;
-		z-index: 0;
-	}
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: #fff;
+}
 
-	.hero::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background-color: rgba(0, 0, 0, 0.45);
-		z-index: 1;
-	}
+/* Media wrapper */
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
 
-	@keyframes animate {
-		0% {
-			background-image: url(/images/brewery-hero.png);
-		}
+.hero-picture {
+  position: absolute;
+  inset: 0;
+}
 
-		25% {
-			background-image: url(/images/bar-gloed.png);
-		}
+.hero-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: opacity;
+}
 
-		50% {
-			background-image: url(/images/bar-gloed-1.png);
-		}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1;
+}
 
-		75% {
-			background-image: url(/images/vergisting-ketels.png);
-		}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 2.5rem 1.5rem;
+  max-width: 90rem;
+  margin: 0 auto;
+  text-align: center;
+}
 
-		100% {
-			background-image: url(/images/bar-glas-ketels.png);
-		}
-	}
+.hero-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
 
-	.hero-top {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: center;
-		gap: 3rem;
-	}
+.logo {
+  max-width: 250px;
+  height: auto;
+}
 
-	.logo {
-		max-width: 250px;
-		height: auto;
-		transform: translate(5px, -40px);
-	}
+.hero-text {
+  text-align: left;
+  max-width: 600px;
+}
 
-	.hero-text {
-		flex: 1;
-		text-align: center; /* tekst links uitlijnen */
-		max-width: 600px;
-		margin: 0 auto;
-	}
+.hero-title {
+  font-family: 'Noticia Text', serif;
+  font-size: clamp(1.5rem, 4vw + 1rem, 4.5rem);
+  line-height: 1.1;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+}
 
-	/* ===== Tekst & content ===== */
-	.hero-content {
-		position: relative;
-		z-index: 2;
-		max-width: 90rem;
-		padding: 4rem 2rem;
-		display: grid;
-		gap: 2rem;
-		justify-items: center;
-		text-align: center;
-		margin: 0 auto;
-	}
+.hero-subtitle {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
+  margin: 0;
+  color: #f2f2f2;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+}
 
-	.hero-title {
-		font-family: 'Noticia Text', serif;
-		font-size: clamp(1.5rem, 4vw + 1rem, 4.5rem); /* iets kleiner minimum */
-		line-height: 1.1;
-		font-weight: 700;
-		color: #fff;
-		margin: 0;
-		text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-		word-break: keep-all; /* voorkomt onnodige breuken */
-		overflow-wrap: normal;
-	}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
 
-	.hero-subtitle {
-		font-family: 'Ubuntu', sans-serif;
-		font-size: clamp(1.25rem, 2.5vw, 2rem);
-		line-height: 1.5;
-		margin: 0;
-		color: #f2f2f2;
-		text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
-	}
+.btn {
+  display: inline-block;
+  padding: 0.9rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
 
-	/* ===== Knoppen ===== */
-	.hero-actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 1rem;
-		margin-top: 1rem;
-		justify-content: center;
-	}
+.btn--primary {
+  background-color: #ed651c;
+  color: #fff;
+}
+.btn--primary:hover {
+  background-color: var(--cta-hover);
+  transform: scale(1.05);
+}
 
-	.btn {
-		display: inline-block;
-		padding: 0.9rem 2rem;
-		border-radius: 0.5rem;
-		font-weight: 600;
-		text-decoration: none;
-		transition:
-			background-color 0.25s ease,
-			transform 0.25s ease;
-	}
+.btn--secondary {
+  border: 2px solid #ed651c;
+  color: #f5f5f0;
+  background: transparent;
+}
+.btn--secondary:hover {
+  background-color: var(--cta-hover);
+  color: #fff;
+}
 
-	.btn--primary {
-		background-color: #ed651c;
-		color: #fff;
-	}
+/* Desktop layout */
+@media (min-width: 50rem) {
+  .hero-content {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 4rem;
+    text-align: left;
+    justify-items: start;
+  }
 
-	.btn--primary:hover {
-		background-color: var(--cta-hover);
-		transform: scale(1.05);
-	}
+  .hero-top { display: contents; }
 
-	.btn--secondary {
-		border: 2px solid #ed651c;
-		color: #f5f5f0;
-		background: transparent;
-	}
+  .hero-text { max-width: 70ch; }
+  .hero-actions { justify-content: flex-start; }
+}
 
-	.btn--secondary:hover {
-		background-color: var(--cta-hover);
-		color: #fff;
-	}
-
-	/* ===== Responsiviteit ===== */
-	@media (min-width: 70rem) {
-		.hero-text {
-			max-width: 45ch;
-		}
-	}
-
-	@media (min-width: 50rem) {
-		.hero-content {
-			display: grid;
-			grid-template-columns: auto 1fr;
-			align-items: center;
-			gap: 4rem;
-
-			text-align: left;
-			justify-items: start;
-		}
-
-		.hero-top {
-			display: contents; /* laat grid leidend zijn */
-		}
-
-		.logo {
-			max-width: 300px;
-			transform: none;
-		}
-
-		.hero-text {
-			max-width: 70ch;
-			text-align: left;
-		}
-
-		.hero-actions {
-			justify-content: flex-start;
-		}
-	}
-
-	/* ===== SplitText chars ===== */
-	:global(.char) {
-		display: inline-block;
-		white-space: pre;
-	}
+:global(.char) { display: inline-block; white-space: pre; }
 </style>
