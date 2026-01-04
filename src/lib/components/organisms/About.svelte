@@ -98,7 +98,7 @@
 		</p>
 
 		<div class="button-wrapper">
-			<Button href="/about" label="Lees meer over ons" />
+			<Button href="/de-brouwerij" label="Lees meer over ons" />
 		</div>
 	</div>
 </section>

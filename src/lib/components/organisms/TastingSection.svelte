@@ -48,7 +48,7 @@
         Beleef onze bieren in een unieke sfeer. Reserveer jouw plek voor een rondleiding, proeverij 
         of groepsbezoek eenvoudig online.
       </p>
-      <Button href="/tasting-room" label="Reserveer nu" />
+      <Button href="/proeflokaal" label="Reserveer nu" />
     </div>
 
     <div class="image" bind:this={imageEl}>

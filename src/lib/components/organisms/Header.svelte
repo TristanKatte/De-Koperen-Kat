@@ -3,13 +3,13 @@
 
 	const menuItems = [
 		{ title: 'Home', links: [{ label: 'Home', href: '/' }] },
-		{ title: 'De Brouwerij', links: [{ label: 'Over ons', href: '/about' }] },
-		{ title: 'De Bieren', links: [{ label: 'Alle Bieren', href: '/beers' }] },
+		{ title: 'De Brouwerij', links: [{ label: 'Over ons', href: '/de-brouwerij' }] },
+		{ title: 'De Bieren', links: [{ label: 'Alle Bieren', href: '/bieren' }] },
 		{ title: 'Webshop', links: [{ label: 'Webshop', href: '/webshop' }] },
-		{ title: 'Het Proeflokaal', links: [{ label: 'Proeflokaal', href: '/tasting-room' }] },
-		{ title: 'Nieuws', links: [{ label: 'Nieuws', href: '/news' }] },
+		{ title: 'Het Proeflokaal', links: [{ label: 'Proeflokaal', href: '/proeflokaal' }] },
+		{ title: 'Nieuws', links: [{ label: 'Nieuws', href: '/nieuws' }] },
 		{ title: 'Agenda', links: [{ label: 'Agenda', href: '/agenda' }] },
-		{ title: 'Vacatures', links: [{ label: 'Vacatures', href: '/vacancies' }] },
+		{ title: 'Vacatures', links: [{ label: 'Vacatures', href: '/vacatures' }] },
 		{ title: 'Contact', links: [{ label: 'Contact', href: '/contact' }] }
 	];
 </script>

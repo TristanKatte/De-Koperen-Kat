@@ -46,7 +46,7 @@
 <Carousel ariaLabel="Onze bieren"  items={beers.slice(0, 8)} />
 
 	<div class="centered-button">
-		<Button href="/beers" label="Bekijk alle bieren" />
+		<Button href="/bieren" label="Bekijk alle bieren" />
 	</div>
 </section>
 

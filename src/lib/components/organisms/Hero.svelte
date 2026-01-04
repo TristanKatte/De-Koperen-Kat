@@ -132,8 +132,8 @@
 				</h1>
 				<p class="hero-subtitle">De oudste stadsbrouwerij van Delft</p>
 				<div class="hero-actions">
-					<a href="/beers" class="btn btn--primary">Bekijk onze bieren</a>
-					<a href="/tasting-room" class="btn btn--secondary">Boek een proeflokaal</a>
+					<a href="/bieren" class="btn btn--primary">Bekijk onze bieren</a>
+					<a href="/proeflokaal" class="btn btn--secondary">Boek een proeflokaal</a>
 				</div>
 			</div>
 		</div>

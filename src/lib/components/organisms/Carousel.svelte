@@ -165,7 +165,7 @@
 						</div>
 					</div>
 
-					<Button href={`/beers/${item.slug}`} label="Meer informatie" />
+					<Button href={`/bieren/${item.slug}`} label="Meer informatie" />
 				</div>
 			</article>
 		{/each}
