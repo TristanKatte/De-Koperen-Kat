@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Noticia+Text:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
-:root {
+html {
   /* Basis / achtergrond */
   --background-color: #E8DBBF;
   --background-alt: #41312eff;
@@ -38,14 +38,17 @@
   /* Fonts */
   --font-family-body: "Ubuntu", system-ui, sans-serif;
   --font-family-headings: "Noticia Text", Georgia, serif;
-}
 
-html {
+  /* Overige */
   scroll-behavior: smooth;
   box-sizing: border-box;
   margin: 0;
   padding: 0; 
   overflow-x: hidden;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
 body {
