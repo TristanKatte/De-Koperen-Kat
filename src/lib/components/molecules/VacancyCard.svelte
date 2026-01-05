@@ -10,7 +10,7 @@
   <div class="content">
     <h2>{v.title}</h2>
     <p class="intro">{v.description}</p>
-    <a class="meer" href={`/vacancies/${v.slug}`}>Bekijk vacature →</a>
+    <a class="meer" href={`/vacatures/${v.slug}`}>Bekijk vacature →</a>
   </div>
 </article>
 
