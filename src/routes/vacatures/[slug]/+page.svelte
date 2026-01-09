@@ -23,8 +23,8 @@
 			{/each}
 		</ul>
 
-		<Button href="/contact?subject=Vrijwilliger%20{vacancy.title}" label="Reageren" />
-    <Button href="/vacancies" label="Terug naar overzicht" />
+		<Button href={`mailto:${vacancy.contact_email}`} label="Solliciteer nu" />
+		<Button href="/vacatures" label="Terug naar overzicht" />
 	</article>
 {:else}
 	<p>Vacature niet gevonden.</p>
@@ -58,9 +58,9 @@
 	}
 
 	ul {
-		list-style: "🎯";
+		list-style: '🎯';
 		margin-left: 1.5rem;
-    margin-bottom: 2rem;
+		margin-bottom: 2rem;
 	}
 
 	li {
