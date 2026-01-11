@@ -33,7 +33,7 @@
 		</p>
 
 		<div class="event-button">
-			<Button href={`/news/${event.slug}`} label="Meer informatie" />
+			<Button href={`/nieuws/${event.slug}`} label="Meer informatie" />
 		</div>
 	</div>
 </article>
