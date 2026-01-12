@@ -1,5 +1,5 @@
 <script lang="ts">
-	import BeerPreviewCard from '$lib/components/molecules/BeerPreviewCard.svelte';
+	import BeerPreviewCard from '$lib/components/molecules/BeerCard.svelte';
 
 	let { beers = [] } = $props();
 </script>

@@ -35,7 +35,7 @@
 	});
 </script>
 
-<section class="events-section" bind:this={sectionEl} aria-labelledby="events-title">
+<section class="events-section section-divider" bind:this={sectionEl} aria-labelledby="events-title">
 	<h2 id="events-title">Agenda</h2>
 
 	<div class="events-grid">
@@ -118,7 +118,8 @@
 
 <style>
 	.events-section {
-		background-color: var(--accent-light);
+		position: relative;
+		background-color: var(--background-soft);
 		color: var(--text-color);
 		padding: 5rem 1.5rem;
 		width: 100%;
@@ -127,6 +128,18 @@
 		flex-direction: column;
 		align-items: center;
 		min-height: 100vh;
+	}
+
+	.events-section::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 6px;
+		height: 100%;
+		background: var(--accent);
+		pointer-events: none;
+		opacity: 0.9;
 	}
 
 	h2 {

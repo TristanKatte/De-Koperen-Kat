@@ -94,7 +94,7 @@
 	});
 </script>
 
-<section bind:this={heroSection} class="hero">
+<section bind:this={heroSection} class="hero bg-light">
 	<div class="hero-media">
 		{#each images as img, i}
 			<picture class="hero-picture">
@@ -132,8 +132,8 @@
 				</h1>
 				<p class="hero-subtitle">De oudste stadsbrouwerij van Delft</p>
 				<div class="hero-actions">
-					<a href="/bieren" class="btn btn--primary">Bekijk onze bieren</a>
-					<a href="/proeflokaal" class="btn btn--secondary">Boek een proeflokaal</a>
+					<a href="/bieren" class="btn btn-primary">Bekijk onze bieren</a>
+					<a href="/proeflokaal" class="btn btn-secondary">Boek een proeflokaal</a>
 				</div>
 			</div>
 		</div>
@@ -241,21 +241,21 @@
 			transform 0.25s ease;
 	}
 
-	.btn--primary {
+	.btn-primary {
 		background-color: #ed651c;
 		color: #fff;
 	}
-	.btn--primary:hover {
+	.btn-primary:hover {
 		background-color: var(--cta-hover);
 		transform: scale(1.05);
 	}
 
-	.btn--secondary {
+	.btn-secondary {
 		border: 2px solid #ed651c;
 		color: #f5f5f0;
 		background: transparent;
 	}
-	.btn--secondary:hover {
+	.btn-secondary:hover {
 		background-color: var(--cta-hover);
 		color: #fff;
 	}

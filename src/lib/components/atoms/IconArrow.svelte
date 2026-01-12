@@ -52,6 +52,7 @@
 		transition: transform 0.25s ease;
         background-color: #f5f5f0;
         color: var(--text-color);
+		border: 2px solid var(--divider-color);
         border-radius: 1rem;
 		width: 100%;
 		height: 100%;

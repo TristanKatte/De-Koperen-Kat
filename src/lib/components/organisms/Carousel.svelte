@@ -206,7 +206,7 @@
 <style>
 	.carousel-wrapper {
 		position: relative;
-		width: 100%;
+		width: 90%;
 		margin: 0 auto;
 		overflow: hidden;
 
@@ -218,13 +218,14 @@
 		display: flex;
 		gap: 2rem;
 		overflow-x: auto;
-
+		
 		scrollbar-width: 30px;
 		-webkit-overflow-scrolling: touch;
 		scroll-behavior: smooth;
 		padding: 2rem 0;
 		height: min(70vh, 720px);
 		overscroll-behavior-x: contain;
+		background-color: var(--background-warm);
 	}
 
 	.carousel::-webkit-scrollbar {
@@ -265,7 +266,7 @@
 	.beer-info h3 {
 		font-size: 2rem;
 		margin-bottom: 0.25rem;
-		color: var(--text-color-alt);
+		color: var(--text-color);
 	}
 
 	.type {
@@ -296,7 +297,7 @@
 	.stat-divider {
 		width: 2px;
 		height: 48px;
-		background-color: var(--background-color);
+		background-color: var(--divider-color);
 	}
 
 	.nav {
@@ -329,7 +330,7 @@
 		width: 10px;
 		height: 10px;
 		border-radius: 50%;
-		background: var(--background-color);
+		background: var(--accent);
 		border: none;
 		cursor: pointer;
 	}

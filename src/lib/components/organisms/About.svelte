@@ -56,7 +56,7 @@
 	});
 </script>
 
-<section class="about-section" aria-labelledby="about-title">
+<section class="about-section section-divider" aria-labelledby="about-title">
 	<div class="content">
 		<h2 id="about-title">Over Stadsbrouwerij De Koperen Kat</h2>
 
@@ -99,11 +99,13 @@
 
 <style>
 	.about-section {
+		position: relative;
 		padding: 6rem 2rem;
 		background-color: var(--background-color);
 		color: var(--text-color);
 		display: flex;
 		justify-content: center;
+		box-shadow: inset 0 1px 0 rgba(0,0,0,0.05);
 		container-type: inline-size;
 		container-name: about;
 	}
@@ -111,8 +113,8 @@
 	.about-section::before {
 		content: '';
 		position: absolute;
-		top: 0;
 		left: 0;
+		top: 0;
 		width: 6px;
 		height: 100%;
 		background: var(--accent);
@@ -120,8 +122,27 @@
 		opacity: 0.9;
 	}
 
+	.section-divider {
+		position: relative;
+	}
+
+	.section-divider::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--background-alt)
+  );
+  pointer-events: none;
+}
+
 	.content {
-		max-width: 1100px;
+		max-width: 1200px;
 		width: 100%;
 		margin: 0 auto;
 		background: #ffffff;
