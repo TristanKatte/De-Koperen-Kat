@@ -148,6 +148,8 @@
 		place-items: center;
 		overflow: hidden;
 		color: #fff;
+		container-type: inline-size;
+		container-name: hero;
 	}
 
 	/* Media wrapper */
@@ -259,37 +261,40 @@
 	}
 
 	/* Desktop layout */
-	@media (min-width: 50rem) {
+	@container hero (min-width: 50rem) {
 		.hero-content {
-			display: grid;
-			grid-template-columns: auto 1fr;
-			align-items: center;
-			gap: 4rem;
-			text-align: left;
-			justify-items: start;
-		}
-
-		.hero-top {
-			display: contents;
-		}
-
-		.hero-text {
-			max-width: 70ch;
-		}
-		.hero-actions {
-			justify-content: flex-start;
-		}
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: center;
+		gap: 4rem;
+		text-align: left;
+		justify-items: start;
 	}
 
-  @media (max-width: 600px) {
-    .hero-picture img {
-      object-position: center 30%;
-    }
+	.hero-top {
+		display: contents;
+	}
 
-  .hero-title, .hero-subtitle {
-    text-align: center;
-  }
-  }
+	.hero-text {
+		max-width: 70ch;
+	}
+
+	.hero-actions {
+		justify-content: flex-start;
+	}
+	}
+
+ @container hero (max-width: 37.5rem) {
+	.hero-picture img {
+		object-position: center 30%;
+	}
+
+	.hero-title,
+	.hero-subtitle {
+		text-align: center;
+	}
+}
+
 
   @media (prefers-reduced-motion: reduce) {
     .hero-picture img {

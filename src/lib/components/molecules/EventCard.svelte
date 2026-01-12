@@ -67,8 +67,16 @@
 		padding: 1rem;
 	}
 
+	h2 {
+		font-size: 1.25rem;
+		font-weight: 600;
+		margin: 0.5rem 0;
+		color: var(--text-color);
+	}
+
 	.event-button {
 		margin: 1.5rem 0;
+		padding: 0 0.5rem;
 	}
 
 	.event-date {

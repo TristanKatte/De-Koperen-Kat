@@ -63,7 +63,9 @@
 		width: 100%;
 		margin: 0 auto;
 		padding: 2rem 1rem;
-		background: var(--background-alt); /* Temporary background color for visibility */
+		background: var(--background-alt); 
+		container-type: inline-size;
+		container-name: events-overview;
 	}
 
 	h1 {
@@ -111,9 +113,17 @@
 		color: #d2691e;
 	}
 
-	@media (min-width: 700px) {
+	@container events-overview (min-width: 48rem) {
 		.agenda-grid {
-			grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.agenda-item {
+			grid-template-columns: 100px auto;
+		}
+
+		h1 {
+			font-size: 2.5rem;
 		}
 	}
 

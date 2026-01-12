@@ -54,17 +54,20 @@
 	.beers-section {
 		background-color: var(--background-alt);
 		color: #f5f5f0;
-		padding: 5rem 1.5rem;
+		padding: 3rem 1rem;
 		width: 100%;
 		overflow-x: hidden;
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		align-items: center;
 		min-height: 100vh;
+		container-type: inline-size;
+		container-name: beers-carousel;
 	}
 
 	h2 {
-		font-size: 2.25rem;
+		font-size: 2rem;
 		font-weight: 700;
 		text-align: center;
 		margin-bottom: 2.5rem;
@@ -73,19 +76,29 @@
 	
 	/* --- Grote knop onder het grid --- */
 	.centered-button {
-		margin-top: 3rem;
+		margin-top: 2.5rem;
 		text-align: center;
 	}
 
 	/* --- Responsief --- */
-	@media (max-width: 768px) {
+	@container beers-carousel (min-width: 48rem) {
 		.beers-section {
-			padding: 3rem 1rem;
+			padding: 4rem 1.5rem;
 		}
 
+		h2 {
+			font-size: 2.5rem;
+			margin-bottom: 2.5rem;
+		}
 
 		.centered-button {
-			margin-top: 2.5rem;
+			margin-top: 3rem;
+		}
+	}
+
+	@container beers-carousel (min-width: 70rem) {
+		.beers-section {
+			padding: 5rem 2rem;
 		}
 	}
 </style>

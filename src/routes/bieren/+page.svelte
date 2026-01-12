@@ -1,15 +1,19 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import Button from '$lib/components/atoms/Button.svelte';
-
-	gsap.registerPlugin(ScrollTrigger);
 
 	let { data } = $props();
 	const beers = data?.beers || [];
 
-	onMount(() => {
+	onMount(async () => {
+		// check of we in de browser zitten
+		if (typeof window === 'undefined') return;
+
+		// Dynamische import van gsap om SSR te vermijden
+		const { gsap } = await import('gsap');
+		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+		gsap.registerPlugin(ScrollTrigger);
+
 		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 		if (prefersReducedMotion) return;
 
@@ -29,6 +33,7 @@
 		});
 	});
 </script>
+
 
 <svelte:head>
 	<title>Onze Bieren</title>
@@ -69,7 +74,9 @@
 	section {
 		background-color: var(--background-alt);
 		color: var(--text-color);
-		padding: 5rem 1.5rem 6rem;
+		padding: 4rem 1rem 5rem;
+		container-type: inline-size;
+		container-name: beers-overview;
 	}
 
 	h1 {
@@ -87,24 +94,24 @@
 
 	.grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		grid-template-columns: 1fr;
 		gap: 2.5rem;
 		max-width: 1200px;
 		margin: 0 auto;
-		padding: 0 1rem;
+		padding: 0;
 	}
 
 	.beer-card {
 		background: var(--background-color);
 		border-radius: 1rem;
-		padding: 2rem 1.5rem;
+		padding:  1.5rem;
 		text-align: left;
 		transition: transform 0.3s ease, box-shadow 0.3s ease;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
 		justify-content: space-between;
-		min-height: 420px;
+		min-height: auto;
 	}
 
 	.beer-card:hover {
@@ -158,30 +165,30 @@
 		padding: 0 1rem;
 	}
 
-	/* 📱 Mobielvriendelijke aanpassingen */
-	@media (max-width: 768px) {
-		section {
-			padding: 4rem 1rem 5rem;
-		}
 
-		h1 {
-			font-size: 2rem;
-			margin-bottom: 2rem;
-		}
+@container beers-overview (min-width: 48rem) {
+  section {
+    padding: 5rem 1.5rem 6rem;
+  }
 
-		.grid {
-			grid-template-columns: 1fr;
-			gap: 2rem;
-			padding: 0;
-		}
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+  }
 
-		.beer-card {
-			padding: 1.5rem;
-			min-height: auto;
-		}
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    padding: 0 1rem;
+  }
 
-		.button-container {
-			margin-top: 3rem;
-		}
-	}
+  .beer-card {
+    padding: 2rem 1.5rem;
+    min-height: 420px;
+  }
+
+  .button-container {
+    margin-top: 4rem;
+  }
+}
 </style>
