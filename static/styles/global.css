@@ -2,7 +2,7 @@
 
 html {
   /* Basis / achtergrond */
-  --background-color: #E8DBBF;
+  --background-color: #f7f7f7;
   --background-alt: #41312eff;
   --footer-color: #2B2D30;
   --divider-color: #1d1d1e;
@@ -34,6 +34,9 @@ html {
   /* Accenten */
   --accent-light: #F6D9A8;
   --accent-dark: #8A3E00;
+  --accent: #ed651c;
+  --accent-soft: rgba(237, 101, 28, 0.15);
+  --line-subtle: rgba(0, 0, 0, 0.08);
 
   /* Fonts */
   --font-family-body: "Ubuntu", system-ui, sans-serif;
