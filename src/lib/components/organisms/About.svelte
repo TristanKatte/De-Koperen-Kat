@@ -105,7 +105,7 @@
 		color: var(--text-color);
 		display: flex;
 		justify-content: center;
-		box-shadow: inset 0 1px 0 rgba(0,0,0,0.05);
+		box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.05);
 		container-type: inline-size;
 		container-name: about;
 	}
@@ -127,19 +127,15 @@
 	}
 
 	.section-divider::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 120px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    var(--background-alt)
-  );
-  pointer-events: none;
-}
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		height: 120px;
+		background: linear-gradient(to bottom, transparent, var(--background-warm));
+		pointer-events: none;
+	}
 
 	.content {
 		max-width: 1200px;
