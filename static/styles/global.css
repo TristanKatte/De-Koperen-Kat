@@ -6,11 +6,11 @@ html {
   --background-soft: #f1efec;  /* lichtbeige / kalk */
 
   /* Midden */
-  --background-warm:  #f0ece8;   /* beige / kalk / hout */
+  --background-warm:  #e4d6c8;   /* beige / kalk / hout */
 
   /* Donker */
-  --background-alt: #3f2f2b;   /* donkerbruin (brouwerij) */
-  --footer-color: #26282b;
+  --background-alt: #41312e;   /* donkerbruin (brouwerij) */
+  --footer-color: #2b2d30;
   --divider-color: #1b1c1e;
 
   /* Accent */

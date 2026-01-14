@@ -69,7 +69,7 @@
 <style>
 /* FULL-WIDTH ACHTERGROND */
 .proeflokaal-wrapper {
-  background-color: var(--background-alt);
+  background-color: var(--background-warm);
   padding: 5rem 1.5rem;
 }
 

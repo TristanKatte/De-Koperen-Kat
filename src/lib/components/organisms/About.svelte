@@ -60,7 +60,7 @@
 	<div class="content">
 		<h2 id="about-title">Over Stadsbrouwerij De Koperen Kat</h2>
 
-		<div class="about-editorial">
+		<div class="about-craft-grid">
 			<img src="/images/ketels.jpg" alt="Koperen brouwketels" />
 			<img src="/images/brouwerij-feest.jpg" alt="Brouwerij feest" />
 			<img src="/images/vergisting-ketels.jpg" alt="Vergisting ketels" />
@@ -150,17 +150,22 @@
 		max-width: 75ch;
 	}
 
-	.about-editorial {
+	.about-craft-grid {
 		display: grid;
-		gap: 1.5rem;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem;
 	}
 
-	.about-editorial img {
+	.about-craft-grid img {
 		width: 100%;
-		height: 260px;
+		height: 220px;
 		object-fit: cover;
-		border-radius: 1.25rem;
-		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+		border-radius: 0.75rem;
+	}
+
+	.about-craft-grid img:first-child {
+		grid-column: span 2;
+		height: 320px;
 	}
 
 	/* TEXT */
@@ -207,11 +212,11 @@
 	}
 
 	@container about (min-width: 70rem) {
-		.about-editorial {
+		.about-craft-grid {
 			grid-template-columns: 2fr 1fr;
 		}
 
-		.about-editorial img:first-child {
+		.about-craft-grid img:first-child {
 			grid-row: span 2;
 			height: 100%;
 		}

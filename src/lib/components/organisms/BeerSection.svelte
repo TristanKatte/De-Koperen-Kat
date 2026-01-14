@@ -94,6 +94,21 @@
 		text-align: center;
 	}
 
+	.section-divider {
+		position: relative;
+	}
+
+	.section-divider::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		height: 120px;
+		background: linear-gradient(to bottom, transparent, var(--background-soft));
+		pointer-events: none;
+	}
+
 	/* --- Responsief --- */
 	@container beers-carousel (min-width: 48rem) {
 		.beers-section {
