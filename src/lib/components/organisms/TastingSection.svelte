@@ -71,6 +71,7 @@
 .proeflokaal-wrapper {
   background-color: var(--background-warm);
   padding: 5rem 1.5rem;
+  min-height: 100vh;
 }
 
 /* INNER GRID */
@@ -86,13 +87,13 @@
 .content h2 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  color: #f5f5f0; /* tekstkleur */
+  color: var(--text-color); /* tekstkleur */
 }
 
 .content p {
   font-size: 1.125rem;
   margin-bottom: 2rem;
-  color: #f5f5f0; /* tekstkleur */
+  color: var(--text-color);
 }
 
 .image img {

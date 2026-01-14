@@ -127,7 +127,6 @@
 		color: var(--text-color);
 		padding: 5rem 1.5rem;
 		width: 100%;
-		/* overflow-x: hidden; */
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -136,10 +135,10 @@
 		container-name: events;
 	}
 
-	.events-section::after {
+	.events-section::before {
 		content: '';
 		position: absolute;
-		left: 0;
+		left: 0; /* of right:0 als je afwisseling wil */
 		top: 0;
 		width: 6px;
 		height: 100%;
