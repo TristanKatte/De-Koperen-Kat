@@ -71,7 +71,10 @@
 .proeflokaal-wrapper {
   background-color: var(--background-warm);
   padding: 5rem 1.5rem;
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.05);
   min-height: 100vh;
+  container-type: inline-size;
+  container-name: proeflokaal;
 }
 
 /* INNER GRID */
@@ -81,7 +84,12 @@
   gap: 3rem;
   align-items: center;
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
+  padding: 4rem 2rem;
+  background: var(--background-color);
+	border-radius: 1.5rem;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
 }
 
 .content h2 {
@@ -104,18 +112,13 @@
 }
 
 /* RESPONSIVE */
-@media (max-width: 768px) {
+@container proeflokaal (min-width: 64rem) {
+  .proeflokaal-wrapper {
+    padding: 6rem 2rem;
+  }
+
   .proeflokaal-teaser {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .content {
-    order: 2;
-  }
-
-  .image {
-    order: 1;
+    gap: 4rem;
   }
 }
 </style>
