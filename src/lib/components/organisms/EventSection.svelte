@@ -36,7 +36,7 @@
 </script>
 
 <section
-	class="events-section section-divider"
+	class="events-section"
 	bind:this={sectionEl}
 	aria-labelledby="events-title"
 >
@@ -283,20 +283,6 @@
 		gap: 1rem;
 	}
 
-	.section-divider {
-		position: relative;
-	}
-
-	.section-divider::after {
-		content: '';
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		width: 100%;
-		height: 120px;
-		background: linear-gradient(to bottom, transparent, var(--background-warm));
-		pointer-events: none;
-	}
 
 	@container events (min-width: 48rem) {
 		.events-section {

@@ -56,7 +56,7 @@
 	});
 </script>
 
-<section class="about-section section-divider" aria-labelledby="about-title">
+<section class="about-section" aria-labelledby="about-title">
 	<div class="content">
 		<h2 id="about-title">Over Stadsbrouwerij De Koperen Kat</h2>
 
@@ -122,20 +122,6 @@
 		opacity: 0.9;
 	}
 
-	.section-divider {
-		position: relative;
-	}
-
-	.section-divider::after {
-		content: '';
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		width: 100%;
-		height: 120px;
-		background: linear-gradient(to bottom, transparent, var(--background-warm));
-		pointer-events: none;
-	}
 
 	.content {
 		max-width: 1200px;
