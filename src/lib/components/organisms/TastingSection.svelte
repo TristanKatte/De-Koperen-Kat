@@ -96,6 +96,18 @@
   font-size: 2.5rem;
   margin-bottom: 1rem;
   color: var(--text-color); /* tekstkleur */
+  position: relative;
+}
+
+.content h2::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 20ch;
+		height: 4px;
+		background: var(--accent);
+		border-radius: 2px;
 }
 
 .content p {
