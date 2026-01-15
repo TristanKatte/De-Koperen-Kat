@@ -3,7 +3,7 @@
   
   let { intro } = $props();
   
-  onMount(() => {
+  onMount(async () => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     
     const { gsap } = await import('gsap');

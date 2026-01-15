@@ -99,17 +99,6 @@
   position: relative;
 }
 
-.content h2::after {
-		content: '';
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		width: 20ch;
-		height: 4px;
-		background: var(--accent);
-		border-radius: 2px;
-}
-
 .content p {
   font-size: 1.125rem;
   margin-bottom: 2rem;
@@ -132,5 +121,6 @@
   .proeflokaal-teaser {
     gap: 4rem;
   }
+  
 }
 </style>
