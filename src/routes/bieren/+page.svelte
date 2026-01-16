@@ -67,7 +67,7 @@
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 3rem;
-    color: #f5f5f0;
+    color: var(--text-color);
   }
 
   .button-container {

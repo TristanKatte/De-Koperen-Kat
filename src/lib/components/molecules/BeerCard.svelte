@@ -19,7 +19,7 @@
 
 <style>
   .beer-card {
-    background: var(--background-color);
+    background: var(--background-alt);
     border-radius: 1rem;
     padding: 1.5rem;
     text-align: left;
