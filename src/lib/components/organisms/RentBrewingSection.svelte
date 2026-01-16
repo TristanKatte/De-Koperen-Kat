@@ -27,7 +27,7 @@
   }
   
   h2 {
-    text-align: center;
+    text-align: left;
     font-size: 2rem;
     margin-bottom: 2rem;
     color: var(--text-color);

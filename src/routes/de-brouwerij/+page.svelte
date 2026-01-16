@@ -38,5 +38,6 @@
     padding: 3rem 1.5rem;
     background-color: var(--background-color);
     min-height: 100dvh;
+    width: 100%;
   }
 </style>

@@ -1,137 +1,158 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import Polaroid from '$lib/components/molecules/Polaroid.svelte';
-  
-  let { title, content, photos, index = 0 } = $props();
-  
-  onMount(async () => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    
-    const { gsap } = await import('gsap');
-    const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-    const { SplitText } = await import('gsap/SplitText');
-    gsap.registerPlugin(ScrollTrigger, SplitText);
-    
-    const section = document.querySelector(`[data-section="${index}"]`);
-    const h2 = section?.querySelector('h2');
-    const p = section?.querySelector('p');
-    
-    if (h2) {
-      const splitH2 = new SplitText(h2, { type: 'chars, words' });
-      gsap.from(splitH2.chars, {
-        opacity: 0,
-        y: 50,
-        duration: 0.15,
-        stagger: 0.03,
-        ease: 'power2.out',
-        scrollTrigger: { trigger: h2, start: 'top 85%' }
-      });
-    }
-    
-    if (p) {
-      const splitP = new SplitText(p, { type: 'chars, words' });
-      gsap.from(splitP.chars, {
-        opacity: 0,
-        y: 25,
-        duration: 0.15,
-        stagger: 0.02,
-        ease: 'power2.out',
-        scrollTrigger: { trigger: p, start: 'top 85%' }
-      });
-    }
-    
-    // Polaroid animations
-    section?.querySelectorAll('.polaroid').forEach((card, i) => {
-      const rotation = gsap.utils.random(-6, 6);
-      gsap.from(card, {
-        opacity: 0,
-        y: 50,
-        rotate: rotation,
-        duration: 1,
-        delay: i * 0.1,
-        ease: 'back.out(1.7)',
-        scrollTrigger: { trigger: card, start: 'top 90%', once: true }
-      });
-      
-      card.addEventListener('mouseenter', () => {
-        gsap.to(card, { y: -10, rotate: rotation / 2, duration: 0.3, ease: 'power2.out' });
-      });
-      card.addEventListener('mouseleave', () => {
-        gsap.to(card, { y: 0, rotate: rotation, duration: 0.3, ease: 'power2.in' });
-      });
-    });
-  });
+	import { onMount } from 'svelte';
+
+	let { title, content, photos, index = 0 } = $props();
+	let sectionEl: HTMLElement;
+
+	onMount(async () => {
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+		const { gsap } = await import('gsap');
+		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+		const { SplitText } = await import('gsap/SplitText');
+		gsap.registerPlugin(ScrollTrigger, SplitText);
+
+		const h2 = sectionEl.querySelector('h2');
+		const p = sectionEl.querySelector('p');
+
+		if (h2) {
+			const split = new SplitText(h2, { type: 'chars, words' });
+			gsap.from(split.chars, {
+				opacity: 0,
+				y: 40,
+				stagger: 0.03,
+				duration: 0.4,
+				ease: 'power3.out',
+				scrollTrigger: { trigger: h2, start: 'top 85%' }
+			});
+		}
+
+		if (p) {
+			const split = new SplitText(p, { type: 'chars, words' });
+			gsap.from(split.chars, {
+				opacity: 0,
+				y: 25,
+				stagger: 0.015,
+				duration: 0.3,
+				ease: 'power2.out',
+				scrollTrigger: { trigger: p, start: 'top 85%' }
+			});
+		}
+
+		sectionEl.querySelectorAll('img').forEach((img, i) => {
+			gsap.from(img, {
+				opacity: 0,
+				y: 50 + i * 5,
+				duration: 0.8,
+				ease: 'power3.out',
+				scrollTrigger: { trigger: img, start: 'top 90%', once: true }
+			});
+		});
+	});
 </script>
 
-<section 
-  class="text-photo-container {index % 2 === 0 ? 'left' : 'right'}"
-  data-section={index}
->
-  <div class="text">
-    <h2>{title}</h2>
-    <p>{content}</p>
-  </div>
-  <div class="photo-grid">
-    {#each photos as photo, j}
-      <Polaroid 
-        src={photo} 
-        alt={`Foto ${j + 1} van ${title}`} 
-        rotation={j % 2 === 0 ? -5 : 5} 
-      />
-    {/each}
-  </div>
+<section bind:this={sectionEl} class="text-photo-section {index % 2 === 0 ? 'left' : 'right'}">
+	<div class="text">
+		<h2>{title}</h2>
+		<p>{content}</p>
+	</div>
+
+	<div class="photo-grid">
+		{#each photos as photo, i}
+			<img src={photo} alt={`Foto ${i + 1} van ${title}`} class="grid-img" loading="lazy" />
+		{/each}
+	</div>
 </section>
 
 <style>
-  .text-photo-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto 8.5rem;
-    container-type: inline-size;
-    container-name: text-photo-section;
-  }
-  
-  .text h2 {
-    text-align: left;
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-  
-  .text p {
-    color: var(--text-color, #1a1a1a);
-    font-size: 1.15rem;
-    line-height: 1.6;
-  }
-  
-  .photo-grid {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  /* Container query for layout switch */
-  @container text-photo-section (min-width: 64rem) {
-    .text-photo-container.left {
-      flex-direction: row;
-      align-items: flex-start;
-    }
-    
-    .text-photo-container.right {
-      flex-direction: row-reverse;
-      align-items: flex-start;
-    }
-    
-    .text {
-      flex: 1;
-    }
-    
-    .photo-grid {
-      flex: 1;
-      justify-content: flex-start;
-    }
-  }
+	.text-photo-section {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		margin: 0 auto 6rem;
+		width: 100%;
+		max-width: 1200px;
+		padding: 0 1.5rem;
+		container-type: inline-size;
+		container-name: text-photo-section;
+	}
+
+	.text h2 {
+		font-size: 2rem;
+		margin-bottom: 1rem;
+		position: relative;
+	}
+
+	.text h2::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: -0.5rem;
+		width: 6ch;
+		height: 3px;
+		background: var(--accent);
+		border-radius: 2px;
+	}
+
+	.text p {
+		font-size: 1.1rem;
+		line-height: 1.6;
+	}
+
+	/* Mobiel: alles onder elkaar */
+	.photo-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+	}
+
+	.grid-img {
+		width: 100%;
+		height: 220px;
+		object-fit: cover;
+		border-radius: 0.75rem;
+		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+	}
+
+	/* Desktop: zigzag layout */
+	@media (min-width: 768px) {
+		.text-photo-section.left {
+			flex-direction: row;
+			align-items: flex-start;
+		}
+
+		.text-photo-section.right {
+			flex-direction: row-reverse;
+			align-items: flex-start;
+		}
+
+		.text {
+			flex: 1;
+			padding: 0 1rem;
+		}
+
+		.photo-grid {
+			flex: 1;
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1rem;
+		}
+
+		/* Zigzag offsets */
+		.photo-grid img:nth-child(1) {
+			transform: translateY(-5rem);
+		}
+		.photo-grid img:nth-child(2) {
+			transform: translateY(2rem);
+		}
+		.photo-grid img:nth-child(3) {
+			transform: translateY(1rem);
+		}
+		.photo-grid img:nth-child(4) {
+			transform: translateY(3rem);
+		}
+		.photo-grid img:nth-child(5) {
+			transform: translateY(1.5rem);
+		}
+	}
 </style>
