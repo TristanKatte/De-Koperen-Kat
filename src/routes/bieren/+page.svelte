@@ -56,7 +56,7 @@
 
 <style>
   section {
-    background-color: var(--background-alt);
+    background-color: var(--background-warm);
     color: var(--text-color);
     padding: 4rem 1rem 5rem;
     container-type: inline-size;

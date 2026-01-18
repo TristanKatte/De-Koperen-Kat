@@ -19,7 +19,7 @@
 
 <style>
   .beer-card {
-    background: var(--background-warm);
+    background: var(--background-soft);
     border-radius: 1rem;
     padding: 1.5rem;
     text-align: left;
@@ -27,8 +27,13 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: space-around;
     min-height: auto;
+    border-top: 4px solid var(--accent);
+    		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+		transition:
+			transform 0.3s ease,
+			box-shadow 0.3s ease;
   }
 
   .beer-card:hover {
