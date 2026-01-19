@@ -16,7 +16,7 @@
 
 <style>
 .vacancy-card {
-  background: #f5f2eb;
+  background: #ffffff;
   border-radius: 1rem;
   padding: 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);

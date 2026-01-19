@@ -93,9 +93,10 @@
 
 /* --- Info blok --- */
 .contact-info-block {
-  background: #f5f2eb;
+  background-color: #ffffff;
   padding: 2rem;
   border-radius: 1rem;
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.05);
 }
 
 .contact-info-row {
@@ -129,7 +130,8 @@
   background: #f5f2eb;
   padding: 2rem;
   border-radius: 1rem;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+  background-color: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.05);
 }
 
 .map-container iframe {
