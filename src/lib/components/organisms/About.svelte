@@ -136,7 +136,8 @@ onMount(async () => {
 h2 {
 	text-align: center;
 	margin-bottom: 4rem;
-	color: var(--accent-dark);
+	color: var(--text-color);
+	position: relative;
 }
 
 .zigzag {
@@ -175,12 +176,17 @@ h2 {
 
 .text h3 {
 	margin-bottom: .5rem;
-	color: var(--accent-dark);
+	color: var(--text-color);
 }
 
 .text p {
 	line-height: 1.7;
 	max-width: 60ch;
+}
+
+strong {
+	color: var(--accent);
+	font-weight: 600;
 }
 
 .button-wrapper {

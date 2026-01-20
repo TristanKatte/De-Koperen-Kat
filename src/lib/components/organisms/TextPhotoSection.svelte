@@ -15,29 +15,30 @@
 		const h2 = sectionEl.querySelector('h2');
 		const p = sectionEl.querySelector('p');
 
-		if (h2) {
-			const split = new SplitText(h2, { type: 'chars, words' });
-			gsap.from(split.chars, {
-				opacity: 0,
-				y: 40,
-				stagger: 0.03,
-				duration: 0.4,
-				ease: 'power3.out',
-				scrollTrigger: { trigger: h2, start: 'top 85%' }
-			});
-		}
+if (h2) {
+	const split = new SplitText(h2, { type: 'words' });
+	gsap.from(split.words, {
+		opacity: 0,
+		y: 40,
+		stagger: 0.08,
+		duration: 0.5,
+		ease: 'power3.out',
+		scrollTrigger: { trigger: h2, start: 'top 85%', once: true }
+	});
+}
 
-		if (p) {
-			const split = new SplitText(p, { type: 'chars, words' });
-			gsap.from(split.chars, {
-				opacity: 0,
-				y: 25,
-				stagger: 0.015,
-				duration: 0.3,
-				ease: 'power2.out',
-				scrollTrigger: { trigger: p, start: 'top 85%' }
-			});
-		}
+if (p) {
+	const split = new SplitText(p, { type: 'words' });
+	gsap.from(split.words, {
+		opacity: 0,
+		y: 25,
+		stagger: 0.04,
+		duration: 0.4,
+		ease: 'power2.out',
+		scrollTrigger: { trigger: p, start: 'top 85%', once: true }
+	});
+}
+
 
 		sectionEl.querySelectorAll('img').forEach((img, i) => {
 			gsap.from(img, {
@@ -81,6 +82,7 @@
 		font-size: 2rem;
 		margin-bottom: 1rem;
 		position: relative;
+		color: var(--text-color);
 	}
 
 	.text h2::after {
