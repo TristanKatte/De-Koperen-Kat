@@ -32,7 +32,7 @@
 	font-weight: 600;
 	text-decoration: none;
 	transition: 0.3s;
-	width: 100%; /* optioneel voor forms */
+	width: 25%; /* optioneel voor forms */
 	margin-top: 2rem;
 }
 .form-btn:disabled {
