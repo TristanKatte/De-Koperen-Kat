@@ -198,7 +198,7 @@ h2 {
 	content: '';
 	display: block;
 	margin-top: 0.25rem;
-	width: 15ch;
+	width: 20ch;
 	height: 3px;
 	background: var(--accent);
 	border-radius: 2px;
