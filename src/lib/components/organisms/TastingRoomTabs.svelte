@@ -57,7 +57,10 @@
 		top: 20;
 		z-index: 50;
 		width: 100%;
-		background: var(--background-warm);
+		left: 50%;
+		transform: translateX(-50%);
+		background-color: rgba(255, 255, 255, 0.8);
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	}
 
 	.tabs {

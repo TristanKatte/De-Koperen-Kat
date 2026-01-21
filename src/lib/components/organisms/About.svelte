@@ -120,8 +120,21 @@ onMount(async () => {
 .about-section {
 	padding: 6rem 2rem;
 	background-color: var(--background-color);
+	position: relative;
 	container-type: inline-size;
 	container-name: about;
+}
+
+.about-section::before {
+	content: '';
+	position: absolute;
+	left: 0; /* of right:0 als je afwisseling wil */
+	top: 0;
+	width: 6px;
+	height: 100%;
+	background: var(--accent);
+	pointer-events: none;
+	opacity: 0.9;
 }
 
 .content {
@@ -137,7 +150,7 @@ h2 {
 	text-align: center;
 	margin-bottom: 4rem;
 	color: var(--text-color);
-	position: relative;
+	font-size: 2.5rem;
 }
 
 .zigzag {
@@ -177,11 +190,26 @@ h2 {
 .text h3 {
 	margin-bottom: .5rem;
 	color: var(--text-color);
+	font-size: 1.75rem;
+	position: relative;
+}
+
+.text h3::after {
+	content: '';
+	display: block;
+	margin-top: 0.25rem;
+	width: 15ch;
+	height: 3px;
+	background: var(--accent);
+	border-radius: 2px;
 }
 
 .text p {
 	line-height: 1.7;
 	max-width: 60ch;
+	color: var(--text-color);
+	margin-top: 1rem;
+	font-size: 1.125rem;
 }
 
 strong {

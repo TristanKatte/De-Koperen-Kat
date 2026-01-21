@@ -209,7 +209,6 @@
 		width: 90%;
 		margin: 0 auto;
 		overflow: hidden;
-
 		container-type: inline-size;
 		container-name: carousel;
 	}
@@ -218,7 +217,6 @@
 		display: flex;
 		gap: 2rem;
 		overflow-x: auto;
-		
 		scrollbar-width: 30px;
 		-webkit-overflow-scrolling: touch;
 		scroll-behavior: smooth;
@@ -286,7 +284,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		min-width: 80px;
+		min-width: 65px;
 	}
 
 	.stat .value {

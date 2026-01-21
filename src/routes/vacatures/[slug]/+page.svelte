@@ -33,10 +33,12 @@
 <style>
 	.vacature-detail {
 		max-width: 800px;
-		background: #f5f2eb;
+		background: #ffffff;
 		padding: 1.5rem;
 		margin: 2rem auto;
 		border-radius: 1rem;
+		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+		color: var(--text-color);
 	}
 
 	img {

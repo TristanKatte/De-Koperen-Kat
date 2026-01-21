@@ -94,7 +94,7 @@
 	});
 </script>
 
-<section bind:this={heroSection} class="hero bg-light">
+<section bind:this={heroSection} class="hero">
 	<div class="hero-media">
 		{#each images as img, i}
 			<picture class="hero-picture">
