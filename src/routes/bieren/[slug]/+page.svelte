@@ -36,7 +36,7 @@
 	<section class="not-found">
 		<h1>Bier niet gevonden 🍺</h1>
 		<p>Dit bier bestaat niet of is niet meer beschikbaar.</p>
-		<Button href="/beers" label="Terug naar alle bieren" />
+		<Button href="/bieren" label="Terug naar alle bieren" />
 	</section>
 {:else}
 	<article class="beer-detail" aria-labelledby="beer-title">
@@ -67,7 +67,7 @@
 		{/if}
 
 		<footer class="beer-footer">
-			<Button href="/beers" label="← Terug naar overzicht" />
+			<Button href="/bieren" label="← Terug naar overzicht" />
 			<Button href="/contact" label="Waar te koop?" />
 		</footer>
 	</article>

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import TabButton from '$lib/components/atoms/TabButton.svelte';
 	import VisitPanel from './VisitPanel.svelte';
 	import RentalPanel from './RentalPanel.svelte';
 	import EventPanel from './EventPanel.svelte';
@@ -10,6 +9,11 @@
 	type Tab = (typeof tabs)[number];
 
 	let activeTab: Tab = 'bezoeken';
+
+	function select(tab: Tab) {
+		activeTab = tab;
+		document.getElementById(tab)?.scrollIntoView({ behavior: 'smooth' });
+	}
 
 	function onKeydown(e: KeyboardEvent) {
 		const index = tabs.indexOf(activeTab);
@@ -27,55 +31,77 @@
 </script>
 
 <svelte:window on:keydown={onKeydown} />
-
-<div role="tablist" aria-label="Proeflokaal tabs" class="tabs">
-	<TabButton
-		id="tab-bezoeken"
-		ariaControls="tabpanel-bezoeken"
-		active={activeTab === 'bezoeken'}
-		on:select={() => (activeTab = 'bezoeken')}
-	>
-		Bezoeken
-	</TabButton>
-
-	<TabButton
-		id="tab-afhuren"
-		ariaControls="tabpanel-afhuren"
-		active={activeTab === 'afhuren'}
-		on:select={() => (activeTab = 'afhuren')}
-	>
-		Afhuren
-	</TabButton>
-
-	<TabButton
-		id="tab-evenementen"
-		ariaControls="tabpanel-evenementen"
-		active={activeTab === 'evenementen'}
-		on:select={() => (activeTab = 'evenementen')}
-	>
-		Evenementen
-	</TabButton>
+<div class="tabs-wrapper">
+	<nav class="tabs" aria-label="Proeflokaal navigatie">
+		<a href="#bezoeken" id="tab-bezoeken">Bezoeken</a>
+		<a href="#afhuren" id="tab-afhuren">Afhuren</a>
+		<a href="#evenementen" id="tab-evenementen">Evenementen</a>
+	</nav>
 </div>
 
-{#if activeTab === 'bezoeken'}
+<section id="bezoeken">
 	<VisitPanel {form} />
-{:else if activeTab === 'afhuren'}
+</section>
+
+<section id="afhuren">
 	<RentalPanel {form} />
-{:else}
+</section>
+
+<section id="evenementen">
 	<EventPanel />
-{/if}
+</section>
 
 <style>
+	.tabs-wrapper {
+		position: fixed;
+		top: 20;
+		z-index: 50;
+		width: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		background-color: rgba(255, 255, 255, 0.8);
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+
 	.tabs {
 		display: flex;
-		gap: 1rem;
-		border-bottom: 1px solid #ddd;
-		margin-bottom: 1.5rem;
-		width: 100%;
-		margin-left: auto;
-		margin-right: auto;
-    max-width: 1200px;
-    margin-top: 2rem;
-    justify-content: center;
+		justify-content: center;
+		gap: 0.5rem;
+		padding: 1rem;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+		backdrop-filter: blur(6px);
+		width: 33.33%;
+		margin: 0 auto;
+	}
+
+	.tabs a {
+		position: relative;
+		padding: 0.6rem 1.25rem;
+		color: var(--text-color);
+		font-weight: 500;
+	}
+
+	.tabs a::after {
+		content: '';
+		position: absolute;
+		left: 10%;
+		bottom: -0.4rem;
+		width: 80%;
+		height: 3px;
+		background: var(--accent);
+		border-radius: 2px;
+		transform: scaleX(0);
+		transition: transform 0.3s ease;
+	}
+
+	.tabs a:focus::after,
+	.tabs a:hover::after {
+		transform: scaleX(1);
+	}
+
+	@container (max-width: 40rem) {
+		.tabs-wrapper {
+			position: static;
+		}
 	}
 </style>

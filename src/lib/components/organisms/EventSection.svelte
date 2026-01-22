@@ -35,7 +35,11 @@
 	});
 </script>
 
-<section class="events-section" bind:this={sectionEl} aria-labelledby="events-title">
+<section
+	class="events-section"
+	bind:this={sectionEl}
+	aria-labelledby="events-title"
+>
 	<h2 id="events-title">Agenda</h2>
 
 	<div class="events-grid">
@@ -118,15 +122,29 @@
 
 <style>
 	.events-section {
-		background-color: var(--accent-light);
+		position: relative;
+		background-color: var(--background-soft);
 		color: var(--text-color);
 		padding: 5rem 1.5rem;
 		width: 100%;
-		overflow-x: hidden;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		min-height: 100vh;
+		container-type: inline-size;
+		container-name: events;
+	}
+
+	.events-section::before {
+		content: '';
+		position: absolute;
+		left: 0; /* of right:0 als je afwisseling wil */
+		top: 0;
+		width: 6px;
+		height: 100%;
+		background: var(--accent);
+		pointer-events: none;
+		opacity: 0.9;
 	}
 
 	h2 {
@@ -139,7 +157,7 @@
 
 	.events-grid {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1fr;
 		align-items: start;
 		gap: 2rem;
 		width: 100%;
@@ -159,9 +177,10 @@
 		display: flex;
 		flex-direction: row;
 		align-items: stretch;
-		background: var(--background-alt);
+		background: #fff;
 		border-radius: 1rem;
-		border: 1px solid #1b1007;
+		border: 1px solid var(--line-subtle);
+		border-top: 4px solid var(--accent);
 		padding: 1.5rem;
 		gap: 2rem;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -172,8 +191,8 @@
 	}
 
 	.event-card:hover {
-		transform: translateY(-6px);
-		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+		transform: translateY(-4px);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 	}
 
 	/* ----- Datum ----- */
@@ -212,7 +231,7 @@
 	.event-info h3 {
 		font-size: 1.5rem;
 		font-weight: 700;
-		color: var(--text-color-alt);
+		color: var(--text-color);
 		line-height: 1.3;
 		max-height: 3.9rem; /* bv. 2 regels */
 		overflow: hidden;
@@ -226,7 +245,7 @@
 	.event-info p {
 		margin: 0.25rem 0;
 		line-height: 1.4;
-		color: var(--text-color-alt);
+		color: var(--text-color);
 	}
 
 	/* ----- Knop ----- */
@@ -264,49 +283,32 @@
 		gap: 1rem;
 	}
 
-	@media (max-width: 1024px) {
-		.events-grid {
-			grid-template-columns: 1fr; /* 1 kolom op tablets en mobiel */
-		}
-	}
 
-	/* ----- RESPONSIVE ----- */
-	@media (max-width: 768px) {
+	@container events (min-width: 48rem) {
 		.events-section {
-			padding: 3rem 1rem;
+			padding: 4rem 1.5rem;
 		}
 
-		.event-card {
-			flex-direction: column;
-			align-items: center;
-			gap: 1rem;
+		.events-grid {
+			grid-template-columns: 1fr 1fr;
 		}
 
-		.event-info {
-			text-align: center;
-			align-items: center;
+		.events-column {
+			width: 100%;
 		}
 
-		.event-date {
-			width: auto;
-			flex-direction: row;
-			justify-content: center;
-			gap: 0.5rem;
-			padding: 0.25rem 0.5rem;
-		}
-
-		.event-date .day {
-			font-size: 1.5rem;
-		}
-
-		.event-date .month,
-		.event-date .year {
-			font-size: 0.8rem;
+		h2 {
+			font-size: 2.5rem;
 		}
 
 		.centered-button {
-			margin-top: 4.5rem;
-			flex-direction: column;
+			margin-top: 4rem;
+		}
+	}
+
+	@container events (min-width: 70rem) {
+		.events-grid {
+			gap: 3rem;
 		}
 	}
 </style>

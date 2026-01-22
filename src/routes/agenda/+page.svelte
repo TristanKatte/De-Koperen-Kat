@@ -9,7 +9,14 @@
 	let { data } = $props();
 	const events = data?.events || [];
 
-	onMount(() => {
+	onMount( async() => {
+		if (typeof window === 'undefined') return;
+
+		// Dynamische import van gsap om SSR te vermijden
+		const { gsap } = await import('gsap');
+		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+		gsap.registerPlugin(ScrollTrigger);
+
 		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 		if (prefersReducedMotion) return;
 
@@ -32,7 +39,10 @@
 	{#if events.length > 0}
 		<div class="grid">
 			{#each events as event}
-				<article class="event-card" aria-label={`Evenement: ${event.title || 'Onbekend evenement'}`}>
+				<article
+					class="event-card"
+					aria-label={`Evenement: ${event.title || 'Onbekend evenement'}`}
+				>
 					{#if event.image_url}
 						<img src={event.image_url} alt={event.title || 'Evenement afbeelding'} />
 					{:else}
@@ -74,6 +84,8 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		container-type: inline-size;
+		container-name: events-overview;
 	}
 
 	h1 {
@@ -86,7 +98,7 @@
 
 	.grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		grid-template-columns: 1fr;
 		gap: 2.5rem;
 		max-width: 1200px;
 		width: 100%;
@@ -102,7 +114,10 @@
 		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
 		display: flex;
 		flex-direction: column;
-		transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+		transition:
+			transform 0.3s ease,
+			box-shadow 0.3s ease,
+			border-color 0.3s ease;
 	}
 
 	.event-card:hover {
@@ -169,9 +184,25 @@
 		color: #666;
 	}
 
-	@media (min-width: 768px) {
+	@container events-overview (min-width: 48rem) {
+		section {
+			padding: 5rem 1.5rem 6rem;
+		}
+
 		h1 {
-			font-size: 3rem;
+			font-size: 2.5rem;
+			margin-bottom: 3rem;
+		}
+
+		.grid {
+			grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+			gap: 2.5rem;
+			padding: 0 1rem;
+		}
+
+		.event-card {
+			padding: 2rem 1.5rem;
+			min-height: 420px;
 		}
 	}
 </style>

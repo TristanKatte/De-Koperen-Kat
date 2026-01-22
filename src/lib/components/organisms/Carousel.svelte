@@ -32,57 +32,56 @@
 	});
 
 	function scrollToIndex(index: number) {
-	if (!carouselEl || !slideEls.length || isAnimating) return;
-	if (!gsap) return; // safety check
+		if (!carouselEl || !slideEls.length || isAnimating) return;
+		if (!gsap) return; // safety check
 
-	const oldSlide = slideEls[current];
-	const newSlide = slideEls[index];
-	if (!oldSlide || !newSlide) return;
+		const oldSlide = slideEls[current];
+		const newSlide = slideEls[index];
+		if (!oldSlide || !newSlide) return;
 
-	isAnimating = true;
-	isProgrammaticScroll = true;
+		isAnimating = true;
+		isProgrammaticScroll = true;
 
-	const oldEls = oldSlide.querySelectorAll<HTMLElement>('.beer-image-wrapper, h3, .beer-stats');
-	const newEls = newSlide.querySelectorAll<HTMLElement>('.beer-image-wrapper, h3, .beer-stats');
+		const oldEls = oldSlide.querySelectorAll<HTMLElement>('.beer-image-wrapper, h3, .beer-stats');
+		const newEls = newSlide.querySelectorAll<HTMLElement>('.beer-image-wrapper, h3, .beer-stats');
 
-	// UIT animatie oude slide
-	gsap.to(oldEls, {
-		opacity: 0,
-		y: 40,
-		duration: 0.3,
-		ease: 'power2.in',
-		onComplete: () => {
-			// scroll naar nieuwe slide
-			const carouselRect = carouselEl!.getBoundingClientRect();
-			const slideRect = newSlide.getBoundingClientRect();
-			const offset =
-				slideRect.left -
-				carouselRect.left +
-				carouselEl!.scrollLeft -
-				(carouselRect.width - slideRect.width) / 2;
+		// UIT animatie oude slide
+		gsap.to(oldEls, {
+			opacity: 0,
+			y: 40,
+			duration: 0.3,
+			ease: 'power2.in',
+			onComplete: () => {
+				// scroll naar nieuwe slide
+				const carouselRect = carouselEl!.getBoundingClientRect();
+				const slideRect = newSlide.getBoundingClientRect();
+				const offset =
+					slideRect.left -
+					carouselRect.left +
+					carouselEl!.scrollLeft -
+					(carouselRect.width - slideRect.width) / 2;
 
-			carouselEl!.scrollTo({ left: offset, behavior: 'smooth' });
+				carouselEl!.scrollTo({ left: offset, behavior: 'smooth' });
 
-			// reset positie nieuwe slide
-			gsap!.set(newEls, { opacity: 0, y: -30 });
+				// reset positie nieuwe slide
+				gsap!.set(newEls, { opacity: 0, y: -30 });
 
-			// IN animatie nieuwe slide
-			gsap!.to(newEls, {
-				opacity: 1,
-				y: 0,
-				duration: 0.45,
-				stagger: 0.08,
-				ease: 'power2.out',
-				onComplete: () => {
-					current = index;
-					isAnimating = false;
-					isProgrammaticScroll = false;
-				}
-			});
-		}
-	});
-}
-
+				// IN animatie nieuwe slide
+				gsap!.to(newEls, {
+					opacity: 1,
+					y: 0,
+					duration: 0.45,
+					stagger: 0.08,
+					ease: 'power2.out',
+					onComplete: () => {
+						current = index;
+						isAnimating = false;
+						isProgrammaticScroll = false;
+					}
+				});
+			}
+		});
+	}
 
 	function next() {
 		if (isAnimating) return;
@@ -207,20 +206,24 @@
 <style>
 	.carousel-wrapper {
 		position: relative;
-		width: 80%;
+		width: 90%;
 		margin: 0 auto;
 		overflow: hidden;
+		container-type: inline-size;
+		container-name: carousel;
 	}
 
 	.carousel {
 		display: flex;
 		gap: 2rem;
 		overflow-x: auto;
-		scroll-snap-type: x mandatory;
+		scrollbar-width: 30px;
+		-webkit-overflow-scrolling: touch;
 		scroll-behavior: smooth;
 		padding: 2rem 0;
 		height: min(70vh, 720px);
 		overscroll-behavior-x: contain;
+		background-color: var(--background-warm);
 	}
 
 	.carousel::-webkit-scrollbar {
@@ -261,7 +264,7 @@
 	.beer-info h3 {
 		font-size: 2rem;
 		margin-bottom: 0.25rem;
-		color: var(--text-color-alt);
+		color: var(--text-color);
 	}
 
 	.type {
@@ -281,7 +284,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		min-width: 80px;
+		min-width: 65px;
 	}
 
 	.stat .value {
@@ -292,7 +295,7 @@
 	.stat-divider {
 		width: 2px;
 		height: 48px;
-		background-color: var(--background-color);
+		background-color: var(--divider-color);
 	}
 
 	.nav {
@@ -300,17 +303,18 @@
 		top: 50%;
 		transform: translateY(-50%);
 		background: none;
+		border-radius: 50%;
 		border: none;
 		cursor: pointer;
 		z-index: 5;
 	}
 
 	.nav.prev {
-		left: 1rem;
+		left: 10%;
 	}
 
 	.nav.next {
-		right: 1rem;
+		right: 10%;
 	}
 
 	.carousel-dots {
@@ -324,7 +328,7 @@
 		width: 10px;
 		height: 10px;
 		border-radius: 50%;
-		background: var(--background-color);
+		background: var(--accent);
 		border: none;
 		cursor: pointer;
 	}
@@ -338,44 +342,46 @@
 		outline-offset: 3px;
 	}
 
-	/* Responsive */
-	@media (max-width: 768px) {
-		.carousel-wrapper {
-			width: 100%;
+	@container carousel (min-width: 60rem) {
+		.nav {
+			top: 50%;
+			transform: translateY(-50%);
 		}
 
-		.carousel-item {
-			flex: 0 0 90%;
-			grid-template-columns: 1fr;
-			text-align: center;
-			height: auto;
-			justify-content: center;
-			gap: 1rem;
+		.nav.prev {
+			left: 3rem;
 		}
 
-		.beer-image-wrapper img {
-			max-height: 350px;
-			width: 100%;
+		.nav.next {
+			right: 3rem;
+		}
+	}
+
+	@container carousel (min-width: 40rem) and (max-width: 60rem) {
+		.nav {
+			top: 60%;
 		}
 
-		.beer-stats {
-			justify-content: center;
-			gap: 1rem;
+		.nav.prev {
+			left: 0.5rem;
 		}
 
-		.stat .value {
-			font-size: 1.5rem;
-			font-weight: 600;
+		.nav.next {
+			right: 0.5rem;
+		}
+	}
+
+	@container carousel (max-width: 40rem) {
+		.nav {
+			top: 75%;
 		}
 
-		.stat-divider {
-			height: 32px;
-			width: 1.5px;
-			background-color: var(--background-alt);
+		.nav.prev {
+			left: 0.5rem;
 		}
 
-		.beer-info h3 {
-			font-size: 1.5rem;
+		.nav.next {
+			right: 0.5rem;
 		}
 	}
 </style>

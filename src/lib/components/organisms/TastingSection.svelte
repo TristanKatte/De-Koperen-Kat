@@ -69,8 +69,12 @@
 <style>
 /* FULL-WIDTH ACHTERGROND */
 .proeflokaal-wrapper {
-  background-color: var(--background-alt);
+  background-color: var(--background-warm);
   padding: 5rem 1.5rem;
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.05);
+  min-height: 100vh;
+  container-type: inline-size;
+  container-name: proeflokaal;
 }
 
 /* INNER GRID */
@@ -80,19 +84,25 @@
   gap: 3rem;
   align-items: center;
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
+  padding: 4rem 2rem;
+  background: var(--background-color);
+	border-radius: 1.5rem;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
 }
 
 .content h2 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  color: #f5f5f0; /* tekstkleur */
+  color: var(--text-color); /* tekstkleur */
+  position: relative;
 }
 
 .content p {
   font-size: 1.125rem;
   margin-bottom: 2rem;
-  color: #f5f5f0; /* tekstkleur */
+  color: var(--text-color);
 }
 
 .image img {
@@ -103,18 +113,14 @@
 }
 
 /* RESPONSIVE */
-@media (max-width: 768px) {
+@container proeflokaal (min-width: 64rem) {
+  .proeflokaal-wrapper {
+    padding: 6rem 2rem;
+  }
+
   .proeflokaal-teaser {
-    grid-template-columns: 1fr;
-    text-align: center;
+    gap: 4rem;
   }
-
-  .content {
-    order: 2;
-  }
-
-  .image {
-    order: 1;
-  }
+  
 }
 </style>

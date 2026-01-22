@@ -50,11 +50,19 @@
 		display: inline-block;
 		transform: rotate(var(--rotation));
 		transition: transform 0.25s ease;
-        background-color: var(--background-color);
+        background-color: #f5f5f0;
         color: var(--text-color);
+		border: 2px solid var(--divider-color);
         border-radius: 1rem;
 		width: 100%;
+		height: 100%;
         padding: 0.55rem;
+		margin-top: 8.55rem;
+		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+		cursor: pointer;
+		transition:
+			transform 0.3s ease,
+			box-shadow 0.3s ease;
 	}
 
     .icon-arrow:hover {

@@ -63,7 +63,7 @@
 		</div>
 
 		<div class="left-button">
-			<Button href="/news" label="Terug naar alle evenementen" />
+			<Button href="/nieuws" label="Terug naar alle evenementen" />
 		</div>
 	</article>
 {:else}

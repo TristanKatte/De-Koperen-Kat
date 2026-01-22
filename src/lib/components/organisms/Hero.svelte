@@ -132,8 +132,8 @@
 				</h1>
 				<p class="hero-subtitle">De oudste stadsbrouwerij van Delft</p>
 				<div class="hero-actions">
-					<a href="/bieren" class="btn btn--primary">Bekijk onze bieren</a>
-					<a href="/proeflokaal" class="btn btn--secondary">Boek een proeflokaal</a>
+					<a href="/bieren" class="btn btn-primary">Bekijk onze bieren</a>
+					<a href="/proeflokaal" class="btn btn-secondary">Boek een proeflokaal</a>
 				</div>
 			</div>
 		</div>
@@ -148,6 +148,8 @@
 		place-items: center;
 		overflow: hidden;
 		color: #fff;
+		container-type: inline-size;
+		container-name: hero;
 	}
 
 	/* Media wrapper */
@@ -239,57 +241,60 @@
 			transform 0.25s ease;
 	}
 
-	.btn--primary {
+	.btn-primary {
 		background-color: #ed651c;
 		color: #fff;
 	}
-	.btn--primary:hover {
+	.btn-primary:hover {
 		background-color: var(--cta-hover);
 		transform: scale(1.05);
 	}
 
-	.btn--secondary {
+	.btn-secondary {
 		border: 2px solid #ed651c;
 		color: #f5f5f0;
 		background: transparent;
 	}
-	.btn--secondary:hover {
+	.btn-secondary:hover {
 		background-color: var(--cta-hover);
 		color: #fff;
 	}
 
 	/* Desktop layout */
-	@media (min-width: 50rem) {
+	@container hero (min-width: 50rem) {
 		.hero-content {
-			display: grid;
-			grid-template-columns: auto 1fr;
-			align-items: center;
-			gap: 4rem;
-			text-align: left;
-			justify-items: start;
-		}
-
-		.hero-top {
-			display: contents;
-		}
-
-		.hero-text {
-			max-width: 70ch;
-		}
-		.hero-actions {
-			justify-content: flex-start;
-		}
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: center;
+		gap: 4rem;
+		text-align: left;
+		justify-items: start;
 	}
 
-  @media (max-width: 600px) {
-    .hero-picture img {
-      object-position: center 30%;
-    }
+	.hero-top {
+		display: contents;
+	}
 
-  .hero-title, .hero-subtitle {
-    text-align: center;
-  }
-  }
+	.hero-text {
+		max-width: 70ch;
+	}
+
+	.hero-actions {
+		justify-content: flex-start;
+	}
+	}
+
+ @container hero (max-width: 37.5rem) {
+	.hero-picture img {
+		object-position: center 30%;
+	}
+
+	.hero-title,
+	.hero-subtitle {
+		text-align: center;
+	}
+}
+
 
   @media (prefers-reduced-motion: reduce) {
     .hero-picture img {

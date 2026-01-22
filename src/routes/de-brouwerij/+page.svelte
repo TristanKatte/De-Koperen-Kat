@@ -1,97 +1,9 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import { SplitText } from 'gsap/SplitText';
   import { aboutContent } from '$lib/content/about';
-  import Polaroid from '$lib/components/molecules/Polaroid.svelte';
-
-  gsap.registerPlugin(ScrollTrigger, SplitText);
-
-  onMount(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    // Animatie per sectie (h2 + p)
-    document.querySelectorAll('.text-photo-container').forEach((section) => {
-      const h2 = section.querySelector('h2');
-      const p = section.querySelector('p');
-
-      if (h2) {
-        const splitH2 = new SplitText(h2, { type: 'chars, words' });
-        gsap.from(splitH2.chars, {
-          opacity: 0,
-          y: 50,
-          duration: 0.15,
-          stagger: 0.03,
-          ease: 'power2.out',
-          scrollTrigger: { trigger: h2, start: 'top 85%' }
-        });
-      }
-
-      if (p) {
-        const splitP = new SplitText(p, { type: 'chars, words' });
-        gsap.from(splitP.chars, {
-          opacity: 0,
-          y: 25,
-          duration: 0.15,
-          stagger: 0.02,
-          ease: 'power2.out',
-          scrollTrigger: { trigger: p, start: 'top 85%' }
-        });
-      }
-    });
-
-    // Polaroid animaties
-    document.querySelectorAll('.photo-grid .polaroid').forEach((card, i) => {
-      const rotation = gsap.utils.random(-6, 6);
-      gsap.from(card, {
-        opacity: 0,
-        y: 50,
-        rotate: rotation,
-        duration: 1,
-        delay: i * 0.1,
-        ease: 'back.out(1.7)',
-        scrollTrigger: { trigger: card, start: 'top 90%', once: true }
-      });
-
-      card.addEventListener('mouseenter', () => {
-        gsap.to(card, { y: -10, rotate: rotation / 2, duration: 0.3, ease: 'power2.out' });
-      });
-      card.addEventListener('mouseleave', () => {
-        gsap.to(card, { y: 0, rotate: rotation, duration: 0.3, ease: 'power2.in' });
-      });
-    });
-
-    // Counters animatie + fade/scale
-    document.querySelectorAll<HTMLElement>('.counter-wrapper').forEach((wrapper) => {
-      const counter = wrapper.querySelector('span')!;
-      const raw = counter.textContent!.replace(/\D/g, '');
-      const target = raw ? parseInt(raw, 10) : 0;
-      const obj = { val: 0 };
-
-      gsap.to(obj, {
-        val: target,
-        duration: 0.25,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: wrapper, start: 'top 90%', once: true },
-        onUpdate: () => {
-          // Verwijder komma voor jaartallen (bv 2011)
-          counter.textContent =
-            target < 10000
-              ? Math.round(obj.val).toString()
-              : Math.round(obj.val).toLocaleString();
-        }
-      });
-
-      gsap.from(wrapper, {
-        opacity: 0,
-        scale: 0.8,
-        duration: 0.25,
-        ease: 'power2.out',
-        scrollTrigger: { trigger: wrapper, start: 'top 90%', once: true }
-      });
-    });
-  });
+  import TextPhotoSection from '$lib/components/organisms/TextPhotoSection.svelte';
+  import StatsCounters from '$lib/components/organisms/StatsCounters.svelte';
+  import PartnerSection from '$lib/components/organisms/PartnerSection.svelte';
+  import RentBrewingSection from '$lib/components/organisms/RentBrewingSection.svelte';
 </script>
 
 <svelte:head>
@@ -100,66 +12,22 @@
 </svelte:head>
 
 <main class="about-section">
-  <header class="about-header">
-    <h1>{aboutContent.intro}</h1>
-  </header>
-
+  
+  
   {#each aboutContent.sections as section, i}
-    <section class="text-photo-container {i % 2 === 0 ? 'left' : 'right'}">
-      <div class="text">
-        <h2>{section.title}</h2>
-        <p>{section.content}</p>
-      </div>
-      <div class="photo-grid">
-        {#each section.photos as photo, j}
-          <Polaroid src={photo} alt={`Foto ${j + 1} van ${section.title}`} rotation={j % 2 === 0 ? -5 : 5} />
-        {/each}
-      </div>
-    </section>
+    <TextPhotoSection 
+      title={section.title}
+      content={section.content}
+      photos={section.photos}
+      index={i}
+    />
   {/each}
-
-  <!-- Counters -->
-  <section class="counters" aria-label="Statistieken">
-    <div class="counters-grid">
-      {#each aboutContent.counters as counter}
-        <div class="counter-wrapper">
-          <span>{counter.value}</span>
-          <p>{counter.label}</p>
-        </div>
-      {/each}
-    </div>
-  </section>
-
-  <!-- Partners -->
-  <section class="partners" aria-labelledby="partners-title">
-    <h2 id="partners-title">Onze partners 🤝</h2>
-    <div class="partners-grid">
-      {#each aboutContent.partners as partner}
-        <article class="partner-card">
-          <img src={partner.logo} alt={partner.name} />
-          <p>{partner.name}</p>
-          <a href={partner.url} target="_blank" rel="noopener noreferrer">Meer info</a>
-        </article>
-      {/each}
-    </div>
-  </section>
-
-  <!-- Huurbrouwen -->
-  <section class="huurbrouwen" aria-labelledby="huurbrouwen-title">
-    <h2 id="huurbrouwen-title">Huurbrouwen 🍻</h2>
-    <div class="partners-grid"> <!-- zelfde grid als partners -->
-      <div class="huurbrouwen-card">
-        <p>
-          Delftse Stadsbrouwerij De Koperen Kat is een brouwerij en proeflokaal ineen. Met een brouwinstallatie van 10HL en vergistingstanks van 10HL betekent dit ook dat wij plaats kunnen bieden aan huurbrouwers.
-        </p>
-        <p>
-          Heb je geen of te weinig eigen ketels en interesse in huurbrouwen bij De Koperen Kat, mail dan naar
-          <a href="mailto:huurbrouwen@dekoperenkat.nl">huurbrouwen@dekoperenkat.nl</a>.
-        </p>
-        <p>Wij hopen op een fijne samenwerking!</p>
-      </div>
-    </div>
-  </section>
+  
+  <StatsCounters counters={aboutContent.counters} />
+  
+  <PartnerSection partners={aboutContent.partners} />
+  
+  <RentBrewingSection />
 </main>
 
 <style>
@@ -170,138 +38,6 @@
     padding: 3rem 1.5rem;
     background-color: var(--background-color);
     min-height: 100dvh;
-  }
-
-  .about-header h1 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
-    color: var(--text-color);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    max-width: 900px;
-  }
-
-  .text p {
-    color: var(--text-color, #1a1a1a);
-    font-size: 1.15rem;
-  }
-
-  .text-photo-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
     width: 100%;
-    max-width: 900px;
-    margin-bottom: 8.5rem;
-    justify-content: center;
-  }
-
-  .text-photo-container.left,
-  .text-photo-container.right {
-    flex-direction: column;
-  }
-
-  .text-photo-container .text h2 {
-    text-align: left;
-  }
-
-  .photo-grid {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  @media (min-width: 768px) {
-    .text-photo-container.left {
-      flex-direction: row;
-      align-items: flex-start;
-    }
-    .text-photo-container.right {
-      flex-direction: row-reverse;
-      align-items: flex-start;
-    }
-    .photo-grid {
-      justify-content: flex-start;
-    }
-  }
-
-  .counters-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 2.95rem;
-    justify-items: center;
-    max-width: 900px;
-    margin-bottom: 3rem;
-  }
-
-  .counter-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: #c27c3a;
-    color: #1a1a1a;
-    padding: 1rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    min-height: 100px;
-    width: 100%;
-  }
-
-  .counter-wrapper span {
-    font-size: 2rem;
-    font-weight: 700;
-  }
-
-  .partners-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1.5rem;
-    justify-items: center;
-    width: 100%;
-    max-width: 900px;
-    margin-bottom: 3rem;
-  }
-
-  .partner-card,
-  .huurbrouwen-card {
-    text-align: center;
-    background: #fff;
-    padding: 1rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    width: 100%;
-  }
-
-  .huurbrouwen-card {
-    color: #1a1a1a;
-    background: none;
-    box-shadow: none;
-    text-align: left;
-  }
-
-  .partner-card img {
-    max-width: 75%;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    margin: 0 auto 0.5rem;
-    background-color: #fff;
-  }
-
-  .partner-card a:hover {
-  text-decoration: underline;
-}
-
-  @media (max-width: 768px) {
-    .counters-grid {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-    .partners-grid {
-      grid-template-columns: 1fr;
-    }
   }
 </style>

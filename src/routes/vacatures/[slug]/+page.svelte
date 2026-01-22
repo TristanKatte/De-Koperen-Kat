@@ -23,8 +23,8 @@
 			{/each}
 		</ul>
 
-		<Button href="/contact?subject=Vrijwilliger%20{vacancy.title}" label="Reageren" />
-    <Button href="/vacancies" label="Terug naar overzicht" />
+		<Button href={`mailto:${vacancy.contact_email}`} label="Solliciteer nu" />
+		<Button href="/vacatures" label="Terug naar overzicht" />
 	</article>
 {:else}
 	<p>Vacature niet gevonden.</p>
@@ -33,10 +33,12 @@
 <style>
 	.vacature-detail {
 		max-width: 800px;
-		background: #f5f2eb;
+		background: #ffffff;
 		padding: 1.5rem;
 		margin: 2rem auto;
 		border-radius: 1rem;
+		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+		color: var(--text-color);
 	}
 
 	img {
@@ -58,9 +60,9 @@
 	}
 
 	ul {
-		list-style: "🎯";
+		list-style: '🎯';
 		margin-left: 1.5rem;
-    margin-bottom: 2rem;
+		margin-bottom: 2rem;
 	}
 
 	li {

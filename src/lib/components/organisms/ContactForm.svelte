@@ -24,11 +24,6 @@
 		error: { name: null, email: null, message: null, category: null },
 		success: false
 	};
-
-	function handleEnhance({ result }: { result: any }) {
-		// Cast result naar jouw type
-		form = result as ContactForm;
-	}
 </script>
 
 <form method="POST"  novalidate use:enhance>
