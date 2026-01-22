@@ -70,12 +70,12 @@ onMount(async () => {
 						in het mooie Delft. We zijn een authentieke craft brewery met de focus op kwaliteitsbieren.
 					</p>
 				</div>
-				<img src="/images/bar-gloed-1.jpg" alt="glas op de bar" />
+				<enhanced:img src="/images/bar-gloed-1.jpg" alt="glas op de bar" />
 			</div>
 
 			<!-- 2. Afbeelding - Tekst -->
 			<div class="zigzag-row reverse">
-				<img src="/images/brouwerij-feest.jpg" alt="Brouwerij feest" />
+				<enhanced:img src="/images/brouwerij-feest.jpg" alt="Brouwerij feest" />
 				<div class="text">
 					<h3>Wat doen we?</h3>
 					<p>
@@ -94,12 +94,12 @@ onMount(async () => {
 						inblazen. In de 16e eeuw waren er meer dan 250 brouwerijen.
 					</p>
 				</div>
-				<img src="/images/vergisting-ketels.jpg" alt="Vergisting ketels" />
+				<enhanced:img src="/images/vergisting-ketels.jpg" alt="Vergisting ketels" />
 			</div>
 
 			<!-- 4. Afbeelding - Tekst -->
 			<div class="zigzag-row reverse">
-				<img src="/images/ketels.jpg" alt="Brouwerij interieur" />
+				<enhanced:img src="/images/ketels.jpg" alt="Brouwerij interieur" />
 				<div class="text">
 					<h3>Waar doen we het?</h3>
 					<p>
