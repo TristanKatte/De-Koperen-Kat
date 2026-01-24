@@ -22,9 +22,10 @@
 				<li>{responsibility.trim()}</li>
 			{/each}
 		</ul>
-
-		<Button href={`mailto:${vacancy.contact_email}`} label="Solliciteer nu" />
-		<Button href="/vacatures" label="Terug naar overzicht" />
+		<div class="button-group">
+			<Button href={`mailto:${vacancy.contact_email}`} label="Solliciteer nu" />
+			<Button href="/vacatures" label="Terug naar overzicht" />
+		</div>
 	</article>
 {:else}
 	<p>Vacature niet gevonden.</p>
@@ -67,5 +68,12 @@
 
 	li {
 		margin-bottom: 0.5rem;
+	}
+
+	.button-group {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+		justify-content: center;
 	}
 </style>

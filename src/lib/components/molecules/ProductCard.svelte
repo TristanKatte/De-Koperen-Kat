@@ -32,7 +32,7 @@
 <style>
 	.product-card {
   display: flex;
-  flex-direction: row; /* Row layout zoals event cards */
+  flex-direction: column;
   background: var(--card-background-alt);
   border-radius: 1.25rem;
   border: 1px solid var(--card-border);
@@ -40,7 +40,7 @@
   overflow: hidden;
   position: relative;
   transition: transform .3s ease, box-shadow .3s ease;
-  align-items: stretch; /* Zorg dat alle children dezelfde hoogte hebben */
+  align-items: stretch;
 }
 
 /* Koperen accentlijn */
@@ -65,8 +65,8 @@
 
 /* Afbeelding links */
 .image-wrapper {
-  flex: 0 0 180px; /* vaste breedte */
-  height: 180px;   /* vaste hoogte, zorgt dat alle cards gelijk zijn */
+  flex: 0 0 180px;
+  height: 180px;
   overflow: hidden;
   background: var(--card-background);
 }
@@ -88,7 +88,7 @@
   display: flex;
   flex-direction: column;
   gap: .5rem;
-  flex: 1; /* neemt alle resterende ruimte in */
+  flex: 1;
   justify-content: space-between;
   background: var(--card-background-alt);
 }
@@ -110,13 +110,12 @@
   color: var(--accent-dark);
 }
 
-/* Button onderaan de card */
 .product-button {
   margin-top: 1rem;
 }
 
-/* Responsive: stap terug naar column op mobiel */
-@media (min-width: 48rem) {
+/* Mobile / 360px breakpoint */
+@container product-card (max-width: 22.5rem) {
   .product-card {
     flex-direction: column;
     align-items: stretch;
@@ -124,7 +123,63 @@
 
   .image-wrapper {
     width: 100%;
-    height: 180px; /* zelfde hoogte blijft behouden */
+    height: 150px; /* iets kleiner voor mobiel */
+  }
+
+  .product-info {
+    padding: 1rem;
+    gap: 0.4rem;
+  }
+
+  .product-title {
+    font-size: 1rem;
+  }
+
+  .product-description {
+    font-size: 0.9rem;
+  }
+
+  .product-price {
+    font-size: 1rem;
+  }
+
+  .product-button {
+    margin-top: 0.75rem;
+    width: 100%;
   }
 }
+
+/* Tablet / grotere mobiele devices */
+@media (min-width: 23rem) and (max-width: 48rem) {
+  .product-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .image-wrapper {
+    width: 100%;
+    height: 180px;
+  }
+
+  .product-info {
+    padding: 1.25rem;
+  }
+}
+
+/* Desktop (≥48rem) */
+@media (min-width: 48rem) {
+  .product-card {
+    flex-direction: row;
+  }
+
+  .image-wrapper {
+    flex: 0 0 180px;
+    height: 180px;
+  }
+
+  .product-info {
+    padding: 1.5rem;
+  }
+}
+
 </style>

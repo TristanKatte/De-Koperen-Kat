@@ -146,7 +146,7 @@
 		min-height: 100svh;
 		display: grid;
 		place-items: center;
-		overflow: hidden;
+		overflow: visible;
 		color: #fff;
 		container-type: inline-size;
 		container-name: hero;
@@ -157,6 +157,7 @@
 		position: absolute;
 		inset: 0;
 		z-index: 0;
+		overflow: hidden;
 	}
 
 	.hero-picture {
@@ -258,6 +259,45 @@
 	.btn-secondary:hover {
 		background-color: var(--cta-hover);
 		color: #fff;
+	}
+
+	@container hero (max-width: 22.5rem) {
+		.hero-actions {
+			justify-content: center;
+		}
+
+		.btn {
+			width: 100%;
+			text-align: center;
+		}
+
+		.hero-text {
+			text-align: center;
+		}
+
+		.hero-title,
+		.hero-subtitle {
+			text-align: center;
+		}
+
+		.hero-actions {
+			justify-content: center;
+		}
+
+		.hero-actions .btn {
+			width: 100%;
+			text-align: center;
+		}
+
+		.hero-media {
+			overflow: hidden;
+		}
+
+		.hero-picture img {
+			object-position: center 40%;
+			width: 100%;
+			height: 100%;
+		}
 	}
 
 	/* Desktop layout */

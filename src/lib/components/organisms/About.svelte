@@ -3,56 +3,56 @@
 	import { onMount } from 'svelte';
 	import Button from '../atoms/Button.svelte';
 
-onMount(async () => {
-	const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-	if (prefersReducedMotion) return;
+	onMount(async () => {
+		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (prefersReducedMotion) return;
 
-	const { gsap } = await import('gsap');
-	const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-	const { SplitText } = await import('gsap/SplitText');
+		const { gsap } = await import('gsap');
+		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+		const { SplitText } = await import('gsap/SplitText');
 
-	gsap.registerPlugin(ScrollTrigger, SplitText);
+		gsap.registerPlugin(ScrollTrigger, SplitText);
 
-	// TEKST – per woord, blijft staan na scroll
-	const elements = document.querySelectorAll(
-		'.about-section h2, .about-section h3, .about-section p'
-	);
+		// TEKST – per woord, blijft staan na scroll
+		const elements = document.querySelectorAll(
+			'.about-section h2, .about-section h3, .about-section p'
+		);
 
-	elements.forEach((el) => {
-		const split = new SplitText(el, { type: 'words' });
+		elements.forEach((el) => {
+			const split = new SplitText(el, { type: 'words' });
 
-		gsap.from(split.words, {
-			scrollTrigger: {
-				trigger: el,
-				start: 'top 85%',
-				toggleActions: 'play none none none' // nooit terug animeren
-			},
-			opacity: 0,
-			y: 20,
-			stagger: 0.04,
-			duration: 0.4,
-			ease: 'power2.out'
+			gsap.from(split.words, {
+				scrollTrigger: {
+					trigger: el,
+					start: 'top 85%',
+					toggleActions: 'play none none none' // nooit terug animeren
+				},
+				opacity: 0,
+				y: 20,
+				stagger: 0.04,
+				duration: 0.4,
+				ease: 'power2.out'
+			});
+		});
+
+		// AFBEELDINGEN – fade + lift on scroll
+		const images = gsap.utils.toArray('.zigzag img') as HTMLElement[];
+
+		images.forEach((img) => {
+			gsap.from(img, {
+				scrollTrigger: {
+					trigger: img,
+					start: 'top 85%',
+					toggleActions: 'play none none none'
+				},
+				opacity: 0,
+				y: 40,
+				scale: 0.96,
+				duration: 0.8,
+				ease: 'power3.out'
+			});
 		});
 	});
-
-	// AFBEELDINGEN – fade + lift on scroll
-	const images = gsap.utils.toArray('.zigzag img') as HTMLElement[];
-
-	images.forEach((img) => {
-		gsap.from(img, {
-			scrollTrigger: {
-				trigger: img,
-				start: 'top 85%',
-				toggleActions: 'play none none none'
-			},
-			opacity: 0,
-			y: 40,
-			scale: 0.96,
-			duration: 0.8,
-			ease: 'power3.out'
-		});
-	});
-});
 </script>
 
 <section class="about-section" aria-labelledby="about-title">
@@ -60,14 +60,13 @@ onMount(async () => {
 		<h2 id="about-title">Over Stadsbrouwerij De Koperen Kat</h2>
 
 		<div class="zigzag">
-
 			<!-- 1. Tekst - Afbeelding -->
 			<div class="zigzag-row">
 				<div class="text">
 					<h3>Wie zijn we?</h3>
 					<p>
-						Wij zijn <strong>De Koperen Kat</strong> — een eigentijdse, eigenwijze stadsbrouwerij sinds 2011
-						in het mooie Delft. We zijn een authentieke craft brewery met de focus op kwaliteitsbieren.
+						Wij zijn <strong>De Koperen Kat</strong> — een eigentijdse, eigenwijze stadsbrouwerij sinds
+						2011 in het mooie Delft. We zijn een authentieke craft brewery met de focus op kwaliteitsbieren.
 					</p>
 				</div>
 				<img src="/images/bar-gloed-1.jpg" alt="glas op de bar" />
@@ -75,12 +74,13 @@ onMount(async () => {
 
 			<!-- 2. Afbeelding - Tekst -->
 			<div class="zigzag-row reverse">
-				<img src="/images/brouwerij-feest.jpg" alt="Brouwerij feest" />
+				<img src="/images/brouwerij-feest.webp" alt="Brouwerij feest" />
 				<div class="text">
 					<h3>Wat doen we?</h3>
 					<p>
-						We maken op eigen wijze, volgens onze eigen recepturen kwaliteitsbieren. We hebben maar liefst
-						18 soorten, waarvan onze herfstbock zelfs is uitgeroepen tot de lekkerste van Nederland!
+						We maken op eigen wijze, volgens onze eigen recepturen kwaliteitsbieren. We hebben maar
+						liefst 18 soorten, waarvan onze herfstbock zelfs is uitgeroepen tot de lekkerste van
+						Nederland!
 					</p>
 				</div>
 			</div>
@@ -94,20 +94,20 @@ onMount(async () => {
 						inblazen. In de 16e eeuw waren er meer dan 250 brouwerijen.
 					</p>
 				</div>
-				<img src="/images/vergisting-ketels.jpg" alt="Vergisting ketels" />
+				<img src="/images/vergisting-ketels.webp" alt="Vergisting ketels" />
 			</div>
 
 			<!-- 4. Afbeelding - Tekst -->
 			<div class="zigzag-row reverse">
-				<img src="/images/ketels.jpg" alt="Brouwerij interieur" />
+				<img src="/images/ketels.webp" alt="Brouwerij interieur" />
 				<div class="text">
 					<h3>Waar doen we het?</h3>
 					<p>
-						We zitten in de oude Kabelfabriek aan de Schieweg, waar de brouwerij en het proeflokaal samenkomen.
+						We zitten in de oude Kabelfabriek aan de Schieweg, waar de brouwerij en het proeflokaal
+						samenkomen.
 					</p>
 				</div>
 			</div>
-
 		</div>
 
 		<div class="button-wrapper">
@@ -117,7 +117,7 @@ onMount(async () => {
 </section>
 
 <style>
-.about-section {
+	.about-section {
 	padding: 6rem 2rem;
 	background-color: var(--background-color);
 	position: relative;
@@ -128,7 +128,7 @@ onMount(async () => {
 .about-section::before {
 	content: '';
 	position: absolute;
-	left: 0; /* of right:0 als je afwisseling wil */
+	left: 0;
 	top: 0;
 	width: 6px;
 	height: 100%;
@@ -143,7 +143,7 @@ onMount(async () => {
 	background: #fff;
 	border-radius: 1.5rem;
 	padding: 4rem 5rem;
-	box-shadow: 0 20px 40px rgba(0,0,0,.06);
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
 }
 
 h2 {
@@ -160,15 +160,12 @@ h2 {
 	margin-top: 3rem;
 }
 
+/* Default: zigzag layout (desktop / laptop / tablet) */
 .zigzag-row {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: 3rem;
 	align-items: center;
-}
-
-.zigzag-row.reverse {
-	grid-template-columns: 1fr 1fr;
 }
 
 .zigzag-row.reverse > .text {
@@ -184,11 +181,11 @@ h2 {
 	height: 320px;
 	object-fit: cover;
 	border-radius: 1rem;
-	box-shadow: 0 10px 25px rgba(0,0,0,.08);
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .text h3 {
-	margin-bottom: .5rem;
+	margin-bottom: 0.5rem;
 	color: var(--text-color);
 	font-size: 1.75rem;
 	position: relative;
@@ -222,22 +219,33 @@ strong {
 	margin-top: 4rem;
 }
 
-/* Mobiel */
-@container about (max-width: 50rem) {
+/* Mobile: stack (tekst boven, afbeelding onder) */
+@container about (max-width: 37.5rem) { /* ~600px */
+	.about-section {
+		padding: 4rem 1rem;
+	}
+
 	.content {
 		padding: 2rem 1.5rem;
 	}
 
 	.zigzag-row {
 		grid-template-columns: 1fr;
+		gap: 2rem;
 	}
 
-	.zigzag-row.reverse {
-		direction: ltr;
+	/* Geen zigzag-volgorde meer op mobiel */
+	.zigzag-row.reverse > .text,
+	.zigzag-row.reverse > img {
+		order: initial;
 	}
 
 	.zigzag img {
-		height: 220px;
+		height: 200px;
+	}
+
+	.text h3::after {
+		width: 10ch;
 	}
 }
 </style>

@@ -31,11 +31,23 @@
 		background: #f5f5f0;
 		position: sticky;
 		top: 0;
-		z-index: 100;
+		z-index: 1000;
 		gap: 2rem;
+		isolation: isolate;
 	}
 
 	.logo img {
 		height: 3rem;
+	}
+
+	@media (max-width: 22.5rem) {
+		.site-header {
+			padding: 1rem;
+			gap: 1rem;
+		}
+
+		.logo img {
+			height: 2.5rem;
+		}
 	}
 </style>

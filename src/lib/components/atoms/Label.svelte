@@ -8,5 +8,7 @@
     label {
         display: block;
         margin-top: 0.95rem;
+        color: var(--text-color);
+        font-weight: 600;
     }
 </style>

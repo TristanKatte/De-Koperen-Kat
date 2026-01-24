@@ -66,7 +66,10 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		background-color: var(--background-alt);
+		background-color: var(--background-soft);
+		border-radius: 1.5rem;
+		border-top: 4px solid var(--accent);
+		box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 		padding: 2rem;
 		color: var(--text-color-alt);
 	}

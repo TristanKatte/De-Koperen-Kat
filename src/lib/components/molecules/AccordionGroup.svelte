@@ -34,7 +34,7 @@
 				</tr>
 				<tr>
 					<td>Kosten</td>
-					<td>€9,75</td>
+					<td>€9,75 p.p.</td>
 				</tr>
 			</tbody>
 		</table>
@@ -74,7 +74,7 @@
 				</tr>
 				<tr>
 					<td>Kosten</td>
-					<td>€19,50</td>
+					<td>€19,50 p.p.</td>
 				</tr>
 			</tbody>
 		</table>

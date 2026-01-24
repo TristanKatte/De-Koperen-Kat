@@ -79,7 +79,9 @@
 	}
 
 	td {
-		font-weight: 500;
+		font-weight: 400;
+    padding: 0.5rem 1rem 0.5rem 0;
+    border-bottom: 1px solid #ccc;
 	}
 
 .zigzag-item {
@@ -126,8 +128,10 @@
 		}
 
 		table {
-			margin: 2rem;
+			margin: 2rem 0;
 		}
+
+
 
 		section {
 			padding: 0 2rem;

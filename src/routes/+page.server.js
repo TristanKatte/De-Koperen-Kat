@@ -2,28 +2,28 @@
 import { supabase } from '$lib/supabaseClient.js';
 
 export async function load() {
-	// 🍺 Bieren
-	const { data: beers, error: beersError } = await supabase
-		.from('beers')
-		.select('*');
-
-	// 📅 Opkomende events (nieuws-events)
 	const today = new Date();
 	today.setHours(0, 0, 0, 0);
 
-	const { data: events, error: eventsError } = await supabase
+	const { data: beers } = await supabase.from('beers').select('*');
+
+	const { data: newsEvents } = await supabase
 		.from('news_events')
 		.select('*')
-		.gte('date', today.toISOString())
-		.order('date', { ascending: true })
-		.limit(6);
+		.gte('date', today.toISOString());
 
-	if (beersError || eventsError) {
-		console.error('Error loading data:', beersError || eventsError);
-	}
+	const { data: agendaEvents } = await supabase
+		.from('events')
+		.select('*')
+		.gte('date', today.toISOString());
+
+	// Samenvoegen + sorteren
+	const allEvents = [...(newsEvents ?? []), ...(agendaEvents ?? [])].sort(
+		(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+	);
 
 	return {
 		beers,
-		events
+		events: allEvents.slice(0, 8) // Limiteer tot de eerste 8 evenementen
 	};
 }

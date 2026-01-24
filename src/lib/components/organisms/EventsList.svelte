@@ -19,36 +19,42 @@
 		if (event.date) return new Date(event.date);
 		return new Date(); // fallback
 	}
-
-	// Functie om een datum-range te tonen
-	function formatDateRange(event: Event): string {
-		if (event.start_date && event.end_date) {
-			const start = new Date(event.start_date);
-			const end = new Date(event.end_date);
-			return `${start.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' })} – ${end.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' })}`;
-		}
-		if (event.date) {
-			const d = new Date(event.date);
-			return d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' });
-		}
-		return '';
-	}
+	
 </script>
 
-<section class="events-section">
-	<h1>Komende evenementen</h1>
+<div class="events-banner">
+	<h1>
+		Voor het laatste nieuws zie de
+		<a href="/agenda" class="banner-link">agenda</a>
+		&amp; op
+		<a
+			href="https://www.facebook.com/dekoperenkat/"
+			target="_blank"
+			rel="noopener noreferrer"
+			class="banner-link">Facebook</a
+		>!
+	</h1>
 
+	<!-- Recurring events onder de h1 -->
+	<div class="recurring-events">
+		🎤 Elke donderdag: Karaoke &nbsp; | &nbsp; 🎸 Elke zondag: Live muziek
+	</div>
+</div>
+
+<section class="events-section">
 	{#if events.length > 0}
 		<div class="agenda-grid">
 			{#each events as event (event.id)}
 				<div class="agenda-item">
 					<div class="agenda-date">
 						<span class="day">{getDisplayDate(event).getDate()}</span>
-						<span class="month">{getDisplayDate(event).toLocaleDateString('nl-NL', { month: 'short' })}</span>
+						<span class="month"
+							>{getDisplayDate(event).toLocaleDateString('nl-NL', { month: 'short' })}</span
+						>
 					</div>
 
 					<div class="agenda-card">
-						<EventCard event={event} />
+						<EventCard {event} />
 					</div>
 				</div>
 			{/each}
@@ -59,11 +65,60 @@
 </section>
 
 <style>
+	.events-banner {
+		display: flex;
+		flex-direction: column; /* belangrijk zodat h1 boven recurring staat */
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		padding: 1.5rem;
+		background-color: var(--accent);
+		color: var(--text-color-alt);
+		border-radius: 1rem;
+		width: 100%;
+	}
+
+	/* Alleen h1 klikbaar */
+	.events-banner a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.events-banner h1 {
+		margin: 0;
+		font-size: 1.8rem;
+	}
+
+	.banner-link {
+		color: var(--text-color-alt);
+		font-weight: 700;
+		text-decoration: underline;
+		transition: color 0.2s ease;
+	}
+
+	.banner-link:hover {
+		color: var(--text-color);
+	}
+
+	.recurring-events {
+		text-align: center;
+		margin: 1rem;
+		font-weight: 600;
+		color: var(--text-color-alt);
+		font-size: 1rem;
+	}
+
+	/* Hover effect */
+	.events-banner:hover {
+		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+	}
+
 	.events-section {
 		width: 100%;
+		min-height: 110vh;
 		margin: 0 auto;
 		padding: 2rem 1rem;
-		background: var(--background-alt); 
+		background: var(--background-alt);
 		container-type: inline-size;
 		container-name: events-overview;
 	}
@@ -109,7 +164,7 @@
 
 	.month {
 		text-transform: uppercase;
-		font-size: .9rem;
+		font-size: 0.9rem;
 		color: #d2691e;
 	}
 

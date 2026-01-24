@@ -21,6 +21,12 @@
     container-name: webshop-list;
 }
 
+@media (max-width: 22.5rem) {
+  .webshop-list {
+    padding: 1rem 0.5rem;
+  }
+}
+
 
 @media (min-width: 48rem) {
   .webshop-list {

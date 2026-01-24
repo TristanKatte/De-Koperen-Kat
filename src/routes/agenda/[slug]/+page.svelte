@@ -64,12 +64,13 @@
 }
 
 .event-detail-card {
-	background: var(--background-alt); /* kaartkleur */
-	border-radius: 1rem;
+	background: var(--background-warm); /* kaartkleur */
+	border-radius: 1.5rem;
+	border-top: 4px solid var(--accent);
 	padding: 2rem;
 	max-width: 800px;
 	width: 100%;
-	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
@@ -84,20 +85,20 @@
 
 h1 {
 	font-size: 2rem;
-	color: var(--text-color-alt);
+	color: var(--text-color);
 	margin-bottom: 0.5rem;
 }
 
 .date,
 .location {
 	font-size: 0.95rem;
-	color: var(--text-color-alt);
+	color: var(--text-color);
 }
 
 .description {
 	font-size: 1rem;
 	line-height: 1.5;
-	color: var(--text-color-alt);
+	color: var(--text-color);
 }
 
 .buttons {

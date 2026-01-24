@@ -116,7 +116,7 @@
 
 	<div class="centered-button">
 		<Button href="/agenda" label="Bekijk agenda" />
-		<Button href="/nieuws" label="Bekijk alle komende evenementen" />
+		<Button href="/nieuws" label="Bekijk het komende nieuws" />
 	</div>
 </section>
 
@@ -281,6 +281,47 @@
 		display: flex;
 		flex-direction: row;
 		gap: 1rem;
+	}
+
+	@container events (max-width: 22.5rem) {
+		.events-section {
+			padding: 3rem 1rem;
+		}
+
+		h2 {
+			font-size: 1.75rem;
+		}
+
+		.event-card {
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+		}
+
+		.event-date {
+			flex-direction: row;
+			gap: 0.5rem;
+			min-width: auto;
+			max-height: none;
+			padding: 0.25rem 0.5rem;
+		}
+
+		.event-info h3 {
+			font-size: 1.25rem;
+			max-height: none;
+			-webkit-line-clamp: none;
+			line-clamp: none;
+		}
+
+		.card-button {
+			justify-content: center;
+			margin-top: 1rem;
+		}
+
+		.centered-button {
+			flex-direction: column;
+			gap: 1.5rem;
+		}
 	}
 
 

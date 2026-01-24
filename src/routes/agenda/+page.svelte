@@ -106,12 +106,12 @@
 	}
 
 	.event-card {
-		background: var(--background-alt);
-		color: var(--text-color-alt);
-		border: 1px solid rgba(0, 0, 0, 0.08);
-		border-radius: 1rem;
+		background: var(--background-warm);
+		color: var(--text-color);
+		border-top: 4px solid var(--accent);
+		border-radius: 1.5rem;
 		overflow: hidden;
-		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 		display: flex;
 		flex-direction: column;
 		transition:
@@ -155,24 +155,24 @@
 	h2 {
 		font-size: 1.4rem;
 		font-weight: 600;
-		color: var(--text-color-alt);
+		color: var(--text-color);
 		margin-top: 0.5rem;
 	}
 
 	.date {
 		font-size: 0.95rem;
-		color: var(--text-color-alt);
+		color: var(--text-color);
 	}
 
 	.description {
 		font-size: 1rem;
-		color: var(--text-color-alt);
+		color: var(--text-color);
 		line-height: 1.6;
 		margin: 0.5rem 0 1.5rem;
 		flex-grow: 1;
 	}
 
-	.event-content :global(.btn) {
+	.event-content  {
 		align-self: flex-start;
 		margin-top: auto;
 	}

@@ -16,5 +16,8 @@
         padding: 0.5rem;
         border: 1px solid #ccc;
         border-radius: 4px;
+		font-size: 1rem;
+		width: 100%;
+		background-color: var(--background-color);
     }
 </style>

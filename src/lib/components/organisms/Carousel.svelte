@@ -206,7 +206,7 @@
 <style>
 	.carousel-wrapper {
 		position: relative;
-		width: 90%;
+		width: 100%;
 		margin: 0 auto;
 		overflow: hidden;
 		container-type: inline-size;
@@ -217,11 +217,10 @@
 		display: flex;
 		gap: 2rem;
 		overflow-x: auto;
-		scrollbar-width: 30px;
 		-webkit-overflow-scrolling: touch;
 		scroll-behavior: smooth;
 		padding: 2rem 0;
-		height: min(70vh, 720px);
+		height: auto;
 		overscroll-behavior-x: contain;
 		background-color: var(--background-warm);
 	}
@@ -237,14 +236,12 @@
 		grid-template-columns: 1.4fr 1fr;
 		gap: 3rem;
 		align-items: center;
-		height: 100%;
 		padding: 2rem;
 		box-sizing: border-box;
 	}
 
 	.beer-image-wrapper {
 		width: 100%;
-		height: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -252,11 +249,10 @@
 
 	.beer-image-wrapper img {
 		background-color: var(--background-color);
-		width: 50%;
-		max-height: 520px; /* pas hier desktop hoogte aan */
+		width: 45%;
+		max-height: 420px;
 		object-fit: contain;
 		border-radius: 1rem;
-		margin-bottom: 2rem;
 		box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 		transition: transform 0.3s ease;
 	}
@@ -270,31 +266,32 @@
 	.type {
 		font-style: italic;
 		opacity: 0.8;
-		margin-bottom: 1.25rem;
+		margin-bottom: 1rem;
 	}
 
 	.beer-stats {
 		display: flex;
 		align-items: center;
-		gap: 2rem;
-		margin-bottom: 1.5rem;
+		gap: 1.5rem;
+		margin-bottom: 1.25rem;
+		flex-wrap: wrap;
 	}
 
 	.stat {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		min-width: 65px;
+		min-width: 60px;
 	}
 
 	.stat .value {
-		font-size: 2rem;
+		font-size: 1.75rem;
 		font-weight: 700;
 	}
 
 	.stat-divider {
 		width: 2px;
-		height: 48px;
+		height: 40px;
 		background-color: var(--divider-color);
 	}
 
@@ -309,19 +306,81 @@
 		z-index: 5;
 	}
 
-	.nav.prev {
-		left: 10%;
+	/* Desktop / large */
+	@container carousel (min-width: 60rem) {
+		.nav.prev {
+			left: 3rem;
+		}
+		.nav.next {
+			right: 3rem;
+		}
 	}
 
-	.nav.next {
-		right: 10%;
+	/* Tablet */
+	@container carousel (min-width: 40rem) and (max-width: 60rem) {
+		.nav {
+			top: 55%;
+		}
+		.nav.prev {
+			left: 1rem;
+		}
+		.nav.next {
+			right: 1rem;
+		}
+	}
+
+	/* Mobile */
+	@container carousel (max-width: 40rem) {
+		.carousel-item {
+			grid-template-columns: 1fr;
+			gap: 1.5rem;
+			padding: 1.5rem 1rem 2.5rem;
+			text-align: center;
+		}
+
+		.beer-image-wrapper img {
+			width: 70%;
+			max-height: 260px;
+		}
+
+		.beer-info h3 {
+			font-size: 1.5rem;
+		}
+
+		.stat .value {
+			font-size: 1.4rem;
+		}
+
+		.stat-divider {
+			width: 1px;
+			height: 30px;
+		}
+
+		.beer-stats {
+			justify-content: center;
+			gap: 1rem;
+		}
+
+		.nav {
+			top: auto;
+			bottom: 0.5rem;
+			transform: none;
+		}
+
+		.nav.prev {
+			left: 0.5rem;
+		}
+		.nav.next {
+			right: 0.5rem;
+		}
 	}
 
 	.carousel-dots {
 		display: flex;
 		justify-content: center;
+		align-items: center;
 		gap: 0.75rem;
-		margin-top: 1.5rem;
+		margin-top: 1rem;
 	}
 
 	.dot {
@@ -340,48 +399,5 @@
 	.dot:focus-visible {
 		outline: 2px solid var(--accent-color);
 		outline-offset: 3px;
-	}
-
-	@container carousel (min-width: 60rem) {
-		.nav {
-			top: 50%;
-			transform: translateY(-50%);
-		}
-
-		.nav.prev {
-			left: 3rem;
-		}
-
-		.nav.next {
-			right: 3rem;
-		}
-	}
-
-	@container carousel (min-width: 40rem) and (max-width: 60rem) {
-		.nav {
-			top: 60%;
-		}
-
-		.nav.prev {
-			left: 0.5rem;
-		}
-
-		.nav.next {
-			right: 0.5rem;
-		}
-	}
-
-	@container carousel (max-width: 40rem) {
-		.nav {
-			top: 75%;
-		}
-
-		.nav.prev {
-			left: 0.5rem;
-		}
-
-		.nav.next {
-			right: 0.5rem;
-		}
 	}
 </style>
