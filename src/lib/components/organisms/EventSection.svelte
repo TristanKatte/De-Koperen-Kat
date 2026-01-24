@@ -35,11 +35,7 @@
 	});
 </script>
 
-<section
-	class="events-section"
-	bind:this={sectionEl}
-	aria-labelledby="events-title"
->
+<section class="events-section" bind:this={sectionEl} aria-labelledby="events-title">
 	<h2 id="events-title">Agenda</h2>
 
 	<div class="events-grid">
@@ -69,8 +65,10 @@
 								>
 									Meer info
 								</a>
-							{:else}
+							{:else if event.type === 'news'}
 								<Button href={`/nieuws/${event.slug}`} label="Meer info" />
+							{:else if event.type === 'agenda'}
+								<Button href={`/agenda/${event.slug}`} label="Meer info" />
 							{/if}
 						</div>
 					</div>
@@ -323,7 +321,6 @@
 			gap: 1.5rem;
 		}
 	}
-
 
 	@container events (min-width: 48rem) {
 		.events-section {

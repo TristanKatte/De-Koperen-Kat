@@ -17,8 +17,11 @@ export async function load() {
 		.select('*')
 		.gte('date', today.toISOString());
 
+	const taggedNews = (newsEvents ?? []).map(e => ({ ...e, type: 'news' }));
+	const taggedAgenda = (agendaEvents ?? []).map(e => ({ ...e, type: 'agenda' }));
+
 	// Samenvoegen + sorteren
-	const allEvents = [...(newsEvents ?? []), ...(agendaEvents ?? [])].sort(
+	const allEvents = [...taggedNews, ...taggedAgenda].sort(
 		(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
 	);
 
