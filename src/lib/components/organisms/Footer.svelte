@@ -45,14 +45,14 @@
 
 	.footer-brand h2 {
 		
-		color: var(--accent);
+		color: var(--text-color-alt);
 	}
 
 	.footer-contact h3,
 	.footer-socials h3 {
 		font-size: 1.1rem;
 		margin-bottom: 0.5rem;
-		color: var(--accent);
+		color: var(--text-color-alt);
 	}
 
 	.footer-contact a,
