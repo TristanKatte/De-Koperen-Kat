@@ -168,13 +168,11 @@
 
 /* Desktop (≥48rem) */
 @media (min-width: 48rem) {
-  .product-card {
-    flex-direction: row;
-  }
+ 
 
   .image-wrapper {
-    flex: 0 0 180px;
-    height: 180px;
+    flex: 0 0 220px;
+    height: 220px;
   }
 
   .product-info {

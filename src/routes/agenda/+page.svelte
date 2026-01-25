@@ -44,7 +44,11 @@
 					aria-label={`Evenement: ${event.title || 'Onbekend evenement'}`}
 				>
 					{#if event.image_url}
-						<img src={event.image_url} alt={event.title || 'Evenement afbeelding'} />
+						<img src={event.image_url} 
+							 alt={event.title || 'Evenement afbeelding'} 
+							 width="800"
+							 height="600"
+							 loading="lazy" />
 					{:else}
 						<div class="event-placeholder" aria-hidden="true">🎪</div>
 					{/if}

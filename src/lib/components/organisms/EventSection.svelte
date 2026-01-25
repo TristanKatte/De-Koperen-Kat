@@ -9,6 +9,9 @@
 
 	let { events = [] }: Props = $props();
 
+	const agendaEvents = events.filter((e) => e.type === 'agenda');
+	const newsEvents = events.filter((e) => e.type === 'news');
+
 	let sectionEl: HTMLElement | null;
 
 	onMount(async () => {
@@ -40,13 +43,13 @@
 
 	<div class="events-grid">
 		<div class="events-column">
-			{#each events.slice(0, 4) as event}
+			{#each agendaEvents as event}
 				<article class="event-card">
 					<div class="event-date">
 						<span class="day">{new Date(event.date).getDate()}</span>
-						<span class="month"
-							>{new Date(event.date).toLocaleString('nl-NL', { month: 'short' })}</span
-						>
+						<span class="month">
+							{new Date(event.date).toLocaleString('nl-NL', { month: 'short' })}
+						</span>
 						<span class="year">{new Date(event.date).getFullYear()}</span>
 					</div>
 
@@ -56,19 +59,17 @@
 						<p>{event.time}</p>
 
 						<div class="card-button">
+							<Button href={`/agenda/${event.slug}`} label="Meer info" />
+
 							{#if event.external_url}
 								<a
 									href={event.external_url}
 									target="_blank"
 									rel="noopener noreferrer"
-									class="btn btn--primary"
+									class="btn btn-primary"
 								>
-									Meer info
+									Externe link
 								</a>
-							{:else if event.type === 'news'}
-								<Button href={`/nieuws/${event.slug}`} label="Meer info" />
-							{:else if event.type === 'agenda'}
-								<Button href={`/agenda/${event.slug}`} label="Meer info" />
 							{/if}
 						</div>
 					</div>
@@ -77,13 +78,13 @@
 		</div>
 
 		<div class="events-column">
-			{#each events.slice(4, 8) as event}
+			{#each newsEvents as event}
 				<article class="event-card">
 					<div class="event-date">
 						<span class="day">{new Date(event.date).getDate()}</span>
-						<span class="month"
-							>{new Date(event.date).toLocaleString('nl-NL', { month: 'short' })}</span
-						>
+						<span class="month">
+							{new Date(event.date).toLocaleString('nl-NL', { month: 'short' })}
+						</span>
 						<span class="year">{new Date(event.date).getFullYear()}</span>
 					</div>
 
@@ -93,17 +94,17 @@
 						<p>{event.time}</p>
 
 						<div class="card-button">
+							<Button href={`/agenda/${event.slug}`} label="Meer info" />
+
 							{#if event.external_url}
 								<a
-									href={`/nieuws/${event.slug}`}
+									href={event.external_url}
 									target="_blank"
 									rel="noopener noreferrer"
-									class="btn btn--primary"
+									class="btn btn-primary"
 								>
-									Meer info
+									Externe link
 								</a>
-							{:else}
-								<Button href={`/nieuws/${event.slug}`} label="Meer info" />
 							{/if}
 						</div>
 					</div>
@@ -155,8 +156,8 @@
 
 	.events-grid {
 		display: grid;
-		grid-template-columns: 1fr;
-		align-items: start;
+		grid-template-columns: 1fr 1fr;
+		align-items: stretch;
 		gap: 2rem;
 		width: 100%;
 		max-width: 1200px;
@@ -164,8 +165,8 @@
 	}
 
 	.events-column {
-		display: flex;
-		flex-direction: column;
+		display: grid;
+		grid-auto-rows: 1fr;
 		gap: 2rem;
 		align-items: stretch;
 	}
@@ -185,7 +186,7 @@
 		transition:
 			transform 0.3s ease,
 			box-shadow 0.3s ease;
-		min-height: 180px;
+		min-height: 220px;
 	}
 
 	.event-card:hover {
@@ -252,6 +253,8 @@
 		margin-top: 1.5rem;
 		display: flex;
 		justify-content: flex-start;
+		gap: 0.75rem;
+		flex-wrap: wrap;
 	}
 
 	.btn {
@@ -270,6 +273,15 @@
 
 	.btn:hover {
 		background-color: #c74d0d;
+		transform: scale(1.05);
+	}
+
+	.btn-primary {
+		border: 2px solid var(--accent);
+		color: var(--text-color);
+	}
+	.btn-primary:hover {
+		background-color: var(--cta-hover);
 		transform: scale(1.05);
 	}
 

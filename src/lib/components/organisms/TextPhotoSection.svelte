@@ -60,7 +60,12 @@ if (p) {
 
 	<div class="photo-grid">
 		{#each photos as photo, i}
-			<img src={photo} alt={`Foto ${i + 1} van ${title}`} class="grid-img" loading="lazy" />
+			<img src={photo} 
+				 alt={`Foto ${i + 1} van ${title}`} 
+				 class="grid-img" 
+				 width="600"
+				 height="400"
+				 loading="lazy" />
 		{/each}
 	</div>
 </section>

@@ -140,7 +140,11 @@
 		{#each items as item, i (item.slug)}
 			<article class="carousel-item" id={`slide-${i}`}>
 				<div class="beer-image-wrapper">
-					<img src={item.image_url} alt={item.name} />
+					<img src={item.image_url} 
+					     alt={item.name}
+					     loading="lazy"
+						 width="800"
+						 height="600" />
 				</div>
 
 				<div class="beer-info">

@@ -69,12 +69,22 @@
 						2011 in het mooie Delft. We zijn een authentieke craft brewery met de focus op kwaliteitsbieren.
 					</p>
 				</div>
-				<img src="/images/bar-gloed-1.jpg" alt="glas op de bar" />
+				<img src="/images/bar-gloed-1.jpg" 
+					 alt="glas op de bar"
+					 width="1600"
+					 height="900"
+					 loading="lazy"
+					  />
 			</div>
 
 			<!-- 2. Afbeelding - Tekst -->
 			<div class="zigzag-row reverse">
-				<img src="/images/brouwerij-feest.webp" alt="Brouwerij feest" />
+				<img src="/images/brouwerij-feest.webp" 
+					 alt="Brouwerij feest"
+					 width="1600"
+					 height="900"
+					 loading="lazy"
+					  />
 				<div class="text">
 					<h3>Wat doen we?</h3>
 					<p>
@@ -94,12 +104,22 @@
 						inblazen. In de 16e eeuw waren er meer dan 250 brouwerijen.
 					</p>
 				</div>
-				<img src="/images/vergisting-ketels.webp" alt="Vergisting ketels" />
+				<img src="/images/vergisting-ketels.webp" 
+					 alt="Vergisting ketels"
+					 width="1600"
+					 height="900"
+					 loading="lazy"
+					  />
 			</div>
 
 			<!-- 4. Afbeelding - Tekst -->
 			<div class="zigzag-row reverse">
-				<img src="/images/ketels.webp" alt="Brouwerij interieur" />
+				<img src="/images/ketels.webp" 
+					 alt="Brouwerij interieur"
+					 width="1600"
+					 height="900"
+					 loading="lazy"
+					  />
 				<div class="text">
 					<h3>Waar doen we het?</h3>
 					<p>

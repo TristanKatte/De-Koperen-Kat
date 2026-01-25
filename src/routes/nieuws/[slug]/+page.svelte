@@ -2,6 +2,7 @@
 	import Button from '$lib/components/atoms/Button.svelte';
 
 	interface NewsEvent {
+		external_url: any;
 		image_url: string;
 		title: string;
 		description?: string;
@@ -65,6 +66,12 @@
 		<div class="left-button">
 			<Button href="/nieuws" label="Terug naar alle evenementen" />
 		</div>
+
+		{#if event.external_url}
+			<div class="right-button">
+				<Button href={event.external_url} label="Meer informatie" target="_blank" />
+			</div>
+		{/if}
 	</article>
 {:else}
 	<p>Evenement niet gevonden.</p>
@@ -95,12 +102,17 @@
 		line-height: 1.6;
 		color: #333;
 		margin-bottom: 2rem;
-    text-align: left;
+		text-align: left;
 	}
 
 	.left-button {
 		text-align: left;
 		margin-top: 2rem;
+	}
+
+	.right-button {
+		text-align: right;
+		margin-top: -2rem;
 	}
 
 	img {
@@ -118,7 +130,6 @@
 		margin-bottom: 1rem;
 	}
 
-	
 	.image-wrapper img {
 		width: 100%;
 		height: 300px;

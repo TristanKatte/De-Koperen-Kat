@@ -46,6 +46,8 @@
 				alt={`Afbeelding van ${beer.name}`}
 				class="beer-image"
 				loading="lazy"
+				width="800"
+				height="600"
 			/>
 			<h1 id="beer-title" class="beer-title">{beer.name}</h1>
 			<div class="beer-meta">

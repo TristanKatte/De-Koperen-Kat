@@ -6,7 +6,10 @@
 
 <article class="beer-card" data-index={index} aria-label={`Bier: ${beer.name}`}>
   {#if beer.image_url}
-    <img src={beer.image_url} alt={beer.name} />
+    <img src={beer.image_url} 
+         alt={beer.name}
+         width="800"
+         height="600" />
   {:else}
     <div class="beer-placeholder" aria-hidden="true">🍺</div>
   {/if}

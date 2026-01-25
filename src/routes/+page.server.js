@@ -27,6 +27,6 @@ export async function load() {
 
 	return {
 		beers,
-		events: allEvents.slice(0, 8) // Limiteer tot de eerste 8 evenementen
+		events: allEvents.slice(0, 10) // Limiteer tot de eerste 10 evenementen
 	};
 }

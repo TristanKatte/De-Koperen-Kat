@@ -4,7 +4,7 @@
 
 <article class="vacancy-card">
   {#if v.image_url}
-    <img class="thumb" src={v.image_url} alt={v.title} />
+    <img class="thumb" src={v.image_url} alt={v.title} loading="lazy" width="300" height="250" />
   {/if}
 
   <div class="content">

@@ -50,7 +50,10 @@
   <!-- RECHTS -->
   <div class="zigzag-media">
     <figure>
-      <img src="./images/bar-gloed-1.jpg" alt="glas op de bar" />
+      <img src="./images/bar-gloed-1.jpg" 
+           alt="glas op de bar"
+           width="600"
+           height="600" />
     </figure>
   </div>
 </section>

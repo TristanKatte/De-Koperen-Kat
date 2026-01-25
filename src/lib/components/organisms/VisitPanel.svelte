@@ -1,8 +1,5 @@
 <script lang="ts">
-	import type { BookingFormState } from '$lib/types/form';
 	import AccordionGroup from '../molecules/AccordionGroup.svelte';
-	import Accordion from '$lib/components/molecules/Accordion.svelte';
-	import BookingForm from '$lib/components/organisms/BookingForm.svelte';
 
 	export let form;
 </script>
@@ -24,7 +21,10 @@
 		</div>
 		<div class="media">
 			<figure>
-				<img src="./images/bar-glas-ketels.jpg" alt="glas op de bar" />
+				<img src="./images/bar-glas-ketels.jpg" 
+				     alt="glas op de bar" 
+					 width="600" 
+					 height="600" />
 			</figure>
 		</div>
 	</section>
@@ -41,7 +41,10 @@
 		</div>
 		<div class="media">
 			<figure>
-				<img src="./images/vergisting-ketels.jpg" alt="glas op de bar" />
+				<img src="./images/vergisting-ketels.jpg" 
+					 alt="glas op de bar"
+					 width="600"
+					 height="600" />
 			</figure>
 		</div>
 	</section>
@@ -57,7 +60,10 @@
 		</div>
 		<div class="media">
 			<figure>
-				<img src="./images/bar-gloed-1.jpg" alt="glas op de bar" />
+				<img src="./images/bar-gloed-1.jpg" 
+				     alt="glas op de bar"
+					 width="600"
+					 height="600" />
 			</figure>
 		</div>
 	</section>

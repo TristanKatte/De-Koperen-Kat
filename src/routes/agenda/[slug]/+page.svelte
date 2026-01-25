@@ -26,7 +26,11 @@
 <section class="event-detail-section">
 	<div class="event-detail-card">
 		{#if event.image_url}
-			<img src={event.image_url} alt={event.title || 'Event afbeelding'} />
+			<img src={event.image_url} 
+			     alt={event.title || 'Event afbeelding'}
+			     width="800"
+			     height="600"
+			     loading="lazy" />
 		{/if}
 
 		<h1>{event.title}</h1>
@@ -35,7 +39,7 @@
 			📅 {event.date ? new Date(event.date).toLocaleDateString('nl-NL') : 'Datum volgt'}
 		</p>
 
-		<p class="location">{event.location}</p>
+		<p class="location">🚩{event.location}</p>
 
 		<p class="description">{event.description || 'Beschrijving nog niet beschikbaar.'}</p>
 

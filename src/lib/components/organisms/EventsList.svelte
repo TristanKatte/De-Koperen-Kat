@@ -74,7 +74,6 @@
 		padding: 1.5rem;
 		background-color: var(--accent);
 		color: var(--text-color-alt);
-		border-radius: 1rem;
 		width: 100%;
 	}
 

@@ -20,7 +20,10 @@
 		</div>
 		<div class="media">
 			<figure>
-				<img src="./images/brouwerij-feest.jpg" alt="feest bij de brouwerij" />
+				<img src="./images/brouwerij-feest.webp" 
+					 alt="feest bij de brouwerij"
+					 width="600"
+					 height="600" />
 			</figure>
 		</div>
 	</section>
