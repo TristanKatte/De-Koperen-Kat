@@ -44,7 +44,7 @@
 	<div class="events-grid">
 		<div class="events-column">
 			{#each agendaEvents as event}
-				<article class="event-card">
+				<article class="event-card agenda">
 					<div class="event-date">
 						<span class="day">{new Date(event.date).getDate()}</span>
 						<span class="month">
@@ -79,7 +79,7 @@
 
 		<div class="events-column">
 			{#each newsEvents as event}
-				<article class="event-card">
+				<article class="event-card news">
 					<div class="event-date">
 						<span class="day">{new Date(event.date).getDate()}</span>
 						<span class="month">
@@ -94,7 +94,7 @@
 						<p>{event.time}</p>
 
 						<div class="card-button">
-							<Button href={`/agenda/${event.slug}`} label="Meer info" />
+							<Button href={`/nieuws/${event.slug}`} label="Meer info" />
 
 							{#if event.external_url}
 								<a
@@ -103,7 +103,7 @@
 									rel="noopener noreferrer"
 									class="btn btn-primary"
 								>
-									Externe link
+									Haal je tickets hier!
 								</a>
 							{/if}
 						</div>
@@ -156,7 +156,8 @@
 
 	.events-grid {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1fr;
+		grid-auto-rows: auto;
 		align-items: stretch;
 		gap: 2rem;
 		width: 100%;
@@ -164,9 +165,16 @@
 		margin: 0 auto;
 	}
 
+	.agenda {
+		grid-column: 2;
+	}
+	.news {
+		grid-column: 3;
+	}
+
 	.events-column {
-		display: grid;
-		grid-auto-rows: 1fr;
+		display: flex;
+		flex-direction: column;
 		gap: 2rem;
 		align-items: stretch;
 	}
@@ -176,7 +184,7 @@
 		display: flex;
 		flex-direction: row;
 		align-items: stretch;
-		background: #fff;
+		background: var(--background-soft);
 		border-radius: 1rem;
 		border: 1px solid var(--line-subtle);
 		border-top: 4px solid var(--accent);
@@ -186,7 +194,7 @@
 		transition:
 			transform 0.3s ease,
 			box-shadow 0.3s ease;
-		min-height: 220px;
+		min-height: 240px;
 	}
 
 	.event-card:hover {
@@ -243,7 +251,8 @@
 
 	.event-info p {
 		margin: 0.25rem 0;
-		line-height: 1.4;
+		line-height: 1.25;
+		min-height: 1.75rem;
 		color: var(--text-color);
 	}
 
@@ -298,6 +307,17 @@
 			padding: 3rem 1rem;
 		}
 
+		.events-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.events-column {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 2rem;
+		}
+
 		h2 {
 			font-size: 1.75rem;
 		}
@@ -341,6 +361,8 @@
 
 		.events-grid {
 			grid-template-columns: 1fr 1fr;
+			gap: 2.5rem;
+			
 		}
 
 		.events-column {
