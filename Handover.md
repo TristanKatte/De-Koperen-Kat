@@ -7,6 +7,7 @@
 - Beer, events, tasting sections have overview and detail pages.
 - Webshop layout exists, but checkout is **not yet implemented**.
 - Navigation and mobile hamburger menu are in place; responsive across most devices.
+- Forms are for layout and design, but people can contact the brewery with emailaddresses at the footer.
 
 ## 2. Key Features Already Working
 - Hero text and image animations using GSAP (ScrollTrigger & SplitText).
