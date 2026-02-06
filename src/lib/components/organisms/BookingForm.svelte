@@ -1,0 +1,80 @@
+<script lang="ts">
+	import FormField from '$lib/components/molecules/FormField.svelte';
+	import FormButton from '$lib/components/atoms/FormButton.svelte';
+	import { enhance } from '$app/forms';
+
+	export let form = {
+		values: {
+			name: '',
+			email: '',
+			date: '',
+			people: '',
+			notes: ''
+		},
+		error: {
+			name: null,
+			email: null,
+			date: null,
+			people: null,
+			notes: null
+		},
+		success: false
+	};
+</script>
+
+
+<form method="POST" novalidate use:enhance>
+	<FormField label="Naam" name="name" value={form.values.name} error={form.error.name} />
+	<FormField
+		label="E-mail"
+		name="email"
+		type="email"
+		value={form.values.email}
+		error={form.error.email}
+	/>
+	<FormField
+		label="Datum"
+		name="date"
+		type="date"
+		value={form.values.date}
+		error={form.error.date}
+	/>
+	<FormField
+		label="Aantal personen"
+		name="people"
+		type="number"
+		value={form.values.people}
+		error={form.error.people}
+	/>
+	<FormField
+		label="Opmerkingen"
+		name="notes"
+		type="textarea"
+		value={form.values.notes}
+		error={form.error.notes}
+	/>
+
+	<FormButton label="Boeken" />
+
+	{#if form.success}
+		<p class="success" role="status" aria-live="polite">Je boeking is succesvol verzonden!</p>
+	{/if}
+</form>
+
+<style>
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		background-color: var(--background-soft);
+		border-radius: 1.5rem;
+		border-top: 4px solid var(--accent);
+		box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+		padding: 2rem;
+		color: var(--text-color-alt);
+	}
+	.success {
+		color: green;
+		font-weight: 500;
+	}
+</style>

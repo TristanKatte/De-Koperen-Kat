@@ -4,7 +4,7 @@
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import Button from '$lib/components/atoms/Button.svelte';
 
-	export let data;
+	let { data } = $props();
 	const event = data?.event;
 
 	gsap.registerPlugin(ScrollTrigger);
@@ -26,7 +26,11 @@
 <section class="event-detail-section">
 	<div class="event-detail-card">
 		{#if event.image_url}
-			<img src={event.image_url} alt={event.title || 'Event afbeelding'} />
+			<img src={event.image_url} 
+			     alt={event.title || 'Event afbeelding'}
+			     width="800"
+			     height="600"
+			     loading="lazy" />
 		{/if}
 
 		<h1>{event.title}</h1>
@@ -35,7 +39,7 @@
 			📅 {event.date ? new Date(event.date).toLocaleDateString('nl-NL') : 'Datum volgt'}
 		</p>
 
-		<p class="location">{event.location}</p>
+		<p class="location">🚩{event.location}</p>
 
 		<p class="description">{event.description || 'Beschrijving nog niet beschikbaar.'}</p>
 
@@ -55,7 +59,7 @@
 
 <style>
 .event-detail-section {
-	background-color: var(--accent-light); /* lichte achtergrond */
+	background-color: var(--background-color); /* lichte achtergrond */
 	padding: 5rem 1.5rem;
 	display: flex;
 	justify-content: center;
@@ -64,12 +68,13 @@
 }
 
 .event-detail-card {
-	background: #fff; /* kaartkleur */
-	border-radius: 1rem;
+	background: var(--background-warm); /* kaartkleur */
+	border-radius: 1.5rem;
+	border-top: 4px solid var(--accent);
 	padding: 2rem;
 	max-width: 800px;
 	width: 100%;
-	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
@@ -84,20 +89,20 @@
 
 h1 {
 	font-size: 2rem;
-	color: #333;
+	color: var(--text-color);
 	margin-bottom: 0.5rem;
 }
 
 .date,
 .location {
 	font-size: 0.95rem;
-	color: #666;
+	color: var(--text-color);
 }
 
 .description {
 	font-size: 1rem;
 	line-height: 1.5;
-	color: #444;
+	color: var(--text-color);
 }
 
 .buttons {

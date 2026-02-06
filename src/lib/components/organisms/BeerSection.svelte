@@ -1,133 +1,119 @@
 <script lang="ts">
-  import Button from '$lib/components/atoms/Button.svelte';
-  export let beers: any[] = [];
+	export const ssr = false;
+	import { onMount } from 'svelte';
+	import Button from '$lib/components/atoms/Button.svelte';
+	import Carousel from '$lib/components/organisms/Carousel.svelte';
+
+	interface Props {
+		beers?: any[];
+	}
+
+	let { beers = [] }: Props = $props();
+
+	let sectionEl: HTMLElement | null = null;
+
+	onMount(async () => {
+		if (!sectionEl) return;
+
+		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (prefersReducedMotion) return;
+
+		// ⬇ Dynamisch importeren om Netlify SSR errors te voorkomen
+		const { gsap } = await import('gsap');
+		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+		gsap.registerPlugin(ScrollTrigger);
+
+		// Alle carousel slides targetten
+		const slides = sectionEl.querySelectorAll('.carousel-content .beer-layout');
+
+		gsap.from(slides, {
+			scrollTrigger: {
+				trigger: sectionEl,
+				start: 'top 80%'
+			},
+			opacity: 0,
+			y: 40,
+			duration: 0.7,
+			stagger: 0.2,
+			ease: 'power2.out'
+		});
+	});
 </script>
 
-<section class="beers-section">
-  <h2 id="beers-title">Onze Bieren</h2>
+<section class="beers-section" bind:this={sectionEl} aria-labelledby="beers-title">
+	<h2 id="beers-title">Onze Bieren</h2>
 
-  <div class="grid">
-    {#each beers.slice(0, 8) as beer}
-      <article class="beer-card">
-        {#if beer.image_url}
-          <img src={beer.image_url} alt={beer.name} />
-        {/if}
-        <div class="beer-content">
-          <h3>{beer.name}</h3>
-          <p class="type">{beer.beer_type}</p>
-          <p class="alcohol">Alcohol: {beer.alcohol_percentage}%</p>
-          <p class="taste">{beer.taste}</p>
-        </div>
-      </article>
-    {/each}
-  </div>
+	<Carousel ariaLabel="Onze bieren" items={beers.slice(0, 8)} />
 
-  <div class="centered-button">
-    <Button href="/beers" label="Bekijk alle bieren" />
-  </div>
+	<div class="centered-button">
+		<Button href="/bieren" label="Bekijk alle bieren" />
+	</div>
 </section>
 
 <style>
-.beers-section {
-  background-color: #4B2E05;
-  color: #F5F5F0;
-  padding: 5rem 1.5rem;
-  width: 100%;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-}
+	.beers-section {
+		background-color: var(--background-warm);
+		color: var(--text-color);
+		padding: 3rem 1rem;
+		width: 100%;
+		overflow-x: hidden;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin: 0 auto;
+		min-height: 100vh;
+		box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.05);
+		container-type: inline-size;
+		container-name: beers-carousel;
+	}
 
-h2 {
-  font-size: 2.25rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 2.5rem;
-  color: #F5F5F0;
-}
+	h2 {
+		position: relative;
+		font-size: 2rem;
+		font-weight: 700;
+		text-align: center;
+		margin-bottom: 2.5rem;
+		color: var(--text-color);
+	}
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto 2rem;
-  box-sizing: border-box;
-}
+	h2::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 11ch;
+		height: 4px;
+		background: var(--accent);
+		border-radius: 2px;
+	}
 
-/* --- Bierkaarten --- */
-.beer-card {
-  background: #6b3f1a;
-  color: #F5F5F0;
-  border: 1px solid #ffd699;
-  border-radius: 1rem;
-  padding: 1.75rem;
-  text-align: left;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-}
+	/* --- Grote knop onder het grid --- */
+	.centered-button {
+		margin-top: 2.5rem;
+		text-align: center;
+	}
 
-.beer-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-  background: #7f4f27; /* subtiele hover highlight */
-}
 
-.beer-card img {
-  width: 100%;
-  height: auto;
-  max-height: 220px;
-  object-fit: contain;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-  background: rgba(255, 255, 255, 0.3);
-}
+	/* --- Responsief --- */
+	@container beers-carousel (min-width: 48rem) {
+		.beers-section {
+			padding: 4rem 1.5rem;
+		}
 
-/* --- Tekst --- */
-.beer-content h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 0.4rem;
-  color: #F5F5F0;
-}
+		h2 {
+			font-size: 2.5rem;
+			margin-bottom: 2.5rem;
+		}
 
-.beer-content p {
-  margin: 0.2rem 0;
-  line-height: 1.4;
-  color: #F5F5F0;
-}
+		.centered-button {
+			margin-top: 3rem;
+		}
+	}
 
-.type {
-  font-style: italic;
-  opacity: 0.8;
-}
-
-.alcohol {
-  font-weight: 500;
-  opacity: 0.9;
-}
-
-/* --- Button --- */
-.centered-button {
-  text-align: center;
-}
-
-/* --- Responsief --- */
-@media (max-width: 768px) {
-  .beers-section {
-    padding: 3rem 1rem;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .beer-card {
-    padding: 1.5rem;
-  }
-}
+	@container beers-carousel (min-width: 70rem) {
+		.beers-section {
+			padding: 5rem 2rem;
+		}
+	}
 </style>

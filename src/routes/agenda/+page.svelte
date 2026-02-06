@@ -6,10 +6,17 @@
 
 	gsap.registerPlugin(ScrollTrigger);
 
-	export let data;
+	let { data } = $props();
 	const events = data?.events || [];
 
-	onMount(() => {
+	onMount( async() => {
+		if (typeof window === 'undefined') return;
+
+		// Dynamische import van gsap om SSR te vermijden
+		const { gsap } = await import('gsap');
+		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+		gsap.registerPlugin(ScrollTrigger);
+
 		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 		if (prefersReducedMotion) return;
 
@@ -32,9 +39,16 @@
 	{#if events.length > 0}
 		<div class="grid">
 			{#each events as event}
-				<article class="event-card" aria-label={`Evenement: ${event.title || 'Onbekend evenement'}`}>
+				<article
+					class="event-card"
+					aria-label={`Evenement: ${event.title || 'Onbekend evenement'}`}
+				>
 					{#if event.image_url}
-						<img src={event.image_url} alt={event.title || 'Evenement afbeelding'} />
+						<img src={event.image_url} 
+							 alt={event.title || 'Evenement afbeelding'} 
+							 width="800"
+							 height="600"
+							 loading="lazy" />
 					{:else}
 						<div class="event-placeholder" aria-hidden="true">🎪</div>
 					{/if}
@@ -68,12 +82,14 @@
 
 <style>
 	.events-overview {
-		background: var(--accent-light);
-		color: var(--text-color, #111);
+		background: var(--background-color);
+		color: var(--text-color-alt);
 		padding: 6rem 1.5rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		container-type: inline-size;
+		container-name: events-overview;
 	}
 
 	h1 {
@@ -86,7 +102,7 @@
 
 	.grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		grid-template-columns: 1fr;
 		gap: 2.5rem;
 		max-width: 1200px;
 		width: 100%;
@@ -94,21 +110,25 @@
 	}
 
 	.event-card {
-		background: var(--card-background);
-		border: 1px solid rgba(0, 0, 0, 0.08);
-		border-radius: 1rem;
+		background: var(--background-warm);
+		color: var(--text-color);
+		border-top: 4px solid var(--accent);
+		border-radius: 1.5rem;
 		overflow: hidden;
-		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 		display: flex;
 		flex-direction: column;
-		transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+		transition:
+			transform 0.3s ease,
+			box-shadow 0.3s ease,
+			border-color 0.3s ease;
 	}
 
 	.event-card:hover {
 		transform: translateY(-6px);
 		box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 		border-color: var(--color-senary, #c5b48a);
-		background: #fffaf3;
+		color: var(--text-color);
 	}
 
 	img {
@@ -133,29 +153,30 @@
 		flex-direction: column;
 		gap: 0.75rem;
 		flex: 1;
+		color: var(--background-alt);
 	}
 
 	h2 {
 		font-size: 1.4rem;
 		font-weight: 600;
-		color: var(--text-color, #111);
+		color: var(--text-color);
 		margin-top: 0.5rem;
 	}
 
 	.date {
 		font-size: 0.95rem;
-		color: #666;
+		color: var(--text-color);
 	}
 
 	.description {
 		font-size: 1rem;
-		color: #333;
+		color: var(--text-color);
 		line-height: 1.6;
 		margin: 0.5rem 0 1.5rem;
 		flex-grow: 1;
 	}
 
-	.event-content :global(.btn) {
+	.event-content  {
 		align-self: flex-start;
 		margin-top: auto;
 	}
@@ -167,9 +188,25 @@
 		color: #666;
 	}
 
-	@media (min-width: 768px) {
+	@container events-overview (min-width: 48rem) {
+		section {
+			padding: 5rem 1.5rem 6rem;
+		}
+
 		h1 {
-			font-size: 3rem;
+			font-size: 2.5rem;
+			margin-bottom: 3rem;
+		}
+
+		.grid {
+			grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+			gap: 2.5rem;
+			padding: 0 1rem;
+		}
+
+		.event-card {
+			padding: 2rem 1.5rem;
+			min-height: 420px;
 		}
 	}
 </style>

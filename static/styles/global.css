@@ -1,26 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Noticia+Text:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
-:root {
-  /* Basis / achtergrond */
-  --background-color: #F3F2EB;
-  --background-alt: #EFEEE8;
-  --footer-color: #2B2D30;
+html {
+  /* Licht */
+  --background-color: #f7f7f7;
+  --background-soft: #f1efec;  /* lichtbeige / kalk */
+
+  /* Midden */
+  --background-warm:  #e4d6c8;   /* beige / kalk / hout */
+
+  /* Donker */
+  --background-alt: #d2b8a3;   /* donkerbruin (brouwerij) */
+  --footer-color: #2b2d30;
+  --divider-color: #1b1c1e;
+
+  /* Accent */
+  --accent: #c36a2d;             /* koper/oranje */
+
 
   /* Tekst */
-  --text-color: #2C3642;
-  --text-color-alt: #F3F2EB;
+  --text-color: #1a1a1a;
+  --text-color-alt: #F5F5F0;
   --muted-text: #666666;
   --link-color: #4A4A4A;
   --link-hover: #C65410;
   --highlight-color: #FFB400;
 
   /* Knoppen / CTA’s */
-  --cta-buttons: #93400E;
-  --cta-hover: #753006;
-  --cta-secondary: #C46522;
+  --cta-buttons: #ed651c;
+  --cta-hover: #DBA63E;
+  --cta-secondary: #FFF7E9;
 
   /* Kaarten / overlays */
-  --card-background: rgba(255, 255, 255, 0.07);
+  --card-background: #6f4516;
+  --card-background-alt: #FFF7E9;
   --card-border: #D8D8D8;
 
   /* Meldingen / status (WCAG-proof) */
@@ -32,10 +44,23 @@
   /* Accenten */
   --accent-light: #F6D9A8;
   --accent-dark: #8A3E00;
+  --accent-soft: rgba(237, 101, 28, 0.15);
+  --line-subtle: rgba(0, 0, 0, 0.08);
 
   /* Fonts */
   --font-family-body: "Ubuntu", system-ui, sans-serif;
   --font-family-headings: "Noticia Text", Georgia, serif;
+
+  /* Overige */
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; 
+  overflow-x: hidden;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
 body {
@@ -44,6 +69,8 @@ body {
   background-color: var(--background-color);
   line-height: 1.6;
   margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -61,6 +88,10 @@ a:hover, a:focus-visible {
   color: var(--link-hover);
 }
 
+a:focus-within {
+  outline: 2px dashed var(--link-hover);
+  outline-offset: 4px;
+}
 
 .sr-only {
   clip: rect(0 0 0 0);
@@ -70,4 +101,20 @@ a:hover, a:focus-visible {
   overflow: hidden;
   position: absolute;
   white-space: nowrap;
+}
+
+/* Verminderde beweging */
+@media (prefers-reduced-motion: reduce) {
+
+  /* Maak scroll-behavior rustiger */
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Maak animaties en transitions korter, niet instant */
+  * {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+  }
 }

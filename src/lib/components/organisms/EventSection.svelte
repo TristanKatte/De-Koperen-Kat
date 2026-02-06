@@ -1,130 +1,386 @@
 <script lang="ts">
-  import Button from '$lib/components/atoms/Button.svelte';
-  export let events: any[] = [];
+	export const ssr = false;
+	import { onMount } from 'svelte';
+	import Button from '$lib/components/atoms/Button.svelte';
+
+	interface Props {
+		events?: any[];
+	}
+
+	let { events = [] }: Props = $props();
+
+	const agendaEvents = events.filter((e) => e.type === 'agenda');
+	const newsEvents = events.filter((e) => e.type === 'news');
+
+	let sectionEl: HTMLElement | null;
+
+	onMount(async () => {
+		if (!sectionEl) return;
+
+		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (prefersReducedMotion) return;
+
+		const { gsap } = await import('gsap');
+		const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+		gsap.registerPlugin(ScrollTrigger);
+
+		gsap.from(sectionEl.querySelectorAll('.event-card'), {
+			scrollTrigger: {
+				trigger: sectionEl,
+				start: 'top 80%'
+			},
+			opacity: 0,
+			y: 40,
+			duration: 0.7,
+			stagger: 0.15,
+			ease: 'power2.out'
+		});
+	});
 </script>
 
-<section class="events-section">
-  <h2 id="events-title">Agenda</h2>
+<section class="events-section" bind:this={sectionEl} aria-labelledby="events-title">
+	<h2 id="events-title">Agenda</h2>
 
-  <div class="grid">
-    {#each events.slice(0, 8) as event}
-      <article class="event-card">
-        {#if event.image_url}
-          <img src={event.image_url} alt={event.title} />
-        {/if}
-        <h3>{event.title}</h3>
-        <p>
-          {new Date(event.date).toLocaleDateString('nl-NL', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric'
-          })}
-        </p>
-        {#if event.time}<p>Tijd: {event.time}</p>{/if}
-        <p>{event.location}</p>
-        {#if event.external_url}
-          <a
-            href={event.external_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="event-link"
-            >Meer info</a
-          >
-        {/if}
-      </article>
-    {/each}
-  </div>
+	<div class="events-grid">
+		<div class="events-column">
+			{#each agendaEvents as event}
+				<article class="event-card agenda">
+					<div class="event-date">
+						<span class="day">{new Date(event.date).getDate()}</span>
+						<span class="month">
+							{new Date(event.date).toLocaleString('nl-NL', { month: 'short' })}
+						</span>
+						<span class="year">{new Date(event.date).getFullYear()}</span>
+					</div>
 
-  <div class="centered-button">
-    <Button href="/agenda" label="Bekijk agenda" />
-  </div>
+					<div class="event-info">
+						<h3>{event.title}</h3>
+						<p>{event.location}</p>
+						<p>{event.time}</p>
+
+						<div class="card-button">
+							<Button href={`/agenda/${event.slug}`} label="Meer info" />
+
+							{#if event.external_url}
+								<a
+									href={event.external_url}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="btn btn-primary"
+								>
+									Externe link
+								</a>
+							{/if}
+						</div>
+					</div>
+				</article>
+			{/each}
+		</div>
+
+		<div class="events-column">
+			{#each newsEvents as event}
+				<article class="event-card news">
+					<div class="event-date">
+						<span class="day">{new Date(event.date).getDate()}</span>
+						<span class="month">
+							{new Date(event.date).toLocaleString('nl-NL', { month: 'short' })}
+						</span>
+						<span class="year">{new Date(event.date).getFullYear()}</span>
+					</div>
+
+					<div class="event-info">
+						<h3>{event.title}</h3>
+						<p>{event.location}</p>
+						<p>{event.time}</p>
+
+						<div class="card-button">
+							<Button href={`/nieuws/${event.slug}`} label="Meer info" />
+
+							{#if event.external_url}
+								<a
+									href={event.external_url}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="btn btn-primary"
+								>
+									Haal je tickets hier!
+								</a>
+							{/if}
+						</div>
+					</div>
+				</article>
+			{/each}
+		</div>
+	</div>
+
+	<div class="centered-button">
+		<Button href="/agenda" label="Bekijk agenda" />
+		<Button href="/nieuws" label="Bekijk het komende nieuws" />
+	</div>
 </section>
 
 <style>
-.events-section {
-  background-color: var(--accent-light);
-  color: var(--text-color);
-  padding: 5rem 1.5rem;
-  width: 100%;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-}
+	.events-section {
+		position: relative;
+		background-color: var(--background-soft);
+		color: var(--text-color);
+		padding: 5rem 1.5rem;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		min-height: 100vh;
+		container-type: inline-size;
+		container-name: events;
+	}
 
-h2 {
-  font-size: 2.25rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 2rem;
-  color: var(--text-color);
-}
+	.events-section::before {
+		content: '';
+		position: absolute;
+		left: 0; /* of right:0 als je afwisseling wil */
+		top: 0;
+		width: 6px;
+		height: 100%;
+		background: var(--accent);
+		pointer-events: none;
+		opacity: 0.9;
+	}
 
-h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: var(--text-color);
-}
+	h2 {
+		font-size: 2.25rem;
+		font-weight: 700;
+		text-align: center;
+		margin-bottom: 2.5rem;
+		color: var(--text-color);
+	}
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto 2rem;
-  box-sizing: border-box;
-}
+	.events-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-auto-rows: auto;
+		align-items: stretch;
+		gap: 2rem;
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+	}
 
-.event-card {
-  background: #d9985f; /* iets lichter voor betere zichtbaarheid */
-  border-radius: 1rem;
-  border: 1px solid #b36b2f; /* subtiele rand */
-  padding: 1.5rem;
-  text-align: left;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* lichte schaduw voor diepte */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  color: #f5f5f0; /* lichte tekstkleur */
-}
+	.agenda {
+		grid-column: 2;
+	}
+	.news {
+		grid-column: 3;
+	}
 
-.event-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-}
+	.events-column {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		align-items: stretch;
+	}
 
+	/* ----- Event card ----- */
+	.event-card {
+		display: flex;
+		flex-direction: row;
+		align-items: stretch;
+		background: var(--background-soft);
+		border-radius: 1rem;
+		border: 1px solid var(--line-subtle);
+		border-top: 4px solid var(--accent);
+		padding: 1.5rem;
+		gap: 2rem;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+		transition:
+			transform 0.3s ease,
+			box-shadow 0.3s ease;
+		min-height: 240px;
+	}
 
-.event-card img {
-  width: 100%;
-  height: auto;
-  max-height: 220px;
-  object-fit: contain;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-}
+	.event-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+	}
 
-.event-link {
-  color: var(--cta-buttons);
-  text-decoration: underline;
-  font-weight: 600;
-}
+	/* ----- Datum ----- */
+	.event-date {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		min-width: 80px;
+		max-height: 100px;
+		background: var(--cta-secondary);
+		color: var(--text-color);
+		border-radius: 0.5rem;
+		padding: 0.5rem;
+		text-align: center;
+	}
 
-.centered-button {
-  text-align: center;
-}
+	.event-date .day {
+		font-size: 1.75rem;
+		font-weight: 700;
+	}
 
-@media (max-width: 768px) {
-  .events-section {
-    padding: 3rem 1rem;
-  }
+	.event-date .month,
+	.event-date .year {
+		font-size: 0.9rem;
+		text-transform: uppercase;
+	}
 
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
+	/* ----- Info ----- */
+	.event-info {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+	}
 
-  .event-card {
-    padding: 1rem;
-  }
-}
+	.event-info h3 {
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: var(--text-color);
+		line-height: 1.3;
+		max-height: 3.9rem; /* bv. 2 regels */
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+
+	.event-info p {
+		margin: 0.25rem 0;
+		line-height: 1.25;
+		min-height: 1.75rem;
+		color: var(--text-color);
+	}
+
+	/* ----- Knop ----- */
+	.card-button {
+		margin-top: auto;
+		margin-top: 1.5rem;
+		display: flex;
+		justify-content: flex-start;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+
+	.btn {
+		display: inline-block;
+		padding: 0.7rem 1.5rem;
+		border-radius: 0.5rem;
+		font-weight: 600;
+		text-decoration: none;
+		text-align: center;
+		background-color: var(--cta-secondary);
+		color: #fff;
+		transition:
+			background-color 0.25s ease,
+			transform 0.25s ease;
+	}
+
+	.btn:hover {
+		background-color: #c74d0d;
+		transform: scale(1.05);
+	}
+
+	.btn-primary {
+		border: 2px solid var(--accent);
+		color: var(--text-color);
+	}
+	.btn-primary:hover {
+		background-color: var(--cta-hover);
+		transform: scale(1.05);
+	}
+
+	.centered-button {
+		text-align: center;
+		margin-top: 6rem;
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
+	}
+
+	@container events (max-width: 22.5rem) {
+		.events-section {
+			padding: 3rem 1rem;
+		}
+
+		.events-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.events-column {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 2rem;
+		}
+
+		h2 {
+			font-size: 1.75rem;
+		}
+
+		.event-card {
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+		}
+
+		.event-date {
+			flex-direction: row;
+			gap: 0.5rem;
+			min-width: auto;
+			max-height: none;
+			padding: 0.25rem 0.5rem;
+		}
+
+		.event-info h3 {
+			font-size: 1.25rem;
+			max-height: none;
+			-webkit-line-clamp: none;
+			line-clamp: none;
+		}
+
+		.card-button {
+			justify-content: center;
+			margin-top: 1rem;
+		}
+
+		.centered-button {
+			flex-direction: column;
+			gap: 1.5rem;
+		}
+	}
+
+	@container events (min-width: 48rem) {
+		.events-section {
+			padding: 4rem 1.5rem;
+		}
+
+		.events-grid {
+			grid-template-columns: 1fr 1fr;
+			gap: 2.5rem;
+			
+		}
+
+		.events-column {
+			width: 100%;
+		}
+
+		h2 {
+			font-size: 2.5rem;
+		}
+
+		.centered-button {
+			margin-top: 4rem;
+		}
+	}
+
+	@container events (min-width: 70rem) {
+		.events-grid {
+			gap: 3rem;
+		}
+	}
 </style>

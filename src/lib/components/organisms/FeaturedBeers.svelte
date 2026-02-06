@@ -1,7 +1,7 @@
 <script lang="ts">
-	import BeerPreviewCard from '$lib/components/molecules/BeerPreviewCard.svelte';
+	import BeerPreviewCard from '$lib/components/molecules/BeerCard.svelte';
 
-	export let beers = []; // array van { name, type, image, link }
+	let { beers = [] } = $props();
 </script>
 
 <section class="featured-beers">
